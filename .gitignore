@@ -9,6 +9,7 @@
 /.firebaserc
 /.firebase
 
+/src/functions
 src/firebase.js
 
 # testing
