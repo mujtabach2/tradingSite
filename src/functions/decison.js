@@ -2,7 +2,7 @@ export default function makeDecision(annualizedReturn, sharpeRatio, maxDrawdown,
     // Define decision thresholds (you may need to adjust these based on your specific criteria)
     const returnThreshold = 0.05;  // Annualized return threshold
     const sharpeThreshold = 0.5;   // Sharpe ratio threshold
-    const maxDrawdownThreshold = -0.1;  // Max drawdown threshold
+    const maxDrawdownThreshold = -0.1;   // Max drawdown threshold
 
     // Combine sentiment scores (you may want to customize how you combine them)
     const combinedSentiment = (twitterSentiment + redditSentiment) / 2;

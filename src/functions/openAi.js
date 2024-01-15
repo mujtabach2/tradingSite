@@ -23,7 +23,7 @@ class openAi{
        
 
       
-        const systemMessage = `
+        const systemMessage = ` 
                 Analytical Report on Stock Analysis:
 
                 The task is to generate a comprehensive analytical report on a specific stock based on given criteria. Provide insights into the stock's performance, financial health, and potential future trends. Consider the following factors:

@@ -44,7 +44,7 @@ class openAi{
                 results forom sentiment analysis: {this.SARespone},
                 results from reinforcment Learning:  {this.rlResponse}
                 Final Conclusion: {this.conclusion}
-            `; 
+            `;  
         const prompt = `
             stock ticker: ${this.stock}
             results from sentiment analysis:${this.SARespone},
