@@ -1,8 +1,8 @@
-const functions = require('firebase-functions');
-const csv = require('csv-parser');
-const { Readable } = require('stream');
-const { OpenAi } = require('./openAi');
-const makeDecision = require('./decision'); 
+import functions from 'firebase-functions';
+import csv from 'csv-parser';
+import { Readable } from 'stream';
+import { OpenAi } from './openAi';
+import makeDecision from './decision';
 import { getTweets } from './SentimentAnalysis/twitterSa';
 import { getSubredditComments, getOverallRedditComments, analyzeSentiment } from './SentimentAnalysis/redditSa';
 

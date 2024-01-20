@@ -1,7 +1,6 @@
 // analyzeStock.js
-
-const axios = require('axios');
-const { processAnalysisResults } = require('./processAnalysisResults');
+import axios from 'axios';
+import { processAnalysisResults } from './processAnalysisResults';
 
 async function analyzeStock(req, res) {
     try {
