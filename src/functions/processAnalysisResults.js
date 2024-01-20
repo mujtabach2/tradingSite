@@ -3,6 +3,8 @@ const csv = require('csv-parser');
 const { Readable } = require('stream');
 const { OpenAi } = require('./openAi');
 const makeDecision = require('./decision'); 
+import { getTweets } from './SentimentAnalysis/twitterSa';
+import { getSubredditComments, getOverallRedditComments, analyzeSentiment } from './SentimentAnalysis/redditSa';
 
 exports.processAnalysisResults = functions.https.onCall(async (data, context) => {
     try {
@@ -14,9 +16,15 @@ exports.processAnalysisResults = functions.https.onCall(async (data, context) =>
 
         // Extract sentiment scores
         //TODO
+        const twitterSentiment = await getTweets("AAPL");
+
+        const subreddit = 'wallstreetbets';
+        const overallRedditScore = await analyzeSentiment(await getOverallRedditComments());
+        const subredditScore = await analyzeSentiment(await getSubredditComments(subreddit));
+        const redditSentiment = 0.6 * overallRedditScore + 0.4 * subredditScore;
+
 
         // Make a decision based on the analysis results
-
         const conclusion = makeDecision(annualizedReturn, sharpeRatio, maxDrawdown, twitterSentiment, redditSentiment);
 
         // Create an instance of the OpenAi class
@@ -45,7 +53,7 @@ async function parseCSV(csvBuffer) {
         stream
             .pipe(csv())
             .on('data', (data) => results.push(data))
-            .on('end', () => resolve(results[0])) // Assuming CSV contains one row of data
+            .on('end', () => resolve(results[0])) 
             .on('error', (error) => reject(error));
     });
 }
