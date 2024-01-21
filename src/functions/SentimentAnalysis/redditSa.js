@@ -1,30 +1,48 @@
-import snoowrap from 'snoowrap';
-import Sentiment from 'sentiment';
+import axios from "axios";
+import Sentiment from "sentiment";
 
-// Replace these with your own Reddit API credentials
-const redditConfig = {
-  userAgent: 'Your App Name',
-  clientId: 'Your Client ID',
-  clientSecret: 'Your Client Secret',
-  username: 'Your Reddit Username',
-  password: 'Your Reddit Password',
+import dotenv from "dotenv";
+dotenv.config();
+
+const tactistreamConfig = {
+  apiKey: process.env.RAPID_API_KEY, // Replace with your Tactistream API key
+  host: "tactistream.p.rapidapi.com",
 };
 
-const reddit = new snoowrap(redditConfig);
+const stockSymbol = "AAPL";
 const sentiment = new Sentiment();
 
-// Function to get comments from a subreddit
-const getSubredditComments = async (subreddit) => {
-  const comments = await reddit.getSubreddit(subreddit).getTop({ time: 'day', limit: 100 });
+// Function to get sentiment analysis for stock-related data
+const getRedditSentiment = async () => {
+  const options = {
+    method: "GET",
+    url: "https://tactistream.p.rapidapi.com/api/v1/sentiment/summary",
+    params: {
+      tickers: stockSymbol,
+      from_date: "2023-11-15",
+      to_date: "2023-11-17",
+    },
+    headers: {
+      "X-RapidAPI-Key": tactistreamConfig.apiKey,
+      "X-RapidAPI-Host": tactistreamConfig.host,
+    },
+  };
 
-  return comments.map((comment) => comment.body);
-};
+  try {
+    const response = await axios.request(options);
+    const data = response.data; // Adjust as needed based on the API response structure
 
-// Function to get comments from overall Reddit
-const getOverallRedditComments = async () => {
-  const comments = await reddit.getPopular({ time: 'day', limit: 100 });
+    // Assuming the sentiment data is available in response.data.sentiment
+    const sentimentData = data.sentiment || [];
 
-  return comments.map((post) => post.title + ' ' + post.selftext);
+    // Extracting comments from sentiment data, adjust this based on the actual API response structure
+    const comments = sentimentData.map((item) => item.comment);
+
+    return analyzeSentiment(comments);
+  } catch (error) {
+    console.error(`Error fetching stock sentiment: ${error.message}`);
+    return null;
+  }
 };
 
 // Function to analyze sentiment of comments
@@ -37,11 +55,12 @@ const analyzeSentiment = (comments) => {
 
     console.log(`Comment: ${comment}`);
     console.log(`Sentiment Score: ${analysis.score}`);
-    console.log('---');
+    console.log("---");
   });
 
   const averageScore = overallScore / comments.length;
+  console.log(`Overall Sentiment Score for ${stockSymbol}: ${averageScore}`);
   return averageScore;
 };
 
-export { getSubredditComments, getOverallRedditComments, analyzeSentiment};
+export { getRedditSentiment };

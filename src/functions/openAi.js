@@ -1,29 +1,41 @@
 import { ChatOpenAI } from "langchain/chat_models/openai";
-import { SystemMessagePromptTemplate, HumanMessagePromptTemplate, ChatMessagePromptTemplate, ChatPromptTemplate } from "langchain/prompts";
+import {
+  SystemMessagePromptTemplate,
+  HumanMessagePromptTemplate,
+  ChatMessagePromptTemplate,
+  ChatPromptTemplate,
+} from "langchain/prompts";
 import { LLMChain } from "langchain/chains";
 
 import * as dotenv from "dotenv";
 dotenv.config();
 
-class openAi{
+class openAi {
+  constructor(
+    stock,
+    rlResponse,
+    SARespone,
+    conclusion,
+    twitterSentiment,
+    redditSentiment,
+    newsSentiment,
+  ) {
+    this.stock = stock;
+    this.rlResponse = rlResponse;
+    this.SARespone = SARespone;
+    this.conclusion = conclusion;
+    this.twitterSentiment = twitterSentiment;
+    this.redditSentiment = redditSentiment;
+    this.newsSentiment = newsSentiment;
+  }
 
-    constructor(stock,rlResponse, SARespone, conclusion){
-        this.stock = stock;
-        this.rlResponse = rlResponse;
-        this.SARespone = SARespone;
-        this.conclusion = conclusion;
-    }
+  async run() {
+    const model = new ChatOpenAI({
+      temperature: 0.9,
+      modelName: "gpt-3.5-turbo",
+    });
 
-    async run(){
-
-        const model = new ChatOpenAI({
-            temperature: 0.9,
-            modelName: "gpt-3.5-turbo"
-        });
-       
-
-      
-        const systemMessage = ` 
+    const systemMessage = ` 
                 Analytical Report on Stock Analysis:
 
                 The task is to generate a comprehensive analytical report on a specific stock based on given criteria. Provide insights into the stock's performance, financial health, and potential future trends. Consider the following factors:
@@ -43,32 +55,37 @@ class openAi{
                 stock ticker: {stock ticker}
                 results forom sentiment analysis: {this.SARespone},
                 results from reinforcment Learning:  {this.rlResponse}
+                results from news analysis: {this.newsSentiment}
+                results from twitter analysis: {this.twitterSentiment}
+                results from reddit analysis: {this.redditSentiment}
                 Final Conclusion: {this.conclusion}
-            `; 
-        const prompt = `
+            `;
+    const prompt = `
             stock ticker: ${this.stock}
             results from sentiment analysis:${this.SARespone},
             results from reinforcement Learning:  ${this.rlResponse}
+            results from news analysis: ${this.newsSentiment}
+            results from twitter analysis: ${this.twitterSentiment}
+            results from reddit analysis: ${this.redditSentiment}
             Final Conclusion: ${this.conclusion}
-        `
-        const reportPrompt = ChatPromptTemplate.fromMessages([
-            SystemMessagePromptTemplate.fromTemplate("{text}"),
-            HumanMessagePromptTemplate.fromTemplate("{input}")
-        ]);
-        const chain = new LLMChain({
-            prompt: reportPrompt,
-            llm: model,
-        });
-        const res = chain.call({
-            text: systemMessage,
-            input: this.input
-        })
+        `;
+    const reportPrompt = ChatPromptTemplate.fromMessages([
+      SystemMessagePromptTemplate.fromTemplate("{text}"),
+      HumanMessagePromptTemplate.fromTemplate("{input}"),
+    ]);
+    const chain = new LLMChain({
+      prompt: reportPrompt,
+      llm: model,
+    });
+    const res = chain.call({
+      text: systemMessage,
+      input: this.input,
+    });
 
-        console.log(res);
+    console.log(res);
 
-        return res;
-    }
-
+    return res;
+  }
 }
 
 export default openAi;

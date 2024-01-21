@@ -1,39 +1,43 @@
-import Twit from 'twit';
-import Sentiment from 'sentiment';
+import axios from "axios";
+import Sentiment from "sentiment";
+import dotenv from "dotenv";
+dotenv.config();
 
-// Replace these with your own Twitter API credentials
-const twitterConfig = {
-  consumer_key: 'YOUR_CONSUMER_KEY',
-  consumer_secret: 'YOUR_CONSUMER_SECRET',
-  access_token: 'YOUR_ACCESS_TOKEN',
-  access_token_secret: 'YOUR_ACCESS_TOKEN_SECRET',
+const rapidAPIConfig = {
+  apiKey: process.env.RAPIDAPI_KEY || "", // Replace with your RapidAPI key
 };
 
-const stockSymbol = 'AAPL'; // Replace with the desired stock symbol
-
-const T = new Twit(twitterConfig);
+const stockSymbol = "AAPL"; // Replace with the desired stock symbol
 const sentiment = new Sentiment();
 
 // Function to get tweets containing the stock symbol
-const getTweets = () => {
-  return new Promise((resolve, reject) => {
-    const params = {
-      q: `${stockSymbol} -filter:retweets`,
-      count: 100,
-      lang: 'en',
-    };
+const getTweets = async () => {
+  const options = {
+    method: "POST",
+    url: "https://twitter154.p.rapidapi.com/search/search",
+    headers: {
+      "Content-Type": "application/json",
+      "X-RapidAPI-Key": rapidAPIConfig.apiKey,
+      "X-RapidAPI-Host": "twitter154.p.rapidapi.com",
+    },
+    data: {
+      query: `#${stockSymbol}`,
+      limit: 100, // Adjust as needed
+      section: "top",
+      language: "en",
+      min_likes: 20,
+      min_retweets: 20,
+      start_date: "2022-01-01",
+    },
+  };
 
-    T.get('search/tweets', params, (err, data, response) => {
-      if (err) {
-        reject(`Error fetching tweets: ${err}`);
-        return;
-      }
-
-      resolve(analyzeSentiment(data.statuses));
-
-      
-    });
-  });
+  try {
+    const response = await axios.request(options);
+    return analyzeSentiment(response.data);
+  } catch (error) {
+    console.error(`Error fetching tweets: ${error.message}`);
+    return null;
+  }
 };
 
 // Function to analyze sentiment of tweets
@@ -41,13 +45,13 @@ const analyzeSentiment = (tweets) => {
   let overallScore = 0;
 
   tweets.forEach((tweet) => {
-    const tweetText = tweet.text;
+    const tweetText = tweet.text || ""; // Adjust if the structure of the response is different
     const analysis = sentiment.analyze(tweetText);
     overallScore += analysis.score;
 
     console.log(`Tweet: ${tweetText}`);
     console.log(`Sentiment Score: ${analysis.score}`);
-    console.log('---');
+    console.log("---");
   });
 
   const averageScore = overallScore / tweets.length;

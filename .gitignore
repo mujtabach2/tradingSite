@@ -14,7 +14,10 @@ src/firebase.js
 /Users/mujtabach2/Coding/trading-site/src/functions
 
 .env
+.prettierignore
+.prettierrc
 
+firestore.rules 
 # testing
 /coverage
 
