@@ -1,9 +1,13 @@
 import logo from "./logo.svg";
 import "./App.css";
+import { NewsCarousel } from "./functions/news";
+import React from "react";
+import ReactDOM from "react-dom";
 
 function App() {
   return (
     <div className="App">
+      <NewsCarousel /> 
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>

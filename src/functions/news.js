@@ -2,17 +2,18 @@ import * as React from "react";
 import axios from "axios";
 import Sentiment from "sentiment";
 
-import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel";
+} from "../@/components/ui/carousel"
+import { Card, CardContent } from "../@/components/ui/card"
 
 import dotenv from "dotenv";
-dotenv.config();
+
+
 
 export function NewsCarousel() {
   const [newsArticles, setNewsArticles] = React.useState([]);
@@ -40,9 +41,7 @@ export function NewsCarousel() {
   }, []);
 
   // Function to get news sentiment scores
-  const getNewsSentiment = () => {
-    return newsSentimentScores;
-  };
+
 
   return (
     <div>
@@ -79,5 +78,11 @@ export function NewsCarousel() {
   );
 }
 
+// Function to get news sentiment scores
+export default function getNewsSentiment(articles) {
+  const sentiment = new Sentiment();
+  const scores = articles.map((article) => sentiment.analyze(article.title).score);
+  return scores;
+}
+
 // Exporting the getNewsSentiment function
-export { getNewsSentiment };
