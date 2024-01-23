@@ -1,82 +1,84 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Sentiment from "sentiment";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "../@/components/ui/carousel"
-import { Card, CardContent } from "../@/components/ui/card"
+import { NEWS_API_KEY } from "../config";
 
-import dotenv from "dotenv";
 
 
 
 export function NewsCarousel() {
-  const [newsArticles, setNewsArticles] = React.useState([]);
-  const [newsSentimentScores, setNewsSentimentScores] = React.useState([]);
+  const [newsArticles, setNewsArticles] = useState([]);
+  const [newsSentimentScores, setNewsSentimentScores] = useState([]);
+  const sliderRef = React.useRef(null);
 
-  React.useEffect(() => {
-    const apiKey = process.env.NEWS_API_KEY || "";
-    const stockSymbol = "AAPL"; // Replace with the stock symbol or company name
+  useEffect(() => {
+    const apiKey = NEWS_API_KEY || "";
+    const stockSymbol = "AAPL";
     const apiUrl = `https://newsapi.org/v2/everything?q=${stockSymbol}&apiKey=${apiKey}`;
 
     axios
       .get(apiUrl)
       .then((response) => {
-        const articles = response.data.articles.slice(0, 5); // Limit to 5 articles
+        const articles = response.data.articles.slice(0, 5);
         setNewsArticles(articles);
 
-        // Perform sentiment analysis and store scores
         const sentiment = new Sentiment();
         const scores = articles.map(
-          (article) => sentiment.analyze(article.title).score,
+          (article) => sentiment.analyze(article.title).score
         );
         setNewsSentimentScores(scores);
       })
       .catch((error) => console.error("Error fetching news:", error));
   }, []);
 
-  // Function to get news sentiment scores
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,        // Enable autoplay
+    autoplaySpeed: 3000, 
+  };
 
 
+ 
   return (
-    <div>
-      <Carousel className="w-full max-w-xs">
-        <CarouselContent>
+    <div className="bg-black min-h-screen text-white">
+      <div className="max-w-md mx-auto p-8">
+        <Slider ref={sliderRef} {...settings} >
           {newsArticles.map((article, index) => (
-            <CarouselItem key={index}>
-              <div className="p-1">
-                <Card>
-                  <CardContent className="flex aspect-square items-center justify-center p-6">
-                    <a
-                      href={article.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <span className="text-4xl font-semibold">
-                        {index + 1}
-                      </span>
-                      <p className="text-sm">{article.title}</p>
-                    </a>
-                    <p className="text-sm mt-2">
-                      Sentiment Score: {newsSentimentScores[index]}
-                    </p>
-                  </CardContent>
-                </Card>
+            <div key={index} className="p-4">
+              <div className="flex flex-col items-center justify-center">
+                <a
+                  href={article.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-center"
+                >
+                  <span className="text-4xl font-semibold">{index + 1}</span>
+                  <p className="text-sm mt-2">{article.title}</p>
+                </a>
+                <img
+                  src={article.urlToImage}
+                  alt={article.title}
+                  className="mt-4 object-cover w-full h-40 md:h-64 rounded"
+                />
+                <p className="text-sm mt-2">
+                  Sentiment Score: {newsSentimentScores[index]}
+                </p>
               </div>
-            </CarouselItem>
+            </div>
           ))}
-        </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
-      </Carousel>
+        </Slider>
+      </div>
     </div>
   );
-}
+};
 
 // Function to get news sentiment scores
 export default function getNewsSentiment(articles) {

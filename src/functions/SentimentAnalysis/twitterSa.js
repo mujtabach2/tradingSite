@@ -2,9 +2,9 @@ import axios from "axios";
 import Sentiment from "sentiment";
 import dotenv from "dotenv";
 dotenv.config();
-
+import { RAPID_API_KEY } from "../config";
 const rapidAPIConfig = {
-  apiKey: process.env.RAPIDAPI_KEY || "", // Replace with your RapidAPI key
+  apiKey: RAPIDAPI_KEY || "", // Replace with your RapidAPI key
 };
 
 const stockSymbol = "AAPL"; // Replace with the desired stock symbol

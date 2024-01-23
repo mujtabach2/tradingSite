@@ -7,8 +7,7 @@ import {
 } from "langchain/prompts";
 import { LLMChain } from "langchain/chains";
 
-import * as dotenv from "dotenv";
-dotenv.config();
+import {OPENAI_API_KEY} from "../config";
 
 class openAi {
   constructor(stock, rlResponse, SARespone, conclusion) {
