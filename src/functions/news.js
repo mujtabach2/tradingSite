@@ -6,7 +6,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 import { NEWS_API_KEY } from "../config";
-
+import { bestStock } from "./processAnalysisResults";
 
 
 
@@ -14,10 +14,14 @@ export function NewsCarousel() {
   const [newsArticles, setNewsArticles] = useState([]);
   const [newsSentimentScores, setNewsSentimentScores] = useState([]);
   const sliderRef = React.useRef(null);
+  const [newsStock, setNewsStock] = useState();
 
+  setNewsStock(bestStock);
+  
+  
   useEffect(() => {
     const apiKey = NEWS_API_KEY || "";
-    const stockSymbol = "AAPL";
+    const stockSymbol = newsStock || "AAPL";
     const apiUrl = `https://newsapi.org/v2/everything?q=${stockSymbol}&apiKey=${apiKey}`;
 
     axios
@@ -80,8 +84,9 @@ export function NewsCarousel() {
   );
 };
 
+
 // Function to get news sentiment scores
-export default function getNewsSentiment(articles) {
+export function getNewsSentiment(articles) {
   const sentiment = new Sentiment();
   const scores = articles.map((article) => sentiment.analyze(article.title).score);
   return scores;

@@ -11,7 +11,7 @@ const stockSymbol = "AAPL"; // Replace with the desired stock symbol
 const sentiment = new Sentiment();
 
 // Function to get tweets containing the stock symbol
-const getTweets = async () => {
+const getTweets = async (bestStock) => {
   const options = {
     method: "POST",
     url: "https://twitter154.p.rapidapi.com/search/search",
@@ -21,7 +21,7 @@ const getTweets = async () => {
       "X-RapidAPI-Host": "twitter154.p.rapidapi.com",
     },
     data: {
-      query: `#${stockSymbol}`,
+      query: `#${bestStock}`,
       limit: 100, // Adjust as needed
       section: "top",
       language: "en",

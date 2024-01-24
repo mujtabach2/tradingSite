@@ -4,7 +4,7 @@ import { processAnalysisResults } from "./processAnalysisResults";
 
 async function analyzeStock(req, res) {
   try {
-    const pythonBackendUrl = "https://your-python-backend-url/analyzeStock";
+    const pythonBackendUrl = "https://tradingsitebackend.onrender.com/get_results";
     const inputParameters = req.body;
 
     // Make a POST request to the Python backend service

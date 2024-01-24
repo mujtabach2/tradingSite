@@ -9,16 +9,15 @@ const tactistreamConfig = {
   host: "tactistream.p.rapidapi.com",
 };
 
-const stockSymbol = "AAPL";
 const sentiment = new Sentiment();
 
 // Function to get sentiment analysis for stock-related data
-const getRedditSentiment = async () => {
+const getRedditSentiment = async (bestStock) => {
   const options = {
     method: "GET",
     url: "https://tactistream.p.rapidapi.com/api/v1/sentiment/summary",
     params: {
-      tickers: stockSymbol,
+      tickers: bestStock,
       from_date: "2023-11-15",
       to_date: "2023-11-17",
     },

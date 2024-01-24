@@ -8,20 +8,52 @@ import { getRedditSentiment } from "./SentimentAnalysis/redditSa";
 import { getNewsSentiment } from "./NewsCarousel";
 // will move to firebase functions later
 
+let bestStock;
 exports.processAnalysisResults = functions.https.onCall(
   async (data, context) => {
     try {
-      // Read CSV data
-      const csvData = await parseCSV(data);
+      // Assuming the Cloud Function result is an object with metrics
+      const metrics = result.data;
 
-      // Extract required fields
-      const { annualizedReturn, sharpeRatio, maxDrawdown } = csvData;
+      // Define weights for each metric
+      const weights = {
+        'Annual Returns': 0.4,
+        'Max Drawdown': -0.3,  // Negative weight if lower values are better
+        'Sharpe Ratio': 0.2,
+        'Calmar Ratio': 0.3,
+      };
+
+      // Calculate scores for each stock
+      const scores = {};
+
+      for (const stock in metrics) {
+        const stockMetrics = metrics[stock];
+        let score = 0;
+
+        for (const metric in stockMetrics) {
+          score += stockMetrics[metric] * weights[metric];
+        }
+
+        scores[stock] = score;
+      }
+
+      // Find the stock with the highest score
+      bestStock = Object.keys(scores).reduce((a, b) => (scores[a] > scores[b] ? a : b));
+
+      // Extract metrics for the best stock
+      const annualizedReturn = metrics[bestStock]["Annual Returns"];
+      const sharpeRatio = metrics[bestStock]["Sharpe Ratio"];
+      const maxDrawdown = metrics[bestStock]["Max Drawdown"];
+      const calmarRatio = metrics[bestStock]["Calmar Ratio"];
+
+
+
 
       // Extract sentiment scores
-      const twitterSentiment = await getTweets();
-      const redditSentiment = await getRedditSentiment();
+      const twitterSentiment = await getTweets(bestStock);
+      const redditSentiment = await getRedditSentiment(bestStock);
 
-      const newsSentiment = await getNewsSentiment();
+      const newsSentiment = await getNewsSentiment(bestStock);
 
       // Make a decision based on the analysis results
       const conclusion = makeDecision(
@@ -31,11 +63,12 @@ exports.processAnalysisResults = functions.https.onCall(
         twitterSentiment,
         redditSentiment,
         newsSentiment,
+
       );
 
       // Create an instance of the OpenAi class
       const openAiInstance = new OpenAi(
-        "AAPL",
+        bestStock,
         annualizedReturn,
         sharpeRatio,
         maxDrawdown,
@@ -73,3 +106,5 @@ async function parseCSV(csvBuffer) {
       .on("error", (error) => reject(error));
   });
 }
+
+export {bestStock}

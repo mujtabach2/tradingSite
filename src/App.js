@@ -5,9 +5,16 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 function App() {
+
+  const [newsStock, setNewsStock] = useState();
+
+  setNewsStock(bestStock)
+
+  setNewsStock(stock);
+
   return (
     <div className="App">
-      <NewsCarousel /> 
+      <NewsCarousel  /> 
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
