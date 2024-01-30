@@ -1,12 +1,23 @@
-export default function makeDecision(
-  annualizedReturn,
-  sharpeRatio,
-  maxDrawdown,
-  twitterSentiment,
-  redditSentiment,
-  newsSentiment,
+/**
+ *
+ * @param {*} annualizedReturn
+ * @param {*} sharpeRatio
+ * @param {*} maxDrawdown
+ * @param {*} calmarRatio
+ * @param {*} twitterSentiment
+ * @param {*} redditSentiment
+ * @param {*} newsSentiment
+ * @return {string} - The decision to buy, hold, or sell the stock
+ */
+function makeDecision(
+    annualizedReturn,
+    sharpeRatio,
+    maxDrawdown,
+    calmarRatio,
+    twitterSentiment,
+    redditSentiment,
+    newsSentiment,
 ) {
-  // Define decision thresholds (you may need to adjust these based on your specific criteria)
   const returnThreshold = 0.05; // Annualized return threshold
   const sharpeThreshold = 0.5; // Sharpe ratio threshold
   const maxDrawdownThreshold = -0.1; // Max drawdown threshold
@@ -21,11 +32,14 @@ export default function makeDecision(
   if (annualizedReturn > returnThreshold) {
     if (sharpeRatio > sharpeThreshold) {
       if (maxDrawdown > maxDrawdownThreshold) {
-        if (combinedSentiment * sentimentWeight > 0) {
+        if (calmarRatio > 0.5) {
           decision = "Buy";
-        } else {
-          decision = "Sell";
-        }
+        } else
+          if (combinedSentiment * sentimentWeight > 0) {
+            decision = "Buy";
+          } else {
+            decision = "Sell";
+          }
       } else {
         decision = "Sell";
       }
@@ -40,3 +54,5 @@ export default function makeDecision(
 
   return decision;
 }
+
+module.exports = makeDecision;

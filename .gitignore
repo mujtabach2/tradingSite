@@ -4,7 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
-
+src/functions/node_modules
 # add firebase
 /.firebaserc
 /.firebase
@@ -12,6 +12,7 @@ src/config.js
 
 src/firebase.js
 /Users/mujtabach2/Coding/trading-site/src/functions
+src/functions/config.js
 
 .env
 .prettierignore

@@ -1,7 +1,12 @@
 // analyzeStock.js
-import axios from "axios";
-import { processAnalysisResults } from "./processAnalysisResults";
+const axios = require("axios");
+const {processAnalysisResults} = require("./processAnalysisResults");
 
+/**
+ * Function to analyze stock data
+ * @param {Object} req - Express Request object
+ * @param {Object} res - Express Response object
+ */
 async function analyzeStock(req, res) {
   try {
     const pythonBackendUrl = "https://tradingsitebackend.onrender.com/get_results";
@@ -23,4 +28,4 @@ async function analyzeStock(req, res) {
   }
 }
 
-module.exports = { analyzeStock };
+module.exports = {analyzeStock};

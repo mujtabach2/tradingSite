@@ -1,10 +1,11 @@
-import axios from "axios";
-import Sentiment from "sentiment";
-import dotenv from "dotenv";
-dotenv.config();
-import { RAPID_API_KEY } from "../config";
+const axios = require("axios");
+const Sentiment = require("sentiment");
+
+const {RAPID_API_KEY} = require("../config");
+
+
 const rapidAPIConfig = {
-  apiKey: RAPIDAPI_KEY || "", // Replace with your RapidAPI key
+  apiKey: RAPID_API_KEY || "", // Replace with your RapidAPI key
 };
 
 const stockSymbol = "AAPL"; // Replace with the desired stock symbol
@@ -12,28 +13,34 @@ const sentiment = new Sentiment();
 
 // Function to get tweets containing the stock symbol
 const getTweets = async (bestStock) => {
+  let allTweets = [];
+  const oneWeekAgo = new Date();
+  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+  const formattedStartDate = oneWeekAgo.toISOString().split('T')[0]; // Format to 'YYYY-MM-DD'
   const options = {
-    method: "POST",
+    method: "GET",
     url: "https://twitter154.p.rapidapi.com/search/search",
     headers: {
-      "Content-Type": "application/json",
       "X-RapidAPI-Key": rapidAPIConfig.apiKey,
       "X-RapidAPI-Host": "twitter154.p.rapidapi.com",
     },
-    data: {
+      params: {
       query: `#${bestStock}`,
       limit: 100, // Adjust as needed
-      section: "top",
-      language: "en",
-      min_likes: 20,
-      min_retweets: 20,
-      start_date: "2022-01-01",
+      section: 'top',
+      min_retweets: '1',
+      min_likes: '1',
+      limit: '10',
+      start_date: formattedStartDate,
+      language: 'en'  
     },
   };
 
   try {
     const response = await axios.request(options);
-    return analyzeSentiment(response.data);
+    const tweets = Array.isArray(response.data.results) ? response.data.results : [];
+    allTweets = allTweets.concat(tweets);
+    return analyzeSentiment(tweets);
   } catch (error) {
     console.error(`Error fetching tweets: ${error.message}`);
     return null;
@@ -45,17 +52,18 @@ const analyzeSentiment = (tweets) => {
   let overallScore = 0;
 
   tweets.forEach((tweet) => {
-    const tweetText = tweet.text || ""; // Adjust if the structure of the response is different
+    const tweetText = tweet.text || "";
     const analysis = sentiment.analyze(tweetText);
     overallScore += analysis.score;
 
-    console.log(`Tweet: ${tweetText}`);
-    console.log(`Sentiment Score: ${analysis.score}`);
-    console.log("---");
   });
 
   const averageScore = overallScore / tweets.length;
+  console.log(`Overall Sentiment Score: ${averageScore}`);  
   return `Overall Sentiment Score for ${stockSymbol}: ${averageScore}`;
 };
 
-export { getTweets, analyzeSentiment };
+
+
+module.exports = {getTweets, analyzeSentiment};
+

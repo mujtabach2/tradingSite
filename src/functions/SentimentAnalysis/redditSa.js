@@ -1,11 +1,10 @@
-import axios from "axios";
-import Sentiment from "sentiment";
+const axios = require("axios");
+const Sentiment = require("sentiment");
 
-import dotenv from "dotenv";
-dotenv.config();
+const {RAPID_API_KEY} = require("../config");
 
 const tactistreamConfig = {
-  apiKey: process.env.RAPID_API_KEY, // Replace with your Tactistream API key
+  apiKey: RAPID_API_KEY,
   host: "tactistream.p.rapidapi.com",
 };
 
@@ -14,52 +13,27 @@ const sentiment = new Sentiment();
 // Function to get sentiment analysis for stock-related data
 const getRedditSentiment = async (bestStock) => {
   const options = {
-    method: "GET",
-    url: "https://tactistream.p.rapidapi.com/api/v1/sentiment/summary",
+    method: 'GET',
+    url: 'https://tactistream.p.rapidapi.com/api/v1/sentiment/summary',
     params: {
-      tickers: bestStock,
-      from_date: "2023-11-15",
-      to_date: "2023-11-17",
+      tickers: 'FB',
+      from_date: '2023-11-15',
+      to_date: '2023-11-17'
     },
     headers: {
-      "X-RapidAPI-Key": tactistreamConfig.apiKey,
-      "X-RapidAPI-Host": tactistreamConfig.host,
-    },
+      'X-RapidAPI-Key': 'e939abbcbfmshe042d1462bf4fb2p1fafbejsn980582ea77f1',
+      'X-RapidAPI-Host': 'tactistream.p.rapidapi.com'
+    }
   };
-
+  
   try {
     const response = await axios.request(options);
-    const data = response.data; // Adjust as needed based on the API response structure
-
-    // Assuming the sentiment data is available in response.data.sentiment
-    const sentimentData = data.sentiment || [];
-
-    // Extracting comments from sentiment data, adjust this based on the actual API response structure
-    const comments = sentimentData.map((item) => item.comment);
-
-    return analyzeSentiment(comments);
+    console.log(response.data);
+    return response.data.sentiment;
   } catch (error) {
-    console.error(`Error fetching stock sentiment: ${error.message}`);
-    return null;
+    console.error(error);
   }
 };
 
-// Function to analyze sentiment of comments
-const analyzeSentiment = (comments) => {
-  let overallScore = 0;
+module.exports = {getRedditSentiment};
 
-  comments.forEach((comment) => {
-    const analysis = sentiment.analyze(comment);
-    overallScore += analysis.score;
-
-    console.log(`Comment: ${comment}`);
-    console.log(`Sentiment Score: ${analysis.score}`);
-    console.log("---");
-  });
-
-  const averageScore = overallScore / comments.length;
-  console.log(`Overall Sentiment Score for ${stockSymbol}: ${averageScore}`);
-  return averageScore;
-};
-
-export { getRedditSentiment };

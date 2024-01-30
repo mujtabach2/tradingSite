@@ -1,8 +1,9 @@
 import logo from "./logo.svg";
 import "./App.css";
-import { NewsCarousel } from "./functions/news";
+import { NewsCarousel } from "./components/newsCarsoul";
 import React from "react";
 import ReactDOM from "react-dom";
+import {getNewsSentiment, newsArticles, newsSentimentScores } from "./functions/news";
 
 function App() {
 
@@ -14,7 +15,7 @@ function App() {
 
   return (
     <div className="App">
-      <NewsCarousel  /> 
+      <NewsCarousel newsSentimentScores={newsSentimentScores} newsArticles={newsArticles} />
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
