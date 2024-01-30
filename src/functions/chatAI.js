@@ -139,24 +139,3 @@ class OpenAi {
 
 module.exports = OpenAi;
 
-async function testOpenAi() {
-  const openAiInstance = new OpenAi(
-    'AAPL', // Replace with the desired stock symbol
-    0.1,     // Replace with the actual values for your use case
-    0.2,
-    0.05,
-    0.15,
-    'Positive conclusion',
-    0.7,
-    0.6,
-    0.8
-  );
-
-  try {
-    const result = await openAiInstance.run();
-    console.log(result);
-  } catch (error) {
-    console.error(`Error running OpenAI: ${error.message}`);
-  }
-}
-testOpenAi();

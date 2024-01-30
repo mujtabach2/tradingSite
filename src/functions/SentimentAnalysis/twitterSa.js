@@ -13,10 +13,9 @@ const sentiment = new Sentiment();
 
 // Function to get tweets containing the stock symbol
 const getTweets = async (bestStock) => {
-  let allTweets = [];
   const oneWeekAgo = new Date();
   oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-  const formattedStartDate = oneWeekAgo.toISOString().split('T')[0]; // Format to 'YYYY-MM-DD'
+  const formattedStartDate = oneWeekAgo.toISOString().split("T")[0];
   const options = {
     method: "GET",
     url: "https://twitter154.p.rapidapi.com/search/search",
@@ -24,22 +23,21 @@ const getTweets = async (bestStock) => {
       "X-RapidAPI-Key": rapidAPIConfig.apiKey,
       "X-RapidAPI-Host": "twitter154.p.rapidapi.com",
     },
-      params: {
+    params: {
       query: `#${bestStock}`,
-      limit: 100, // Adjust as needed
-      section: 'top',
-      min_retweets: '1',
-      min_likes: '1',
-      limit: '10',
+      section: "top",
+      min_retweets: "1",
+      min_likes: "1",
+      limit: "100",
       start_date: formattedStartDate,
-      language: 'en'  
+      language: "en",
     },
   };
 
   try {
     const response = await axios.request(options);
-    const tweets = Array.isArray(response.data.results) ? response.data.results : [];
-    allTweets = allTweets.concat(tweets);
+    const tweets = Array.isArray(response.data.results) ?
+       response.data.results : [];
     return analyzeSentiment(tweets);
   } catch (error) {
     console.error(`Error fetching tweets: ${error.message}`);
@@ -55,14 +53,12 @@ const analyzeSentiment = (tweets) => {
     const tweetText = tweet.text || "";
     const analysis = sentiment.analyze(tweetText);
     overallScore += analysis.score;
-
   });
 
   const averageScore = overallScore / tweets.length;
-  console.log(`Overall Sentiment Score: ${averageScore}`);  
-  return `Overall Sentiment Score for ${stockSymbol}: ${averageScore}`;
+  
+  return averageScore;
 };
-
 
 
 module.exports = {getTweets, analyzeSentiment};

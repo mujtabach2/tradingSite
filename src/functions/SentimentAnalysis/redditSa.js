@@ -1,5 +1,5 @@
 const axios = require("axios");
-const Sentiment = require("sentiment");
+
 
 const {RAPID_API_KEY} = require("../config");
 
@@ -8,24 +8,23 @@ const tactistreamConfig = {
   host: "tactistream.p.rapidapi.com",
 };
 
-const sentiment = new Sentiment();
 
 // Function to get sentiment analysis for stock-related data
 const getRedditSentiment = async (bestStock) => {
   const options = {
-    method: 'GET',
-    url: 'https://tactistream.p.rapidapi.com/api/v1/sentiment/summary',
+    method: "GET",
+    url: "https://tactistream.p.rapidapi.com/api/v1/sentiment/summary",
     params: {
-      tickers: 'FB',
-      from_date: '2023-11-15',
-      to_date: '2023-11-17'
+      tickers: bestStock,
+      from_date: "2023-11-15",
+      to_date: "2023-11-17",
     },
     headers: {
-      'X-RapidAPI-Key': 'e939abbcbfmshe042d1462bf4fb2p1fafbejsn980582ea77f1',
-      'X-RapidAPI-Host': 'tactistream.p.rapidapi.com'
-    }
+      "X-RapidAPI-Key": tactistreamConfig.apiKey,
+      "X-RapidAPI-Host": tactistreamConfig.host,
+    },
   };
-  
+
   try {
     const response = await axios.request(options);
     console.log(response.data);
