@@ -2,20 +2,19 @@ import logo from "./logo.svg";
 import "./App.css";
 import { NewsCarousel } from "./components/newsCarsoul";
 import React from "react";
-import ReactDOM from "react-dom";
-import {getNewsSentiment, newsArticles, newsSentimentScores } from "./functions/news";
+// import ReactDOM from "react-dom";
+// import {getNewsSentiment, newsArticles, newsSentimentScores } from "./functions/news";
 
 function App() {
+  // const [newsStock, setNewsStock] = useState();
 
-  const [newsStock, setNewsStock] = useState();
+  // setNewsStock(bestStock)
 
-  setNewsStock(bestStock)
-
-  setNewsStock(stock);
+  // setNewsStock(stock);
 
   return (
     <div className="App">
-      <NewsCarousel newsSentimentScores={newsSentimentScores} newsArticles={newsArticles} />
+      {/* <NewsCarousel newsSentimentScores={newsSentimentScores} newsArticles={newsArticles} /> */}
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>

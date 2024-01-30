@@ -10,13 +10,13 @@
  * @return {string} - The decision to buy, hold, or sell the stock
  */
 function makeDecision(
-    annualizedReturn,
-    sharpeRatio,
-    maxDrawdown,
-    calmarRatio,
-    twitterSentiment,
-    redditSentiment,
-    newsSentiment,
+  annualizedReturn,
+  sharpeRatio,
+  maxDrawdown,
+  calmarRatio,
+  twitterSentiment,
+  redditSentiment,
+  newsSentiment,
 ) {
   const returnThreshold = 0.05; // Annualized return threshold
   const sharpeThreshold = 0.5; // Sharpe ratio threshold
@@ -34,12 +34,11 @@ function makeDecision(
       if (maxDrawdown > maxDrawdownThreshold) {
         if (calmarRatio > 0.5) {
           decision = "Buy";
-        } else
-          if (combinedSentiment * sentimentWeight > 0) {
-            decision = "Buy";
-          } else {
-            decision = "Sell";
-          }
+        } else if (combinedSentiment * sentimentWeight > 0) {
+          decision = "Buy";
+        } else {
+          decision = "Sell";
+        }
       } else {
         decision = "Sell";
       }

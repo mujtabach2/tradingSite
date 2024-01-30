@@ -1,13 +1,11 @@
 const axios = require("axios");
 
-
-const {RAPID_API_KEY} = require("../config");
+const { RAPID_API_KEY } = require("../config");
 
 const tactistreamConfig = {
   apiKey: RAPID_API_KEY,
   host: "tactistream.p.rapidapi.com",
 };
-
 
 // Function to get sentiment analysis for stock-related data
 const getRedditSentiment = async (bestStock) => {
@@ -34,5 +32,4 @@ const getRedditSentiment = async (bestStock) => {
   }
 };
 
-module.exports = {getRedditSentiment};
-
+module.exports = { getRedditSentiment };

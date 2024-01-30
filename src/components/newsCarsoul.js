@@ -4,12 +4,11 @@ const Slider = require("react-slick");
 require("slick-carousel/slick/slick.css");
 require("slick-carousel/slick/slick-theme.css");
 
-
 export const NewsCarousel = ({ newsArticles, newsSentimentScores }) => {
-return (
+  return (
     <div className="bg-black min-h-screen text-white">
       <div className="max-w-md mx-auto p-8">
-        <Slider ref={sliderRef} {...settings} >
+        <Slider ref={sliderRef} {...settings}>
           {newsArticles.map((article, index) => (
             <div key={index} className="p-4">
               <div className="flex flex-col items-center justify-center">
@@ -37,7 +36,6 @@ return (
       </div>
     </div>
   );
-
-}
+};
 
 export default NewsCarousel;

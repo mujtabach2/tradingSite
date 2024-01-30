@@ -1,6 +1,6 @@
 // analyzeStock.js
 const axios = require("axios");
-const {processAnalysisResults} = require("./processAnalysisResults");
+const { processAnalysisResults } = require("./processAnalysisResults");
 
 /**
  * Function to analyze stock data
@@ -9,7 +9,8 @@ const {processAnalysisResults} = require("./processAnalysisResults");
  */
 async function analyzeStock(req, res) {
   try {
-    const pythonBackendUrl = "https://tradingsitebackend.onrender.com/get_results";
+    const pythonBackendUrl =
+      "https://tradingsitebackend.onrender.com/get_results";
     const inputParameters = req.body;
 
     // Make a POST request to the Python backend service
@@ -28,4 +29,4 @@ async function analyzeStock(req, res) {
   }
 }
 
-module.exports = {analyzeStock};
+module.exports = { analyzeStock };
