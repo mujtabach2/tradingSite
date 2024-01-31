@@ -5,7 +5,7 @@ export const Pay = () => {
   return (
     <div>
         <div className="flex justify-center mb-10">
-            <h1 className="text-white text-3xl">Account Options</h1>
+            <h1 className="text-white font-bold font-sans text-3xl">Account Options</h1>
         </div>
         <div className="PricingV1 w-full flex relative bg-black flex-wrap gap-5 mr-10 ml-10">
         <div className="w-full sm:w-1/2 lg:w-[30%] relative mb-8 p-4 bg-white rounded-3xl shadow border border-gray-100 flex-col justify-start items-center inline-flex">

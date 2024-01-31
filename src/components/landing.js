@@ -4,18 +4,34 @@ import stars from "../images/starss.png";
 export const Landing = () => {
   return (
     <div className="16 w-full flex-col justify-start items-center gap-10 inline-flex my-20">
-      <style>
+     
+        <style>
         {`
-                    .shadow-inner-radial{
-                        box-shadow: inset 0 0 20px #F3BA2F, 0 0 20px #F3BA2F;; 
-                      }
-                `}
-      </style>
-      <div className="relative w-96 h-16 bg-black rounded-3xl border-1 ">
-        <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-yellow-400 via-transparent to-black"></div>
-        <div className="absolute inset-0 rounded-3xl bg-black shadow-inner-radial"></div>
-        <div className="5 w-24 h-1 left-[155px] top-[60px] absolute bg-white rounded-tl-full rounded-tr-full" />
-        <div className="10 left-[29px] top-[16px] absolute justify-start items-center gap-3 inline-flex">
+            @keyframes pulse {
+            0% {
+                box-shadow: inset 0 0 20px #F3BA2F, 0 0 20px #F3BA2F;
+            }
+            50% {
+                box-shadow: inset 0 0 30px #F3BA2F, 0 0 30px #F3BA2F;
+            }
+            100% {
+                box-shadow: inset 0 0 20px #F3BA2F, 0 0 20px #F3BA2F;
+            }
+            }
+
+            .shadow-inner-radial {
+            box-shadow: inset 0 0 20px #F3BA2F, 0 0 20px #F3BA2F;
+            animation: pulse 2s infinite;
+            }
+        `}
+        </style>
+      <div className="relative w-96 h-16 bg-black rounded-3xl border-1 px-5 ">
+        <div class="shadow-container">
+            <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-yellow-400 via-transparent to-black"></div>
+            <div className="absolute inset-0 rounded-3xl bg-black shadow-inner-radial"></div>
+        </div>
+
+        <div className="10 left-[28px] top-[16px] absolute justify-start items-center gap-3 inline-flex">
           <div className=" relative">
             <img src={stars} alt="Group3" className="w-7 h-8 relative" />
           </div>

@@ -38,7 +38,7 @@ export const HeaderComp = () => {
             </div>
           </div>
           <div
-            className={`hidden md:flex ml-10 left-1/2 space-x-6 border border-solid border-white border-opacity-15 bg-white bg-opacity-15 backdrop-filter backdrop-blur-10 rounded-full px-4 py-5 ${isHeaderFixed ? "fixed left-1/2 transform -translate-x-1/2" : ""}`}
+            className={`hidden md:flex ml-10 left-1/2 space-x-6 border border-solid border-white border-opacity-15 bg-white bg-opacity-15 backdrop-filter backdrop-blur-10 rounded-full px-4 py-5 z-20 ${isHeaderFixed ? "fixed left-1/2 transform -translate-x-1/2 bg-opacity-40 bg-grey" : ""}`}
           >
             <button className="text-white text-opacity-90 text-base font-medium font-['Inter'] leading-normal hover:bg-opacity-20 hover:underline decoration-[#F3BA2F] underline-offset-8">
               Markets
