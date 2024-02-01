@@ -12,7 +12,7 @@ import stockAn from "../images/stockAnal.png";
 
 export const Features = () => {
   return (
-    <div className="flex justify-center mb-[5vh]">
+    <div className="flex justify-center mb-[30vh]">
       <div className="relative w-[1024px] h-[872px] b">
         <div className="flex justify-center [font-family:lato] font-medium text-white text-[3rem] tracking-[0]  whitespace-nowrap">
           What makes us different?
@@ -88,15 +88,15 @@ export const Features = () => {
                     <div className="flex mt-[2vh] justify-center [font-family:'Unbounded-Medium',Helvetica] font-medium text-yellow-400 text-[25px] tracking-[0] leading-[normal] whitespace-nowrap">
                       Reddit Sentiment
                     </div>
-                    <div className="flex-col mt-[-3vh]">
+                    <div className="flex-col mt-[1vh]">
                       <div className="flex justify-center">
-                        <img className="h-[180px]" alt="Phone" src={reddit} />
+                        <img className="h-[100px]" alt="Phone" src={reddit} />
                       </div>
-                      <div className="flex justify-center mt-[-4vh]">
+                      <div className="flex justify-center mt-[1vh]">
                         <p className="w-[12rem] text-center text-white text-[13px]">
-                          Real-time sentiment analysis of popular posts on twitter and
-                          trends on r/wallstreetbets, providing actionable insights for
-                          informed trading decisions.
+                          Real-time sentiment analysis of popular posts on
+                          twitter and trends on r/wallstreetbets, providing
+                          actionable insights for informed trading decisions.
                         </p>
                       </div>
                     </div>
@@ -110,11 +110,6 @@ export const Features = () => {
                       className="absolute w-[128px] h-[312px] top-[127px] left-[222px]"
                       alt="Vector"
                       src={vector5}
-                    />
-                    <img
-                      className="w-[296px] h-[256px] left-0 absolute top-0"
-                      alt="Frame"
-                      src="frame-11.svg"
                     />
                     <div className="absolute w-[220px] h-[300px] top-[26px] left-[29px] bg-[#ffffff1a] rounded-[30px] shadow-[0px_10px_30px_#0000001a,0px_4px_10px_#00000005,0px_-18px_38px_#00000066] overflow-hidden">
                       <div className="flex mt-[1vh] justify-center  [font-family:'Unbounded-Medium',Helvetica] font-medium text-yellow-400 text-[25px] tracking-[0] leading-[normal] whitespace-nowrap">

@@ -8,8 +8,8 @@ import enterprise from "../images/enterpriseTier.png";
 export const Pay = () => {
   return (
     <div>
-      <div className="flex justify-center mb-10">
-        <h1 className="text-white font-bold font-sans text-3xl">
+      <div className="flex justify-center items-center  mb-10 bg-gray-800 h-20">
+        <h1 className="text-white font-bold font-sans text-3xl underline decoration-[#F3BA2F] underline-offset-8 z-2">
           Account Options
         </h1>
       </div>
@@ -174,9 +174,10 @@ export const Pay = () => {
                 </div>
                 <div className="w-80 h-14 left-0 top-[90px] absolute justify-center items-center inline-flex"></div>
                 <div className="w-24 h-10 left-[222px] top-[-18px] absolute">
-                  <div className="w-24 h-10 left-0 top-0 absolute bg-white bg-opacity-20 rounded-lg" />
-                  <div className="w-12 h-3.5 left-[24px] top-[12px] absolute text-white text-sm font-normal font-['DM Sans'] leading-none">
-                    Popular
+                  <div className="w-24 h-10 left-0 top-3 absolute bg-yellow-500 rounded-lg">
+                    <p className="left-5 top-2 absolute text-white text-sm font-bold font-['DM Sans']">
+                      Popular
+                    </p>
                   </div>
                 </div>
               </div>

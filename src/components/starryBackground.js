@@ -32,7 +32,7 @@ export const StarryBackground = () => {
 
       <div
         id="stars-container"
-        className="absolute top-0 left-0 w-screen h-[500vh]"
+        className="absolute top-0 left-0 w-screen h-[380vh]"
       ></div>
     </div>
   );

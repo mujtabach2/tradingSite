@@ -8,6 +8,7 @@ import ellipse from "./images/Ellipse.png";
 import { Landing } from "./components/landing";
 import { Pay } from "./components/pay";
 import { Features } from "./components/features";
+import { Footer } from "./components/footer";
 const App = () => {
   // Run this effect once when the component mounts
 
@@ -23,6 +24,8 @@ const App = () => {
           <Landing />
           <Features />
           <Pay />
+          <Footer />
+          
         </div>
       </div>
     </div>
