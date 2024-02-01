@@ -7,7 +7,7 @@ import { StarryBackground } from "./components/starryBackground";
 import ellipse from "./images/Ellipse.png";
 import { Landing } from "./components/landing";
 import { Pay } from "./components/pay";
-import {Features} from "./components/features";
+import { Features } from "./components/features";
 const App = () => {
   // Run this effect once when the component mounts
 
@@ -21,11 +21,9 @@ const App = () => {
         <div className="relative z-10">
           <HeaderComp />
           <Landing />
-          <Pay />
           <Features />
+          <Pay />
         </div>
-       
-
       </div>
     </div>
   );

@@ -4,8 +4,7 @@ import stars from "../images/starss.png";
 export const Landing = () => {
   return (
     <div className="16 w-full flex-col justify-start items-center gap-10 inline-flex my-20">
-     
-        <style>
+      <style>
         {`
             @keyframes pulse {
             0% {
@@ -24,11 +23,11 @@ export const Landing = () => {
             animation: pulse 2s infinite;
             }
         `}
-        </style>
+      </style>
       <div className="relative w-96 h-16 bg-black rounded-3xl border-1 px-5 ">
         <div class="shadow-container">
-            <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-yellow-400 via-transparent to-black"></div>
-            <div className="absolute inset-0 rounded-3xl bg-black shadow-inner-radial"></div>
+          <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-yellow-400 via-transparent to-black"></div>
+          <div className="absolute inset-0 rounded-3xl bg-black shadow-inner-radial"></div>
         </div>
 
         <div className="10 left-[28px] top-[16px] absolute justify-start items-center gap-3 inline-flex">
@@ -36,7 +35,7 @@ export const Landing = () => {
             <img src={stars} alt="Group3" className="w-7 h-8 relative" />
           </div>
           <div className="items-center flex">
-            <div className="NewOurAiIntegrationJustLanded text-white text-lg font-medium font-['Inter'] leading-normal">
+            <div className="NewOurAiIntegrationJustLanded text-white text-lg font-medium font-['Inter'] leading-normal p2-2">
               New: Our AI integration just landed
             </div>
           </div>
