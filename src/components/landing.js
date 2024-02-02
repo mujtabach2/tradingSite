@@ -86,10 +86,13 @@ export const Landing = () => {
             <div className="h-6 px-0.5 py-px justify-start items-start flex" />
           </div>
           <div className="pr-px justify-center items-start flex">
-            <div className="StartTrading text-center text-white text-lg font-medium font-['Inter'] leading-normal">
-              Start Trading
-            </div>
-          </div>
+  <button className="px-5 py-2 rounded-[15px] border-2 border-yellow-400 bg-gradient-to-r from-yellow-500 to- hover:from-black hover:to-yellow-500 transform transition-all duration-300 hover:scale-105 focus:outline-none focus:ring focus:border-blue-300">
+    <div className="StartTrading text-center text-white text-lg font-medium font-['Inter'] leading-normal">
+      🚀 Start Trading 
+    </div>
+  </button>
+</div>
+
         </div>
       </div>
     </div>

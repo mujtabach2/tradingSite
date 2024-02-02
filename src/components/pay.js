@@ -8,8 +8,8 @@ import enterprise from "../images/enterpriseTier.png";
 export const Pay = () => {
   return (
     <div>
-      <div className="flex justify-center items-center  mb-10 bg-gray-800 h-20">
-        <h1 className="text-white font-bold font-sans text-3xl underline decoration-[#F3BA2F] underline-offset-8 z-2">
+      <div className="flex justify-center items-center  mb-10 bg-white h-20">
+        <h1 className="text-black font-bold font-sans text-3xl underline decoration-[#F3BA2F] underline-offset-8 z-2">
           Account Options
         </h1>
       </div>
@@ -174,11 +174,12 @@ export const Pay = () => {
                 </div>
                 <div className="w-80 h-14 left-0 top-[90px] absolute justify-center items-center inline-flex"></div>
                 <div className="w-24 h-10 left-[222px] top-[-18px] absolute">
-                  <div className="w-24 h-10 left-0 top-3 absolute bg-yellow-500 rounded-lg">
-                    <p className="left-5 top-2 absolute text-white text-sm font-bold font-['DM Sans']">
-                      Popular
-                    </p>
-                  </div>
+                <div className="w-24 h-10 left-0 top-3 absolute bg-yellow-500 rounded-lg transform     rotate-[-5]">
+  <p className="left-5 top-2 absolute text-white text-sm font-bold font-['DM Sans']">
+    Popular
+  </p>
+</div>
+
                 </div>
               </div>
               <div className="pb-6 left-0 top-[192px] absolute flex-col justify-start items-start gap-4 inline-flex">
@@ -266,11 +267,11 @@ export const Pay = () => {
                 </div>
               </div>
               <div className="w-80 left-0 top-[489px] absolute justify-start items-start inline-flex">
-                <div className="grow shrink basis-0 h-16 px-9 py-6 bg-white rounded-full justify-center items-center gap-1.5 flex">
+              <button className="grow shrink basis-0 h-16 px-9 py-6 bg-white rounded-full justify-center items-center gap-1.5 flex transition-transform transform-gpu hover:shadow-lg hover:opacity-95">
                   <div className="text-center text-[#F3BA2F] text-lg font-bold font-['DM Sans'] leading-tight">
                     Get started
                   </div>
-                </div>
+                </button>
               </div>
             </div>
           </div>
@@ -390,11 +391,11 @@ export const Pay = () => {
                 </div>
               </div>
               <div className="w-80 left-0 top-[489px] absolute justify-start items-start inline-flex">
-                <div className="grow shrink basis-0 h-16 px-9 py-6 bg-[#F3BA2F] rounded-full justify-center items-center gap-1.5 flex">
+                <button className="grow shrink basis-0 h-16 px-9 py-6 bg-[#F3BA2F] rounded-full justify-center items-center gap-1.5 flex transition-transform transform-gpu hover:shadow-lg hover:opacity-95">
                   <div className="text-center text-white text-lg font-bold font-['DM Sans'] leading-tight">
                     Get started
                   </div>
-                </div>
+                </button>
               </div>
             </div>
           </div>

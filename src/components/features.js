@@ -9,14 +9,19 @@ import news from "../images/news.png";
 import twitter from "../images/twitter.webp";
 import reddit from "../images/reddit.png";
 import stockAn from "../images/stockAnal.png";
+import backStock from "../images/Group 1658.png"
 
 export const Features = () => {
   return (
+    <div>
+       <div className="relative flex justify-center items-center mb-10 bg-[#F3BA2F] h-20">
+        <h1 className="text-black font-bold font-sans text-3xl underline decoration-white underline-offset-8 relative z-10">
+          What Makes Us Different
+        </h1>
+      </div>
+
     <div className="flex justify-center mb-[30vh]">
       <div className="relative w-[1024px] h-[872px] b">
-        <div className="flex justify-center [font-family:lato] font-medium text-white text-[3rem] tracking-[0]  whitespace-nowrap">
-          What makes us different?
-        </div>
         <div className="absolute w-[909px] h-[652px] top-[128px] left-[100px]">
           <img
             className="absolute w-[220px] h-[220px] top-0 left-[689px] object-cover"
@@ -140,6 +145,7 @@ export const Features = () => {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };

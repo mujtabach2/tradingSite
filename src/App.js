@@ -25,7 +25,6 @@ const App = () => {
           <Features />
           <Pay />
           <Footer />
-          
         </div>
       </div>
     </div>

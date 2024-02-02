@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import logo from "../images/logo.png";
 
 export const HeaderComp = () => {
   const [isHeaderFixed, setHeaderFixed] = useState(false);
@@ -29,13 +30,10 @@ export const HeaderComp = () => {
         <div className="flex justify-between items-center">
           <div className="flex items-center">
             <img
-              className="w-16 h-16"
-              src="https://via.placeholder.com/64x64"
+              className="h-[10vh] w-auto sm:h-12"
+              src={logo}
               alt="Logo"
             />
-            <div className="ml-4 text-white text-opacity-90 text-xl font-bold font-['Inter'] leading-7">
-              SharpeTrade
-            </div>
           </div>
           <div
             className={`hidden md:flex ml-10 left-1/2 space-x-6 border border-solid border-white border-opacity-15 bg-white bg-opacity-15 backdrop-filter backdrop-blur-10 rounded-full px-4 py-5 z-20 ${isHeaderFixed ? "fixed left-1/2 transform -translate-x-1/2 bg-opacity-40 bg-grey" : ""}`}
