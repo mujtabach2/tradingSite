@@ -29,11 +29,7 @@ export const HeaderComp = () => {
       <div className={`container mx-auto py-4 `}>
         <div className="flex justify-between items-center">
           <div className="flex items-center">
-            <img
-              className="h-[10vh] w-auto sm:h-12"
-              src={logo}
-              alt="Logo"
-            />
+            <img className="h-[10vh] w-auto sm:h-[4vh]" src={logo} alt="Logo" />
           </div>
           <div
             className={`hidden md:flex ml-10 left-1/2 space-x-6 border border-solid border-white border-opacity-15 bg-white bg-opacity-15 backdrop-filter backdrop-blur-10 rounded-full px-4 py-5 z-20 ${isHeaderFixed ? "fixed left-1/2 transform -translate-x-1/2 bg-opacity-40 bg-grey" : ""}`}
