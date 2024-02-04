@@ -5,48 +5,54 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 
 export const SpeedometerCard = ({ sentiment, sentimentType }) => {
+  let currenttextvalue;
+  if (sentiment >= 80) {
+    currenttextvalue = "Very Positive";
+  } else if (sentiment >= 60) {
+    currenttextvalue = "Positive";
+  } else if (sentiment >= 40) {
+    currenttextvalue = "Neutral";
+  } else if (sentiment >= 20) {
+    currenttextvalue = "Negative";
+  } else {
+    currenttextvalue = "Very Negative";
+  }
+
   return (
-    <Card className="w-[25vw] h-[30vh] bg-blue-800 shadow-inner border border-gray-400 border-2 rounded-3xl mx-auto mt-8">
-      <CardContent className="flex flex-col items-center justify-center text-[1.5rem] font-monaco text-white bg-[#07051c]">
+    <Card className="w-[19vw] h-[34vh] bg-gray-900 shadow-inner rounded-3xl pd-2">
+      <CardContent className="flex flex-col items-center justify-center text-[1.5rem] font-monaco text-[#d1d4db] bg-gray-900">
         <p>{sentimentType} Analysis Score</p>
         <ReactSpeedometer
           value={sentiment}
           maxValue={100}
-          needleColor="#f3ba2f"
+          ringWidth={15}
+          needleColor="WHITE"
           startColor="red"
           endColor="green"
+          currentValueText={currenttextvalue}
           customSegmentLabels={[
             {
-              text: "Very Negative",
-              position: "OUTSIDE",
-
-              fontSize: "10px",
+              position: "",
+              color: "#d1d4db",
             },
             {
-              text: "Negative",
-              position: "OUTSIDE",
-
-              fontSize: "10px",
+              position: "",
+              color: "#d1d4db",
             },
             {
-              text: "Neutral",
-              position: "OUTSIDE",
-
-              fontSize: "10px",
+              position: "",
+              color: "#d1d4db",
             },
             {
-              text: "Positive",
-              position: "OUTSIDE",
-
-              fontSize: "10px",
+              position: "",
+              color: "#d1d4db",
             },
             {
-              text: "Very Positive",
-              position: "OUTSIDE",
-
-              fontSize: "10px",
+              position: "",
+              color: "#d1d4db",
             },
           ]}
+          textColor="#d1d4db"
         />
       </CardContent>
     </Card>

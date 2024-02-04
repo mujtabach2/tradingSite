@@ -22,7 +22,6 @@ export const Home = () => {
           <Landing />
           <Features />
           <Pay />
-          <SpeedometerCard sentiment={65} sentimentType={"twitter"} />
           <Footer />
         </div>
       </div>
