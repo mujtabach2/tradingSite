@@ -113,6 +113,10 @@ export const Login = () => {
           </div>
         </div>
       </div>
+
+        <div className="flex w-[50%] h-[100vh] bg-[#080E18] items-center justify-center">
+            {/* put some image here */}
+        </div>
     </div>
   );
 };
