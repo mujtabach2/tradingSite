@@ -1,6 +1,6 @@
 // analyzeStock.js
 const axios = require("axios");
-const { processAnalysisResults } = require("./processAnalysisResults");
+const {processAnalysisResults} = require("./processAnalysisResults");
 
 /**
  * Function to analyze stock data
@@ -14,9 +14,7 @@ async function analyzeStock(req, res) {
     const inputParameters = req.body;
 
     // Make a POST request to the Python backend service
-    const response = await axios.post(pythonBackendUrl, inputParameters, {
-      responseType: "arraybuffer",
-    });
+    const response = await axios.get(pythonBackendUrl);
 
     // Trigger another function with the analysis results
     const result = await processAnalysisResults(response.data);
@@ -29,4 +27,4 @@ async function analyzeStock(req, res) {
   }
 }
 
-module.exports = { analyzeStock };
+module.exports = {analyzeStock};

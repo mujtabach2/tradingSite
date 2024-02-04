@@ -1,6 +1,6 @@
 const axios = require("axios");
 const Sentiment = require("sentiment");
-const { RAPID_API_KEY } = require("../config");
+const {RAPID_API_KEY} = require("../config");
 
 const rapidAPIConfig = {
   apiKey: RAPID_API_KEY || "", // Replace with your RapidAPI key
@@ -33,9 +33,9 @@ const getTweets = async (bestStock) => {
 
   try {
     const response = await axios.request(options);
-    const tweets = Array.isArray(response.data.results)
-      ? response.data.results
-      : [];
+    const tweets = Array.isArray(response.data.results) ?
+      response.data.results :
+      [];
     return analyzeSentiment(tweets);
   } catch (error) {
     console.error(`Error fetching tweets: ${error.message}`);
@@ -58,4 +58,4 @@ const analyzeSentiment = (tweets) => {
   return averageScore;
 };
 
-module.exports = { getTweets, analyzeSentiment };
+module.exports = {getTweets, analyzeSentiment};

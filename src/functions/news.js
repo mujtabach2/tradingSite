@@ -1,7 +1,7 @@
 const axios = require("axios");
 const Sentiment = require("sentiment");
 
-const { NEWS_API_KEY } = require("./config");
+const {NEWS_API_KEY} = require("./config");
 
 /**
  * Class representing a NewsCarousel instance.
@@ -34,7 +34,7 @@ class NewsCarousel {
 
       const sentiment = new Sentiment();
       this.newsSentimentScores = articles.map(
-        (article) => sentiment.analyze(article.content).score,
+          (article) => sentiment.analyze(article.content).score,
       );
     } catch (error) {
       console.error("Error fetching news:", error);
@@ -46,10 +46,10 @@ class NewsCarousel {
     }
     const averageScore = count / this.newsSentimentScores.length;
     const newsArticles = this.newsArticles;
-    return { newsArticles, averageScore };
+    return {newsArticles, averageScore};
   }
 }
 
 // Exporting the getNewsSentiment function
 
-module.exports = { NewsCarousel };
+module.exports = {NewsCarousel};
