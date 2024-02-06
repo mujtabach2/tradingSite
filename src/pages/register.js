@@ -21,17 +21,22 @@ export const Register = () => {
         return;
       }
 
-      const authInstance = auth();
-      const user = await createUserWithEmailAndPassword(
-        authInstance,
-        registerEmail,
-        registerPassword,
-      );
-      console.log(user);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+      firebase.auth().createUserWithEmailAndPassword(registerEmail, registerPassword)
+        .then((userCredential) => {
+          // User signed up successfully, now add custom attribute
+          return userCredential.user.updateProfile({
+            accountType: 'unpaid' // Default to unpaid
+          });
+        })
+        .catch((error) => {
+          // Handle errors
+        });
+
+            console.log(user);
+          } catch (error) {
+            console.error(error);
+          }
+        };
 
   const registerWithGoogle = async () => {
     try {

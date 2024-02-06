@@ -1,15 +1,17 @@
 const axios = require("axios");
 const Sentiment = require("sentiment");
-const {RAPID_API_KEY} = require("../config");
+const dotenv = require("dotenv");
+dotenv.config();
 
 const rapidAPIConfig = {
-  apiKey: RAPID_API_KEY || "", // Replace with your RapidAPI key
+  apiKey: process.env.RAPID_API_KEY, // Replace with your RapidAPI key
 };
 
 const sentiment = new Sentiment();
 
 // Function to get tweets containing the stock symbol
 const getTweets = async (bestStock) => {
+  console.log("called getTweets");
   const oneWeekAgo = new Date();
   oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
   const formattedStartDate = oneWeekAgo.toISOString().split("T")[0];
@@ -19,6 +21,10 @@ const getTweets = async (bestStock) => {
     headers: {
       "X-RapidAPI-Key": rapidAPIConfig.apiKey,
       "X-RapidAPI-Host": "twitter154.p.rapidapi.com",
+      "Access-Control-Allow-Origin": "*", // Allow requests from any origin
+      "Access-Control-Allow-Methods": "GET", // Allow only GET requests
+      "Access-Control-Allow-Headers":
+      "Origin, X-Requested-With, Content-Type, Accept",
     },
     params: {
       query: `#${bestStock}`,
@@ -33,10 +39,13 @@ const getTweets = async (bestStock) => {
 
   try {
     const response = await axios.request(options);
+    console.log(" twitter response", response);
     const tweets = Array.isArray(response.data.results) ?
       response.data.results :
       [];
-    return analyzeSentiment(tweets);
+    const returned = analyzeSentiment(tweets);
+    console.log("returned twitter", returned);
+    return returned;
   } catch (error) {
     console.error(`Error fetching tweets: ${error.message}`);
     return null;
@@ -45,6 +54,7 @@ const getTweets = async (bestStock) => {
 
 // Function to analyze sentiment of tweets
 const analyzeSentiment = (tweets) => {
+  console.log("called analyzeSentiment", tweets);
   let overallScore = 0;
 
   tweets.forEach((tweet) => {
