@@ -12,6 +12,8 @@ module.exports = function override(config, env) {
     zlib: false,
     fs: false,
     async_hooks: false,
+    querystring: false,
+    net: false,
   };
 
   config.plugins.push(

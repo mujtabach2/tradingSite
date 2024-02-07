@@ -155,6 +155,7 @@ async function processAnalysisResults(data) {
       redditSentiment: redditSentiment,
       newsSentiment: newsSentiment,
       result: result,
+      date: admin.firestore.FieldValue.serverTimestamp(),
     });
 
     // Store news sentiment articles separately
@@ -168,6 +169,7 @@ async function processAnalysisResults(data) {
         articleUrl: article.url,
         articleSentiment: newsData.averageScore,
         articleImage: article.urlToImage,
+        date: admin.firestore.FieldValue.serverTimestamp(),
       });
     }
 

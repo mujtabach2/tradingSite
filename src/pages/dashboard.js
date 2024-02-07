@@ -6,6 +6,7 @@ import logo from "../images/logo.png";
 import { TradingViewInfo } from "../components/stockInfo";
 import { SpeedometerCard } from "../components/speedometer";
 import { NewsCarousel } from "../components/newsCarsoul";
+import {GetAnalysisResults} from "../firebase";
 
 export const Dashboard = () => {
   const newsArticles = [
@@ -29,6 +30,7 @@ export const Dashboard = () => {
     },
   ];
 
+  const dbData = GetAnalysisResults();
   const newsSentimentScores = [0.5, 0.6, 0.7];
   return (
     <div className="flex h-[100vh] w-[100vw]">
@@ -139,7 +141,7 @@ export const Dashboard = () => {
               <div className="flex-col h-[70vh] w-[20vw] p-2 ">
                 <div className="flex-row h-[35vh] w-[20vw]  ">
                   <div className="bg-gray-900 border-black  rounded-[13px] p-2 transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
-                    <TradingViewInfo stock={"AAPL"} />
+                   {dbData}
                   </div>
                 </div>
                 <div className="flex-row h-[35vh] w-[20vw]  p-2">
