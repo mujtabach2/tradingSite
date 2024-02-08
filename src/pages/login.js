@@ -16,11 +16,54 @@ export const Login = () => {
   const login = async () => {
     try {
       const authInstance = auth();
-      await signInWithEmailAndPassword(authInstance, loginEmail, loginPassword);
+      const userCredential = await signInWithEmailAndPassword(
+        authInstance,
+        loginEmail,
+        loginPassword,
+      );
+      const user = userCredential.user;
+
+      // Call the function to check and update paid status
+      checkAndUpdatePaidStatus(user.uid);
+
       // Handle successful login, e.g., redirect to another page
     } catch (error) {
       console.error(error);
       // Handle login error, e.g., show an error message
+    }
+  };
+
+  const googleLogin = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      const authInstance = auth();
+      const result = await signInWithPopup(authInstance, provider);
+      const user = result.user;
+
+      // Call the function to check and update paid status
+      checkAndUpdatePaidStatus(user.uid);
+
+      // Handle successful login, e.g., redirect to another page
+    } catch (error) {
+      console.error(error);
+      // Handle login error, e.g., show an error message
+    }
+  };
+  const checkAndUpdatePaidStatus = async (uid) => {
+    try {
+      const user = await getUser(uid); // Function to retrieve user data from Firebase Authentication
+      const userData = user.customClaims; // Access custom claims to check paid status
+
+      if (
+        userData &&
+        userData.paid &&
+        new Date().getTime() - userData.paidTimestamp > 24 * 60 * 60 * 1000
+      ) {
+        // More than 24 hours have passed, update paid status to false
+        await auth.setCustomUserClaims(uid, { paid: false });
+      }
+    } catch (error) {
+      console.error("Error checking and updating paid status:", error);
     }
   };
 
@@ -103,7 +146,10 @@ export const Login = () => {
             <div className="flex-1 border-b border-gray-400"></div>
           </div>
 
-          <button className="flex flex-row bg-gray-900 py-4 rounded-[4vh] mt-2 hover:bg-gray-800 border border-black active:bg-gray-700">
+          <button
+            className="flex flex-row bg-gray-900 py-4 rounded-[4vh] mt-2 hover:bg-gray-800 border border-black active:bg-gray-700"
+            onClick={googleLogin}
+          >
             <img className="h-6 w-6 mr-10 ml-4" src={google} alt="Google" />
             <div className="text-base font-medium">Log in with Google</div>
           </button>
@@ -114,9 +160,9 @@ export const Login = () => {
         </div>
       </div>
 
-        <div className="flex w-[50%] h-[100vh] bg-[#080E18] items-center justify-center">
-            {/* put some image here */}
-        </div>
+      <div className="flex w-[50%] h-[100vh] bg-[#080E18] items-center justify-center">
+        {/* put some image here */}
+      </div>
     </div>
   );
 };

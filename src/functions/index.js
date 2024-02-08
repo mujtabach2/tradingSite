@@ -7,7 +7,9 @@ exports.analyzeStock = functions.https.onRequest(async (req, res) => {
     console.log("func called");
 
     // Make a GET request to the Python backend service
-    const response = await axios.get("https://tradingsitebackend.onrender.com/get_results");
+    const response = await axios.get(
+      "https://tradingsitebackend.onrender.com/get_results",
+    );
 
     // Trigger another function with the analysis results
     const result = await processAnalysisResults(response.data);

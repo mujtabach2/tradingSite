@@ -4,12 +4,15 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { StarryBackground } from "./components/starryBackground";
+import { AuthProvider } from "./authContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <StarryBackground />
-    <App />
+    <AuthProvider>
+      <StarryBackground />
+      <App />
+    </AuthProvider>
   </React.StrictMode>,
 );
 

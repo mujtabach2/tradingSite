@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  getIdToken,
+  updateProfile,
+} from "firebase/auth";
 import { auth } from "../firebase";
 import logo from "../images/logo.png";
 import TextField from "@mui/material/TextField";
@@ -16,39 +20,59 @@ export const Register = () => {
 
   const register = async () => {
     try {
-      if (!agreeToTerms) {
-        // Display an error or prevent registration if terms are not agreed
-        return;
-      }
+      // Register the user with Firebase Authentication
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        registerEmail,
+        registerPassword,
+      );
+      const user = userCredential.user;
 
-      firebase.auth().createUserWithEmailAndPassword(registerEmail, registerPassword)
-        .then((userCredential) => {
-          // User signed up successfully, now add custom attribute
-          return userCredential.user.updateProfile({
-            accountType: 'unpaid' // Default to unpaid
-          });
-        })
-        .catch((error) => {
-          // Handle errors
-        });
+      // Set the user's display name (optional)
+      await updateProfile(user, { displayName: registerEmail });
 
-            console.log(user);
-          } catch (error) {
-            console.error(error);
-          }
-        };
+      // Set the custom claim to indicate paid status
+      await getIdToken(user, true); // Force refresh to get updated custom claims
+      await user.setCustomClaims({ paid: true });
+
+      // Store additional user data in Firestore
+      await setDoc(doc(db, "users", user.uid), {
+        paid: true,
+        paidTimestamp: new Date().getTime(), // Store the timestamp when the user became paid
+      });
+
+      console.log(user);
+    } catch (error) {
+      console.error(error);
+      // Handle errors
+    }
+  };
 
   const registerWithGoogle = async () => {
     try {
       const provider = new GoogleAuthProvider();
-      const authInstance = auth();
+      const authInstance = getAuth(); // Get the authentication instance
 
       const result = await signInWithPopup(authInstance, provider);
 
-      // 'result.user' contains the user information
-      console.log(result.user);
+      // After signing in with Google, you can proceed to update user details
+      const user = result.user;
+
+      // Set the custom claim to indicate paid status
+      await getIdToken(user, true); // Force refresh to get updated custom claims
+      await setCustomUserClaims(user.uid, { paid: true });
+
+      // Store additional user data in Firestore (optional)
+      await setDoc(doc(db, "users", user.uid), {
+        paid: true,
+        paidTimestamp: new Date().getTime(), // Store the timestamp when the user became paid
+      });
+
+      // Log the user information
+      console.log(user);
     } catch (error) {
       console.error(error);
+      // Handle errors
     }
   };
 
@@ -61,8 +85,6 @@ export const Register = () => {
             background: #080E18;  
             z-index: -1;
           }
-
-
         `}
       </style>
       <StarryBackground />

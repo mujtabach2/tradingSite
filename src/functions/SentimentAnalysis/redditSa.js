@@ -28,7 +28,7 @@ const getRedditSentiment = async (bestStock) => {
       "Access-Control-Allow-Origin": "*", // Allow requests from any origin
       "Access-Control-Allow-Methods": "GET", // Allow only GET requests
       "Access-Control-Allow-Headers":
-       "Origin, X-Requested-With, Content-Type, Accept",
+        "Origin, X-Requested-With, Content-Type, Accept",
     },
   };
 
@@ -41,4 +41,4 @@ const getRedditSentiment = async (bestStock) => {
   }
 };
 
-module.exports = {getRedditSentiment};
+module.exports = { getRedditSentiment };
