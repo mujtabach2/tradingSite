@@ -8,7 +8,10 @@ import { NewsCarousel } from "../components/newsCarsoul";
 import { fetchLatestAnalysisResult, fetchNewsArticles } from "../firebase";
 import Skeleton from "@mui/material/Skeleton";
 import { AuthContext } from "../authContext";
-import { getIdTokenResult } from "firebase/auth";
+import { getIdTokenResult, signOut } from "firebase/auth";
+import { useNavigate} from "react-router-dom"; 
+
+
 
 export const Dashboard = () => {
   const [latestAnalysisResult, setLatestAnalysisResult] = useState(null);
@@ -19,12 +22,16 @@ export const Dashboard = () => {
   const { user } = useContext(AuthContext);
   const [isPaid, setIsPaid] = useState(false);
   const [newsData, setNewsData] = useState([]);
+  const navigate = useNavigate();
 
-  if (user)
-    async () => {
-      const idTokenResult = await getIdTokenResult(auth.currentUser);
-      setIsPaid(idTokenResult.claims.paid);
-    };
+
+  if (user) {
+    (async () => {
+        const idTokenResult = await getIdTokenResult(AuthContext.currentUser);
+        setIsPaid(idTokenResult.claims.paid);
+    })();
+}
+
   useEffect(() => {
     const fetchLatestData = async () => {
       try {
@@ -39,7 +46,6 @@ export const Dashboard = () => {
         setStockSymbol(latestData.stock);
       } catch (error) {
         console.error("Error fetching latest data:", error);
-        // Handle error state here
       }
     };
 
@@ -49,7 +55,6 @@ export const Dashboard = () => {
         setNewsData(newsData);
       } catch (error) {
         console.error("Error fetching news data:", error);
-        // Handle error state here
       }
     };
     fetchLatestData();
@@ -57,8 +62,8 @@ export const Dashboard = () => {
 
   const handleSignOut = async () => {
     try {
-      await signOut(auth); // Assuming you have an instance of Firebase auth named 'auth'
-      history.push("/login");
+      await signOut(AuthContext); // Assuming you have an instance of Firebase auth named 'auth'
+      navigate("/login"); 
     } catch (error) {
       console.error("Error signing out:", error);
     }
@@ -129,7 +134,7 @@ export const Dashboard = () => {
               <div className="text-white">Welcome</div>
               <button
                 className="text-white"
-                onClick={() => history.push("/login")}
+                onClick={() => navigate("/login")}
               >
                 Sign In
               </button>
@@ -188,7 +193,7 @@ export const Dashboard = () => {
             </div>
           </div>
 
-          <div className="flex h-[70vh] w-[90vw]">
+          <div className="flex h-[70vh] w-[90vw mt-[-5vh]">
             {/* Content for the second cell in the second row */}
             <div className="flex-col h-[70vh] w-[50vw] ">
               <div className="bg-gray-900 border-black rounded-[13px] p-2 transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
@@ -197,7 +202,7 @@ export const Dashboard = () => {
                     variant="rectangular"
                     width="100%"
                     height={"45vh"}
-                    style="m-2"
+                    className="p-2"
                   />
                 ) : (
                   <TradingViewChart symbol={stockSymbol} />
@@ -206,7 +211,7 @@ export const Dashboard = () => {
             </div>
             <div className="flex h-[70vh] w-[40vw]  ">
               <div className="flex-col h-[70vh] w-[20vw] p-2 ">
-                <div className="flex-row h-[35vh] w-[20vw]  ">
+                <div className="flex-row h-[35vh] w-[19vw]  ">
                   <div className="bg-gray-900 border-black  rounded-[13px] p-2 transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
                     <div>
                       {!latestAnalysisResult && isPaid ? (
@@ -218,36 +223,31 @@ export const Dashboard = () => {
                           />
                         </div>
                       ) : (
-                        <div className="bg-gray-900 border-black rounded-[13px] p-2 transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
+                        <div className="bg-gray-900 border-black h-[33vh] rounded-[13px] p-2 transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
                           <div>
                             <h1>Latest Analysis Result</h1>
                             <p>
                               Annualized Return:{" "}
-                              {latestAnalysisResult.annualizedReturn}
+                              {latestAnalysisResult?.annualizedReturn}
                             </p>
                             <p>
-                              Calmar Ratio: {latestAnalysisResult.calmarRatio}
+                              Calmar Ratio: {latestAnalysisResult?.calmarRatio}
                             </p>
                             <p>
-                              Max Drawdown: {latestAnalysisResult.maxDrawdown}
+                              Max Drawdown: {latestAnalysisResult?.maxDrawdown}
                             </p>
                             <p>
                               News Sentiment:{" "}
-                              {latestAnalysisResult.newsSentiment}
+                              {latestAnalysisResult?.newsSentiment}
                             </p>
                             <p>
                               Reddit Sentiment:{" "}
-                              {latestAnalysisResult.redditSentiment}
+                              {latestAnalysisResult?.redditSentiment}
                             </p>
                             <p>
-                              Sharpe Ratio: {latestAnalysisResult.sharpeRatio}
+                              Sharpe Ratio: {latestAnalysisResult?.sharpeRatio}
                             </p>
-                            <p>
-                              Date:{" "}
-                              {latestAnalysisResult.date
-                                .toDate()
-                                .toLocaleString()}
-                            </p>
+
                           </div>
                         </div>
                       )}
@@ -259,7 +259,13 @@ export const Dashboard = () => {
                 <div className="flex-row h-[35vh] w-[20vw]  p-2">
                   {!latestAnalysisResult && isPaid ? (
                     <div className="bg-gray-900 border-black rounded-[13px] p-2 transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
-                      <Skeleton variant="circular" width={200} height={200} />
+                      <Skeleton
+                    variant="circular"
+                    width={200}
+                    height={200}
+                    className="bg-gray-300" // Use the appropriate shade level
+                  />
+
                     </div>
                   ) : (
                     <div className="bg-gray-900 border-black rounded-[13px] p-2 transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
@@ -272,11 +278,54 @@ export const Dashboard = () => {
                 </div>
               </div>
               <div className="flex-col h-[70vh] w-[20vw]  p-2">
-                <div className="flex-row h-[35vh] w-[20vw]  hover:border hover:border-2 hover:border-yellow-400">
-                  <NewsCarousel
-                    newsArticles={newsData}
-                    newsSentimentScores={newsSentimentScores}
-                  />
+                <div className="flex-row h-[35vh] w-[18vw]  hover:border hover:border-2 hover:border-yellow-400">
+                  { user && isPaid && newsData ? (
+                    <NewsCarousel
+                      newsArticles={newsData}
+                      newsSentimentScores={newsSentimentScores}
+                    />
+                  ) : (
+                    <div className="flex flex-col justify-center items-center bg-gray-900 border-black h-[33vh] rounded-[13px] p-2 transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
+                    <Skeleton
+                      variant="rectangular"
+                      width="90%"
+                      height="10%" // Adjust the height based on the layout
+                      animation="wave"
+                      sx={{ bgcolor: 'rgb(31, 41, 55)' }} // Background color style
+                    />
+                    
+                    <Skeleton
+                      variant="rectangular"
+                      width="90%"
+                      height="50%" // Adjust the height based on the layout
+                      animation="wave"
+                      sx={{ bgcolor: 'rgb(31, 41, 55)', marginTop: 4 }} // Background color style
+                    />
+                    <Skeleton
+                      variant="rectangular"
+                      width="90%"
+                      height="5%" // Adjust the height based on the layout
+                      animation="wave"
+                      sx={{ bgcolor: 'rgb(31, 41, 55)', marginTop: 4 }} // Background color style
+                    />
+                    <Skeleton
+                      variant="rectangular"
+                      width="90%"
+                      height="5%" // Adjust the height based on the layout
+                      animation="wave"
+                      sx={{ bgcolor: 'rgb(31, 41, 55)', marginTop: 1 }} // Background color style
+                    />
+                    <Skeleton
+                      variant="rectangular"
+                      width="90%"
+                      height="5%" // Adjust the height based on the layout
+                      animation="wave"
+                      sx={{ bgcolor: 'rgb(31, 41, 55)', marginTop: 1 }} // Background color style
+                    />
+                  </div>
+                  
+                  )}
+                
                 </div>
                 <div className="flex-row h-[35vh] w-[20vw] p-2 transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
                   {!latestAnalysisResult && isPaid ? (

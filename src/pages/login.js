@@ -1,12 +1,15 @@
 import React, { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
+import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { getAuth as auth } from "../firebase"; 
+
 import logo from "../images/logo.png";
 import TextField from "@mui/material/TextField";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { StarryBackground } from "../components/starryBackground";
 import google from "../images/google.png";
+import { getUser } from "../firebase";
+
 
 export const Login = () => {
   const [loginEmail, setLoginEmail] = useState("");

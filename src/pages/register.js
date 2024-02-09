@@ -4,14 +4,16 @@ import {
   getIdToken,
   updateProfile,
 } from "firebase/auth";
-import { auth } from "../firebase";
+import { getAuth as auth, db } from "../firebase"; 
 import logo from "../images/logo.png";
 import TextField from "@mui/material/TextField";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { StarryBackground } from "../components/starryBackground";
 import google from "../images/google.png";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup, getAuth } from "firebase/auth";
+import { setDoc, doc } from "firebase/firestore";
+import { getAuth as getAdminAuth } from "firebase/auth"; // Import getAuth from admin SDK
 
 export const Register = () => {
   const [registerEmail, setRegisterEmail] = useState("");
@@ -21,6 +23,7 @@ export const Register = () => {
   const register = async () => {
     try {
       // Register the user with Firebase Authentication
+      const auth = getAuth(); // Get the authentication instance 
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         registerEmail,
@@ -33,7 +36,8 @@ export const Register = () => {
 
       // Set the custom claim to indicate paid status
       await getIdToken(user, true); // Force refresh to get updated custom claims
-      await user.setCustomClaims({ paid: true });
+      // issues here with setCustomUserClaims
+      await getAdminAuth().setCustomUserClaims(user.uid, { paid: true }); // Use getAdminAuth
 
       // Store additional user data in Firestore
       await setDoc(doc(db, "users", user.uid), {
@@ -60,7 +64,7 @@ export const Register = () => {
 
       // Set the custom claim to indicate paid status
       await getIdToken(user, true); // Force refresh to get updated custom claims
-      await setCustomUserClaims(user.uid, { paid: true });
+      await getAdminAuth().setCustomUserClaims(user.uid, { paid: true }); // Use getAdminAuth
 
       // Store additional user data in Firestore (optional)
       await setDoc(doc(db, "users", user.uid), {
