@@ -41,4 +41,4 @@ const getRedditSentiment = async (bestStock) => {
   }
 };
 
-module.exports = {getRedditSentiment};
+module.exports = { getRedditSentiment };

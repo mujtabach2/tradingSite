@@ -1,11 +1,11 @@
-const {ChatOpenAI} = require("@langchain/openai");
+const { ChatOpenAI } = require("@langchain/openai");
 const {
   SystemMessagePromptTemplate,
   HumanMessagePromptTemplate,
   ChatPromptTemplate,
 } = require("@langchain/core/prompts");
-const {LLMChain} = require("langchain/chains");
-const {OPENAI_API_KEY} = require("./config");
+const { LLMChain } = require("langchain/chains");
+const { OPENAI_API_KEY } = require("./config");
 /**
  * Class representing an OpenAi instance for stock analysis.
  */
@@ -23,15 +23,15 @@ class OpenAi {
    * @param {number} newsSentiment - The news sentiment.
    */
   constructor(
-      stock,
-      annualizedReturn,
-      sharpeRatio,
-      maxDrawdown,
-      calmarRatio,
-      conclusion,
-      twitterSentiment,
-      redditSentiment,
-      newsSentiment,
+    stock,
+    annualizedReturn,
+    sharpeRatio,
+    maxDrawdown,
+    calmarRatio,
+    conclusion,
+    twitterSentiment,
+    redditSentiment,
+    newsSentiment,
   ) {
     this.stock = stock;
     this.annualizedReturn = annualizedReturn;

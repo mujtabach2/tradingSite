@@ -26,26 +26,27 @@ export const Login = () => {
     try {
       // Use Firebase Authentication function to sign in with email and password
       await log(loginEmail, loginPassword);
-    
+
       navigate("/dashboard");
     } catch (error) {
       // Handle specific authentication errors
-      if (error.code === "auth/user-not-found" || error.code === "auth/wrong-password") {
+      if (
+        error.code === "auth/user-not-found" ||
+        error.code === "auth/wrong-password"
+      ) {
         alert("Invalid email or password. Please try again.");
       } else {
         // Handle other authentication errors or show a generic error message
         alert("An error occurred during login. Please try again later.");
         console.error("Login Error:", error);
-      } 
+      }
     }
-  
   };
 
   const googleLogin = async () => {
-    await googleLog()
+    await googleLog();
     navigate("/dashboard");
   };
- 
 
   return (
     <div className="flex w-full h-full bg-white">

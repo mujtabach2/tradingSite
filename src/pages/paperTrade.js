@@ -24,9 +24,11 @@ const PaperTrade = () => {
             "APCA-API-KEY-ID": YOUR_API_KEY_ID,
             "APCA-API-SECRET-KEY": YOUR_API_SECRET_KEY,
           },
-        }
+        },
       );
-      setMessage(`Successfully ${action === "buy" ? "bought" : "sold"} ${quantity} shares of ${symbol}`);
+      setMessage(
+        `Successfully ${action === "buy" ? "bought" : "sold"} ${quantity} shares of ${symbol}`,
+      );
     } catch (error) {
       setMessage(`Error: ${error.response.data.message}`);
     }
@@ -37,7 +39,9 @@ const PaperTrade = () => {
       <h1 className="text-2xl font-bold mb-4">Paper Trade</h1>
       <form onSubmit={handleSubmit} className="max-w-md mx-auto">
         <div className="mb-4">
-          <label htmlFor="symbol" className="block text-gray-700">Symbol:</label>
+          <label htmlFor="symbol" className="block text-gray-700">
+            Symbol:
+          </label>
           <input
             type="text"
             id="symbol"
@@ -49,7 +53,9 @@ const PaperTrade = () => {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="quantity" className="block text-gray-700">Quantity:</label>
+          <label htmlFor="quantity" className="block text-gray-700">
+            Quantity:
+          </label>
           <input
             type="number"
             id="quantity"
@@ -61,7 +67,9 @@ const PaperTrade = () => {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="action" className="block text-gray-700">Action:</label>
+          <label htmlFor="action" className="block text-gray-700">
+            Action:
+          </label>
           <select
             id="action"
             value={action}
@@ -73,7 +81,12 @@ const PaperTrade = () => {
             <option value="sell">Sell</option>
           </select>
         </div>
-        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Submit</button>
+        <button
+          type="submit"
+          className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+        >
+          Submit
+        </button>
       </form>
       {message && <p className="mt-4 text-green-700">{message}</p>}
     </div>

@@ -7,11 +7,17 @@ import { StarryBackground } from "../components/starryBackground";
 import logo from "../images/logo.png";
 import Skeleton from "@mui/material/Skeleton";
 import { AuthContext } from "../authContext";
-import { signOut } from "firebase/auth";
+import { signOut, getAuth } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { db, fetchLatestAnalysisResult, fetchNewsArticles, logout } from "../firebase";
+import {
+  db,
+  fetchLatestAnalysisResult,
+  fetchNewsArticles,
+  logout,
+  getUserData,
+} from "../firebase";
 import { getDoc, doc } from "firebase/firestore";
-
+import { Popup } from "reactjs-popup";
 export const Dashboard = () => {
   const [latestAnalysisResult, setLatestAnalysisResult] = useState(null);
   const [twitterSentimentPercentage, setTwitterSentimentPercentage] =
@@ -22,21 +28,23 @@ export const Dashboard = () => {
   const [isPaid, setIsPaid] = useState(false);
   const [newsData, setNewsData] = useState([]);
   const navigate = useNavigate();
+  const [currentDate, setCurrentDate] = useState("");
+
+  useEffect(() => {
+    const today = new Date();
+    const options = { month: "long", day: "numeric", year: "numeric" };
+    setCurrentDate(today.toLocaleDateString(undefined, options));
+  }, []);
+  const [showPopup, setShowPopup] = useState(false);
 
   if (user) {
     (async () => {
       try {
-        // Retrieve user document from Firestore
-        const userDoc = await getDoc(
-          doc(db, "users", AuthContext.currentUser.uid),
-        );
-        const userData = userDoc.data();
-
-        // Set the isPaid state based on the Firestore data
-        setIsPaid(userData?.paid);
+        const userData = await getUserData(user.uid);
+        setIsPaid(userData.paid);
+        console.log("User data:", isPaid);
       } catch (error) {
-        console.error("Error fetching paid status from Firestore:", error);
-        // Handle errors, e.g., set a default value or display an error message
+        console.error("Error fetching user data:", error);
       }
     })();
   }
@@ -78,6 +86,10 @@ export const Dashboard = () => {
     }
   };
 
+  const handleLogin = () => {
+    navigate("/login");
+  };
+
   const convertSentimentToPercentage = (score) => {
     // Convert score from range -5 to 5 to range 0 to 10
     const convertedScore = score + 5;
@@ -96,54 +108,133 @@ export const Dashboard = () => {
             z-index: -1;
           }
 
+          .popup-content {
+            color: white;
+      
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+            width: 90%;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 0px;
+          }
 
         `}
       </style>
       <StarryBackground />
       {/* First Column */}
-      <div className="flex-col w-[10vw]">
+      <div className="flex-col w-[10vw] mr-[1vw] bg-gray-900 ">
         {/* First Row */}
-        <div className="flex h-[7vh]  border-2 border-white">
+        <div className="flex h-[7vh]  border-r-black border-r-4 ">
           {/* Content for the first cell in the first row */}
           <img src={logo} alt="logo" className="h-[4vh]" />
         </div>
 
         {/* Second Row */}
-        <div className="flex-col h-[93vh]  border-2 border-white">
+        <div className="flex-col h-[93vh]  ">
           {/* Content for the second cell in the second row */}
-          <div className="flex-row h-[20vh] w-[10vw]  border-2 border-white">
-            Todays Signal
+          <div className="flex flex-col h-[20vh] w-[10vw] border-r-black border-r-4 text-white justify-center ">
+            <p>Todays Signal</p>
+            {latestAnalysisResult && latestAnalysisResult?.decision ? (
+              <p>
+                {latestAnalysisResult?.decision}: {latestAnalysisResult.stock}
+              </p>
+            ) : (
+              <p>No signal available</p>
+            )}
           </div>
-          <div className="flex-row h-[20vh] w-[10vw]  border-2 border-white">
-            Daily Report
+          <div className="flex-row h-[20vh] w-[10vw]  border-r-black border-r-4 border-r-4 text-white">
+            <div>
+              <Popup
+                trigger={<button className="text-white">Daily Report</button>}
+                modal
+                nested
+                closeOnDocumentClick={false}
+                overlayStyle={{ background: "rgba(0, 0, 0, 0.5)" }} // Adjust opacity as needed
+              >
+                {(close) => (
+                  <div className="popup-content pr-0 flex justify-center items-center">
+                    {/* Close button styled as an "X" */}
+                    <button
+                      className="absolute top-4 right-[5vw] text-white  m-4 hover:scale-110 transition-transform "
+                      onClick={close}
+                    >
+                      X
+                    </button>
+
+                    {/* Content for your popup */}
+                    <div className="text-white border-none p-6 rounded-lg shadow-lg bg-gray-800">
+                      {!latestAnalysisResult && isPaid ? (
+                        <div className="border-none text-center">
+                          {" "}
+                          Purchase a Plan To see this Magical Report
+                        </div>
+                      ) : (
+                        <div className="border-none">
+                          <h1 className="text-center pb-3 text-3xl font-bold">
+                            Report for {latestAnalysisResult?.stock},{" "}
+                            {currentDate}
+                          </h1>
+                          <p className="text-left text-lg">
+                            {latestAnalysisResult?.result.text}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </Popup>
+            </div>
           </div>
-          <div className="flex-row h-[20vh] w-[10vw]  border-2 border-white">
+          <div className="flex-row h-[20vh] w-[10vw]   border-r-black border-r-4  text-white">
             Buy/Sell
           </div>
-          <div className="flex-row h-[20vh] w-[10vw]  border-2 border-white">
-            Settings
+          <div className="flex-row h-[20vh] w-[10vw]  border-r-black border-r-4 ">
+            {user ? (
+              <div>
+                <button className="text-white" onClick={handleSignOut}>
+                  Sign Out
+                </button>
+              </div>
+            ) : (
+              <div>
+                <button
+                  className="text-white"
+                  onClick={() => navigate("/login")}
+                >
+                  Sign In
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
 
       {/* Second Column */}
-      <div className="flex-col w-[90vw] ">
+      <div className="flex-col w-[89vw] ">
         {/* Content for the second cell in the first row */}
-        <div className="flex h-[7vh]  border-2 border-blue-300 align-right">
+        <div className="flex flex-row h-[7vh] justify-end pr-10">
           {/* Content for the first cell in the first row */}
           {user ? (
-            <div>
-              <div className="text-white">Welcome, {user.displayName}</div>
-              <button className="text-white" onClick={handleSignOut}>
-                Sign Out
+            <div className="flex flex-row justify-center items-center h-[7vh]">
+            <div className="flex text-white">Welcome, {user.displayName}</div>
+            <div className="bg-gray-900 rounded-3xl shadow-inner border hover:bg-[#F3BA2F] hover:border-black ml-2">
+              <button className="py-1 px-6 text-center text-white text-lg font-medium font-['Inter'] leading-normal " onClick={handleSignOut}>
+                Log Out
               </button>
             </div>
+          </div>
+          
           ) : (
             <div>
               <div className="text-white">Welcome</div>
-              <button className="text-white" onClick={() => navigate("/login")}>
-                Sign In
+              <div className="bg-gray-900 rounded-3xl shadow-inner border hover:bg-[#F3BA2F] hover:border-black ml-2">
+              <button className="py-1 px-6 text-center text-white text-lg font-medium font-['Inter'] leading-normal " onClick={handleLogin}>
+                Log in
               </button>
+            </div>
             </div>
           )}
         </div>
@@ -161,7 +252,7 @@ export const Dashboard = () => {
                 </div>
               </div>
             </div>
-            <div className="flex-col h-[23vh] w-[18vw]">
+            <div className="flex-col h-[23vh] w-[17vw]">
               <div className="p-2">
                 <div className="bg-gray-900 border-black rounded-[13px] p-2 transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
                   <div>
@@ -188,7 +279,7 @@ export const Dashboard = () => {
                 </div>
               </div>
             </div>
-            <div className="flex-col h-[23vh] w-[18vw]">
+            <div className="flex-col h-[23vh] w-[17vw]">
               <div className="p-2">
                 <div className="bg-gray-900 border-black rounded-[13px] p-2 transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
                   <div>
@@ -203,7 +294,7 @@ export const Dashboard = () => {
             {/* Content for the second cell in the second row */}
             <div className="flex-col h-[70vh] w-[50vw] ">
               <div className="bg-gray-900 border-black rounded-[13px] p-2 transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
-                {!latestAnalysisResult && isPaid ? (
+                {!latestAnalysisResult && !isPaid ? (
                   <Skeleton
                     variant="rectangular"
                     width="100%"
@@ -220,65 +311,97 @@ export const Dashboard = () => {
                 <div className="flex-row h-[35vh] w-[19vw]  ">
                   <div className="bg-gray-900 border-black  rounded-[13px] p-2 transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
                     <div>
-                      {!latestAnalysisResult && isPaid ? (
-                        <div className="bg-gray-900 border-black rounded-[13px] p-2 transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
-                          <Skeleton
-                            variant="rectangular"
-                            width="100%"
-                            height={200}
-                          />
+                      {!user ? (
+                        <div className="bg-gray-900 border-black flex justify-center items-center rounded-[13px] h-[33vh] p-2 transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
+                          <h1 className="text-white">log in to see results </h1>
                         </div>
                       ) : (
                         <div className="bg-gray-900 border-black h-[33vh] rounded-[13px] p-2 transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
-                          <div>
-                            <h1>Latest Analysis Result</h1>
-                            <p>
-                              Annualized Return:{" "}
-                              {latestAnalysisResult?.annualizedReturn}
-                            </p>
-                            <p>
-                              Calmar Ratio: {latestAnalysisResult?.calmarRatio}
-                            </p>
-                            <p>
-                              Max Drawdown: {latestAnalysisResult?.maxDrawdown}
-                            </p>
-                            <p>
-                              News Sentiment:{" "}
-                              {latestAnalysisResult?.newsSentiment}
-                            </p>
-                            <p>
-                              Reddit Sentiment:{" "}
-                              {latestAnalysisResult?.redditSentiment}
-                            </p>
-                            <p>
-                              Sharpe Ratio: {latestAnalysisResult?.sharpeRatio}
-                            </p>
-                          </div>
+                          {latestAnalysisResult ? (
+                            <div>
+                              {isPaid ? (
+                                <div>
+                                  <h1>Latest Analysis Result</h1>
+                                  <p>
+                                    Annualized Return:{" "}
+                                    {latestAnalysisResult?.annualizedReturn}
+                                  </p>
+                                  <p>
+                                    Calmar Ratio:{" "}
+                                    {latestAnalysisResult?.calmarRatio}
+                                  </p>
+                                  <p>
+                                    Max Drawdown:{" "}
+                                    {latestAnalysisResult?.maxDrawdown}
+                                  </p>
+                                  <p>
+                                    News Sentiment:{" "}
+                                    {latestAnalysisResult?.newsSentiment}
+                                  </p>
+                                  <p>
+                                    Reddit Sentiment:{" "}
+                                    {latestAnalysisResult?.redditSentiment}
+                                  </p>
+                                  <p>
+                                    Sharpe Ratio:{" "}
+                                    {latestAnalysisResult?.sharpeRatio}
+                                  </p>
+                                </div>
+                              ) : (
+                                <h1>
+                                  {" "}
+                                  Purchase a Plan to see this magical results
+                                </h1>
+                              )}
+                            </div>
+                          ) : (
+                            <div>
+                              <Skeleton
+                                variant="rectangular"
+                                width="100%"
+                                height={200}
+                              />
+                            </div>
+                          )}
                         </div>
                       )}
-
-                      {/* Render other properties as needed */}
                     </div>
                   </div>
                 </div>
-                <div className="flex-row h-[35vh] w-[20vw]  p-2">
-                  {!latestAnalysisResult && isPaid ? (
-                    <div className="bg-gray-900 border-black rounded-[13px] p-2 transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
-                      <Skeleton
-                        variant="circular"
-                        width={200}
-                        height={200}
-                        className="bg-gray-300" // Use the appropriate shade level
-                      />
-                    </div>
-                  ) : (
-                    <div className="bg-gray-900 border-black rounded-[13px] p-2 transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
-                      <SpeedometerCard
-                        sentiment={twitterSentimentPercentage}
-                        sentimentType={"Twitter"}
-                      />
-                    </div>
-                  )}
+                <div className="flex-row h-[35vh] w-[20vw]  p-1 ">
+                  <div className="bg-gray-900 border-black rounded-[13px] h-[35vh] transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
+                    {!user ? (
+                      <div>
+                        <h1 className="text-white">log in to see results </h1>
+                      </div>
+                    ) : (
+                      <div className="p-2">
+                        {!isPaid ? (
+                          <h1 className="text-white">
+                            Purchase a Plan to see this magical results
+                          </h1>
+                        ) : (
+                          <div>
+                            {!latestAnalysisResult ? (
+                              <div>
+                                <Skeleton
+                                  variant="circular"
+                                  width={200}
+                                  height={200}
+                                  className="bg-gray-300" // Use the appropriate shade level
+                                />
+                              </div>
+                            ) : (
+                              <SpeedometerCard
+                                sentiment={twitterSentimentPercentage}
+                                sentimentType={"Twitter"}
+                              />
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
               <div className="flex-col h-[70vh] w-[20vw]  p-2">
@@ -329,19 +452,40 @@ export const Dashboard = () => {
                     </div>
                   )}
                 </div>
-                <div className="flex-row h-[35vh] w-[20vw] p-2 transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
-                  {!latestAnalysisResult && isPaid ? (
-                    <div className="bg-gray-900 border-black rounded-[13px] p-2 transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
-                      <Skeleton variant="circular" width={200} height={200} />
-                    </div>
-                  ) : (
-                    <div className="bg-gray-900 border-black rounded-[13px] p-2 transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
-                      <SpeedometerCard
-                        sentiment={redditSentimentPercentage}
-                        sentimentType={"Reddit"}
-                      />
-                    </div>
-                  )}
+                <div className="flex-row h-[35vh] w-[20vw]  p-1 ">
+                  <div className="bg-gray-900 border-black rounded-[13px] h-[35vh] transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
+                    {!user ? (
+                      <div>
+                        <h1 className="text-white">log in to see results </h1>
+                      </div>
+                    ) : (
+                      <div className="p-2">
+                        {!isPaid ? (
+                          <h1 className="text-white">
+                            Purchase a Plan to see this magical results
+                          </h1>
+                        ) : (
+                          <div>
+                            {!latestAnalysisResult ? (
+                              <div>
+                                <Skeleton
+                                  variant="circular"
+                                  width={200}
+                                  height={200}
+                                  className="bg-gray-300" // Use the appropriate shade level
+                                />
+                              </div>
+                            ) : (
+                              <SpeedometerCard
+                                sentiment={twitterSentimentPercentage}
+                                sentimentType={"Twitter"}
+                              />
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
