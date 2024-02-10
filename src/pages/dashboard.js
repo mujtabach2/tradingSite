@@ -9,7 +9,7 @@ import Skeleton from "@mui/material/Skeleton";
 import { AuthContext } from "../authContext";
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { db, fetchLatestAnalysisResult, fetchNewsArticles } from "../firebase";
+import { db, fetchLatestAnalysisResult, fetchNewsArticles, logout } from "../firebase";
 import { getDoc, doc } from "firebase/firestore";
 
 export const Dashboard = () => {
@@ -71,7 +71,7 @@ export const Dashboard = () => {
 
   const handleSignOut = async () => {
     try {
-      await signOut(AuthContext); // Assuming you have an instance of Firebase auth named 'auth'
+      await logout();
       navigate("/login");
     } catch (error) {
       console.error("Error signing out:", error);
