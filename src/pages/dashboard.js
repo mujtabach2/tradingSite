@@ -1,17 +1,16 @@
 import React, { useEffect, useState, useContext } from "react";
 import { TradingViewChart } from "../components/tradingview";
-import { TradingViewWidget } from "../components/tradingViewWidget.js";
-import { StarryBackground } from "../components/starryBackground";
-import logo from "../images/logo.png";
+import { TradingViewWidget } from "../components/tradingViewWidget";
 import { SpeedometerCard } from "../components/speedometer";
 import { NewsCarousel } from "../components/newsCarsoul";
-import { fetchLatestAnalysisResult, fetchNewsArticles } from "../firebase";
+import { StarryBackground } from "../components/starryBackground";
+import logo from "../images/logo.png";
 import Skeleton from "@mui/material/Skeleton";
 import { AuthContext } from "../authContext";
-import { getIdTokenResult, signOut } from "firebase/auth";
-import { useNavigate} from "react-router-dom"; 
-
-
+import { signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { db, fetchLatestAnalysisResult, fetchNewsArticles } from "../firebase";
+import { getDoc, doc } from "firebase/firestore";
 
 export const Dashboard = () => {
   const [latestAnalysisResult, setLatestAnalysisResult] = useState(null);
@@ -24,13 +23,23 @@ export const Dashboard = () => {
   const [newsData, setNewsData] = useState([]);
   const navigate = useNavigate();
 
-
   if (user) {
     (async () => {
-        const idTokenResult = await getIdTokenResult(AuthContext.currentUser);
-        setIsPaid(idTokenResult.claims.paid);
+      try {
+        // Retrieve user document from Firestore
+        const userDoc = await getDoc(
+          doc(db, "users", AuthContext.currentUser.uid),
+        );
+        const userData = userDoc.data();
+
+        // Set the isPaid state based on the Firestore data
+        setIsPaid(userData?.paid);
+      } catch (error) {
+        console.error("Error fetching paid status from Firestore:", error);
+        // Handle errors, e.g., set a default value or display an error message
+      }
     })();
-}
+  }
 
   useEffect(() => {
     const fetchLatestData = async () => {
@@ -63,7 +72,7 @@ export const Dashboard = () => {
   const handleSignOut = async () => {
     try {
       await signOut(AuthContext); // Assuming you have an instance of Firebase auth named 'auth'
-      navigate("/login"); 
+      navigate("/login");
     } catch (error) {
       console.error("Error signing out:", error);
     }
@@ -132,10 +141,7 @@ export const Dashboard = () => {
           ) : (
             <div>
               <div className="text-white">Welcome</div>
-              <button
-                className="text-white"
-                onClick={() => navigate("/login")}
-              >
+              <button className="text-white" onClick={() => navigate("/login")}>
                 Sign In
               </button>
             </div>
@@ -247,7 +253,6 @@ export const Dashboard = () => {
                             <p>
                               Sharpe Ratio: {latestAnalysisResult?.sharpeRatio}
                             </p>
-
                           </div>
                         </div>
                       )}
@@ -260,12 +265,11 @@ export const Dashboard = () => {
                   {!latestAnalysisResult && isPaid ? (
                     <div className="bg-gray-900 border-black rounded-[13px] p-2 transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
                       <Skeleton
-                    variant="circular"
-                    width={200}
-                    height={200}
-                    className="bg-gray-300" // Use the appropriate shade level
-                  />
-
+                        variant="circular"
+                        width={200}
+                        height={200}
+                        className="bg-gray-300" // Use the appropriate shade level
+                      />
                     </div>
                   ) : (
                     <div className="bg-gray-900 border-black rounded-[13px] p-2 transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
@@ -279,53 +283,51 @@ export const Dashboard = () => {
               </div>
               <div className="flex-col h-[70vh] w-[20vw]  p-2">
                 <div className="flex-row h-[35vh] w-[18vw]  hover:border hover:border-2 hover:border-yellow-400">
-                  { user && isPaid && newsData ? (
+                  {user && isPaid && newsData ? (
                     <NewsCarousel
                       newsArticles={newsData}
                       newsSentimentScores={newsSentimentScores}
                     />
                   ) : (
                     <div className="flex flex-col justify-center items-center bg-gray-900 border-black h-[33vh] rounded-[13px] p-2 transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
-                    <Skeleton
-                      variant="rectangular"
-                      width="90%"
-                      height="10%" // Adjust the height based on the layout
-                      animation="wave"
-                      sx={{ bgcolor: 'rgb(31, 41, 55)' }} // Background color style
-                    />
-                    
-                    <Skeleton
-                      variant="rectangular"
-                      width="90%"
-                      height="50%" // Adjust the height based on the layout
-                      animation="wave"
-                      sx={{ bgcolor: 'rgb(31, 41, 55)', marginTop: 4 }} // Background color style
-                    />
-                    <Skeleton
-                      variant="rectangular"
-                      width="90%"
-                      height="5%" // Adjust the height based on the layout
-                      animation="wave"
-                      sx={{ bgcolor: 'rgb(31, 41, 55)', marginTop: 4 }} // Background color style
-                    />
-                    <Skeleton
-                      variant="rectangular"
-                      width="90%"
-                      height="5%" // Adjust the height based on the layout
-                      animation="wave"
-                      sx={{ bgcolor: 'rgb(31, 41, 55)', marginTop: 1 }} // Background color style
-                    />
-                    <Skeleton
-                      variant="rectangular"
-                      width="90%"
-                      height="5%" // Adjust the height based on the layout
-                      animation="wave"
-                      sx={{ bgcolor: 'rgb(31, 41, 55)', marginTop: 1 }} // Background color style
-                    />
-                  </div>
-                  
+                      <Skeleton
+                        variant="rectangular"
+                        width="90%"
+                        height="10%" // Adjust the height based on the layout
+                        animation="wave"
+                        sx={{ bgcolor: "rgb(31, 41, 55)" }} // Background color style
+                      />
+
+                      <Skeleton
+                        variant="rectangular"
+                        width="90%"
+                        height="50%" // Adjust the height based on the layout
+                        animation="wave"
+                        sx={{ bgcolor: "rgb(31, 41, 55)", marginTop: 4 }} // Background color style
+                      />
+                      <Skeleton
+                        variant="rectangular"
+                        width="90%"
+                        height="5%" // Adjust the height based on the layout
+                        animation="wave"
+                        sx={{ bgcolor: "rgb(31, 41, 55)", marginTop: 4 }} // Background color style
+                      />
+                      <Skeleton
+                        variant="rectangular"
+                        width="90%"
+                        height="5%" // Adjust the height based on the layout
+                        animation="wave"
+                        sx={{ bgcolor: "rgb(31, 41, 55)", marginTop: 1 }} // Background color style
+                      />
+                      <Skeleton
+                        variant="rectangular"
+                        width="90%"
+                        height="5%" // Adjust the height based on the layout
+                        animation="wave"
+                        sx={{ bgcolor: "rgb(31, 41, 55)", marginTop: 1 }} // Background color style
+                      />
+                    </div>
                   )}
-                
                 </div>
                 <div className="flex-row h-[35vh] w-[20vw] p-2 transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
                   {!latestAnalysisResult && isPaid ? (

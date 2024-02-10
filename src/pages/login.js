@@ -1,74 +1,51 @@
 import React, { useState } from "react";
-import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { getAuth as auth } from "../firebase"; 
-
+import {
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
+import { getAuth as auth } from "../firebase";
 import logo from "../images/logo.png";
 import TextField from "@mui/material/TextField";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { StarryBackground } from "../components/starryBackground";
 import google from "../images/google.png";
-import { getUser } from "../firebase";
-
+import { log, googleLog } from "../firebase";
+import { getDoc, setDoc, doc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+import stock from "../images/stock.png";
 
 export const Login = () => {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const navigate = useNavigate();
 
   const login = async () => {
     try {
-      const authInstance = auth();
-      const userCredential = await signInWithEmailAndPassword(
-        authInstance,
-        loginEmail,
-        loginPassword,
-      );
-      const user = userCredential.user;
-
-      // Call the function to check and update paid status
-      checkAndUpdatePaidStatus(user.uid);
-
-      // Handle successful login, e.g., redirect to another page
+      // Use Firebase Authentication function to sign in with email and password
+      await log(loginEmail, loginPassword);
+    
+      navigate("/dashboard");
     } catch (error) {
-      console.error(error);
-      // Handle login error, e.g., show an error message
+      // Handle specific authentication errors
+      if (error.code === "auth/user-not-found" || error.code === "auth/wrong-password") {
+        alert("Invalid email or password. Please try again.");
+      } else {
+        // Handle other authentication errors or show a generic error message
+        alert("An error occurred during login. Please try again later.");
+        console.error("Login Error:", error);
+      } 
     }
+  
   };
 
   const googleLogin = async () => {
-    const provider = new GoogleAuthProvider();
-    try {
-      const authInstance = auth();
-      const result = await signInWithPopup(authInstance, provider);
-      const user = result.user;
-
-      // Call the function to check and update paid status
-      checkAndUpdatePaidStatus(user.uid);
-
-      // Handle successful login, e.g., redirect to another page
-    } catch (error) {
-      console.error(error);
-      // Handle login error, e.g., show an error message
-    }
+    await googleLog()
+    navigate("/dashboard");
   };
-  const checkAndUpdatePaidStatus = async (uid) => {
-    try {
-      const user = await getUser(uid); // Function to retrieve user data from Firebase Authentication
-      const userData = user.customClaims; // Access custom claims to check paid status
-
-      if (
-        userData &&
-        userData.paid &&
-        new Date().getTime() - userData.paidTimestamp > 24 * 60 * 60 * 1000
-      ) {
-        // More than 24 hours have passed, update paid status to false
-        await auth.setCustomUserClaims(uid, { paid: false });
-      }
-    } catch (error) {
-      console.error("Error checking and updating paid status:", error);
-    }
-  };
+ 
 
   return (
     <div className="flex w-full h-full bg-white">
@@ -163,8 +140,8 @@ export const Login = () => {
         </div>
       </div>
 
-      <div className="flex w-[50%] h-[100vh] bg-[#080E18] items-center justify-center">
-        {/* put some image here */}
+      <div className="flex w-[50%] h-[100vh] bg-gray-800 items-center justify-center bg-opacity-1">
+        <img className="w-[50%] h-[50%]" src={stock} alt="Logo" />
       </div>
     </div>
   );

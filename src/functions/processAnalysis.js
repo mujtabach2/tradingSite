@@ -11,9 +11,9 @@ admin.initializeApp();
 const functions = require("firebase-functions");
 const OpenAi = require("./chatAI.js");
 const makeDecision = require("./decison.js");
-const { getTweets } = require("./SentimentAnalysis/twitterSa.js");
-const { getRedditSentiment } = require("./SentimentAnalysis/redditSa.js");
-const { NewsCarousel } = require("./news.js");
+const {getTweets} = require("./SentimentAnalysis/twitterSa.js");
+const {getRedditSentiment} = require("./SentimentAnalysis/redditSa.js");
+const {NewsCarousel} = require("./news.js");
 
 // switch wirh analzeStock that will be the cloud function
 
@@ -106,13 +106,13 @@ async function processAnalysisResults(data) {
     // Make a decision based on the analysis results
     console.log("Making Decision...");
     const conclusion = makeDecision(
-      annualizedReturn,
-      sharpeRatio,
-      maxDrawdown,
-      calmarRatio,
-      twitterSentiment,
-      redditSentiment,
-      newsSentiment,
+        annualizedReturn,
+        sharpeRatio,
+        maxDrawdown,
+        calmarRatio,
+        twitterSentiment,
+        redditSentiment,
+        newsSentiment,
     );
     console.log("Decision:", conclusion);
 
@@ -121,15 +121,15 @@ async function processAnalysisResults(data) {
     // Create an instance of the OpenAi class
     console.log("Creating OpenAi Instance...");
     const openAiInstance = new OpenAi(
-      bestStock,
-      annualizedReturn,
-      sharpeRatio,
-      maxDrawdown,
-      calmarRatio,
-      conclusion,
-      twitterSentiment,
-      redditSentiment,
-      newsSentiment,
+        bestStock,
+        annualizedReturn,
+        sharpeRatio,
+        maxDrawdown,
+        calmarRatio,
+        conclusion,
+        twitterSentiment,
+        redditSentiment,
+        newsSentiment,
     );
 
     // Call the run method
@@ -157,7 +157,7 @@ async function processAnalysisResults(data) {
 
     // Store news sentiment articles separately
     const newsSentimentArticlesRef = firestore.collection(
-      "newsSentimentArticles",
+        "newsSentimentArticles",
     );
 
     console.log("Storing News Sentiment Articles...", newsData);
@@ -176,9 +176,9 @@ async function processAnalysisResults(data) {
   } catch (error) {
     console.error("Error:", error.message);
     throw new functions.https.HttpsError(
-      "internal",
-      "Internal Server Error detected in processAnalysisResults",
-      error.message,
+        "internal",
+        "Internal Server Error detected in processAnalysisResults",
+        error.message,
     );
   }
 }

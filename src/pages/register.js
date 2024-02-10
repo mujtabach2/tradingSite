@@ -4,7 +4,7 @@ import {
   getIdToken,
   updateProfile,
 } from "firebase/auth";
-import { getAuth as auth, db } from "../firebase"; 
+import { getAuth as auth, db, registerWithGoogle as googleRegister, RegisterAccount } from "../firebase";
 import logo from "../images/logo.png";
 import TextField from "@mui/material/TextField";
 import Checkbox from "@mui/material/Checkbox";
@@ -14,70 +14,38 @@ import google from "../images/google.png";
 import { GoogleAuthProvider, signInWithPopup, getAuth } from "firebase/auth";
 import { setDoc, doc } from "firebase/firestore";
 import { getAuth as getAdminAuth } from "firebase/auth"; // Import getAuth from admin SDK
+import { useNavigate } from "react-router-dom"
+import stock from "../images/stock.png";
 
 export const Register = () => {
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
   const [agreeToTerms, setAgreeToTerms] = useState(false);
+  const navigate = useNavigate();
 
   const register = async () => {
     try {
-      // Register the user with Firebase Authentication
-      const auth = getAuth(); // Get the authentication instance 
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        registerEmail,
-        registerPassword,
-      );
-      const user = userCredential.user;
-
-      // Set the user's display name (optional)
-      await updateProfile(user, { displayName: registerEmail });
-
-      // Set the custom claim to indicate paid status
-      await getIdToken(user, true); // Force refresh to get updated custom claims
-      // issues here with setCustomUserClaims
-      await getAdminAuth().setCustomUserClaims(user.uid, { paid: true }); // Use getAdminAuth
-
-      // Store additional user data in Firestore
-      await setDoc(doc(db, "users", user.uid), {
-        paid: true,
-        paidTimestamp: new Date().getTime(), // Store the timestamp when the user became paid
-      });
-
-      console.log(user);
+      await RegisterAccount(registerEmail, registerPassword);
+      // Registration successful, navigate to next page or show success message
+      navigate("/login");
     } catch (error) {
-      console.error(error);
-      // Handle errors
+      // Handle specific authentication errors
+      if (error.code === "auth/weak-password") {
+        alert("The password is too weak.");
+      } else if (error.code === "auth/email-already-in-use") {
+        alert("The email address is already in use.");
+      } else {
+        // Handle other authentication errors or show a generic error message
+        alert("An error occurred during registration. Please try again later.");
+        console.error("Registration Error:", error);
+      }
     }
   };
 
   const registerWithGoogle = async () => {
-    try {
-      const provider = new GoogleAuthProvider();
-      const authInstance = getAuth(); // Get the authentication instance
+    await googleRegister()
+    navigate("/login");
 
-      const result = await signInWithPopup(authInstance, provider);
-
-      // After signing in with Google, you can proceed to update user details
-      const user = result.user;
-
-      // Set the custom claim to indicate paid status
-      await getIdToken(user, true); // Force refresh to get updated custom claims
-      await getAdminAuth().setCustomUserClaims(user.uid, { paid: true }); // Use getAdminAuth
-
-      // Store additional user data in Firestore (optional)
-      await setDoc(doc(db, "users", user.uid), {
-        paid: true,
-        paidTimestamp: new Date().getTime(), // Store the timestamp when the user became paid
-      });
-
-      // Log the user information
-      console.log(user);
-    } catch (error) {
-      console.error(error);
-      // Handle errors
-    }
   };
 
   return (
@@ -171,6 +139,9 @@ export const Register = () => {
             <img className="eye h-10 " src={logo} alt="Eye" />
           </div>
         </div>
+      </div>
+      <div className="flex w-[50%] h-[100vh] bg-gray-800 items-center justify-center bg-opacity-1">
+        <img className="w-[50%] h-[50%]" src={stock} alt="Logo" />
       </div>
     </div>
   );
