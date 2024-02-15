@@ -1,5 +1,5 @@
+import React, { useRef } from "react";
 import "../App.css";
-import React from "react";
 import { HeaderComp } from "../components/header";
 import ellipse from "../images/Ellipse.png";
 import { Landing } from "../components/landing";
@@ -8,7 +8,30 @@ import { Features } from "../components/features";
 import { Footer } from "../components/footer";
 
 export const Home = () => {
-  // Run this effect once when the component mounts
+  // Create refs for the components you want to scroll to
+  const payRef = useRef(null);
+  const featuresRef = useRef(null);
+
+  // Function to scroll to Pay component
+  const scrollToPay = () => {
+    try {
+      if (payRef.current) {
+        payRef.current.scrollIntoView({ behavior: "smooth" });
+      }
+    } catch (error) {
+      console.error("Error scrolling to Pay:", error);
+    }
+  };
+  
+  const scrollToFeatures = () => {
+    try {
+      if (featuresRef.current) {
+        featuresRef.current.scrollIntoView({ behavior: "smooth" });
+      }
+    } catch (error) {
+      console.error("Error scrolling to Features:", error);
+    }
+  };
 
   return (
     <div className="bg-black">
@@ -18,10 +41,13 @@ export const Home = () => {
           <img src={ellipse} alt="Gradient" />
         </div>
         <div className="relative z-10">
-          <HeaderComp />
-          <Landing />
-          <Features />
-          <Pay />
+          {/* Pass the scrollToPay and scrollToFeatures functions to HeaderComp */}
+          <HeaderComp scrollToPay={scrollToPay} scrollToFeatures={scrollToFeatures} />
+          <Landing scrollToPay={scrollToPay}/>
+          {/* Attach ref to the Features component */}
+          <Features ref={featuresRef} />
+          {/* Attach ref to the Pay component */}
+          <Pay ref={payRef} /> {/* Add an id to the Pay component */}
           <Footer />
         </div>
       </div>

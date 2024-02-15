@@ -5,6 +5,7 @@ import { Dashboard } from "./pages/dashboard";
 import { Register } from "./pages/register";
 import { Login } from "./pages/login";
 
+
 export const AppRouter = () => {
   return (
     <BrowserRouter>

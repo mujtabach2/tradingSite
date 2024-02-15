@@ -1,4 +1,3 @@
 - clean up ui for dashboard
 - put dashboard on main page
-- put routers on buttons
-- create alpaca page for trade --- maybe on this one
+- integrate stripe

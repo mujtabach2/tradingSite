@@ -1,4 +1,4 @@
-import React from "react";
+import React, {forwardRef} from "react";
 import phone from "../images/phone.png";
 import { StarryBackground } from "./starryBackground";
 import vector6 from "../images/Vector6.png";
@@ -11,10 +11,10 @@ import reddit from "../images/reddit.png";
 import stockAn from "../images/stockAnal.png";
 import backStock from "../images/Group 1658.png";
 
-export const Features = () => {
+export const Features = forwardRef((props,ref) => {
   const isSmallScreen = window.innerWidth < 768;
   return (
-    <div>
+    <div ref={ref}>
       <div className="relative flex justify-center items-center mb-10 bg-[#F3BA2F] h-20">
         <h1 className="text-black font-bold font-sans text-3xl underline decoration-white underline-offset-8 relative z-10">
           What Makes Us Different
@@ -176,4 +176,4 @@ export const Features = () => {
       </div>
     </div>
   );
-};
+});

@@ -18,6 +18,7 @@ import {
 } from "../firebase";
 import { getDoc, doc } from "firebase/firestore";
 import { Popup } from "reactjs-popup";
+import lock from "../images/lock.png";
 export const Dashboard = () => {
   const [latestAnalysisResult, setLatestAnalysisResult] = useState(null);
   const [twitterSentimentPercentage, setTwitterSentimentPercentage] =
@@ -152,11 +153,11 @@ export const Dashboard = () => {
                 modal
                 nested
                 closeOnDocumentClick={false}
-                overlayStyle={{ background: "rgba(0, 0, 0, 0.5)" }} // Adjust opacity as needed
+                overlayStyle={{ background: "rgba(0, 0, 0, 0.5)" }} 
               >
                 {(close) => (
                   <div className="popup-content pr-0 flex justify-center items-center">
-                    {/* Close button styled as an "X" */}
+            
                     <button
                       className="absolute top-4 right-[5vw] text-white  m-4 hover:scale-110 transition-transform "
                       onClick={close}
@@ -167,9 +168,9 @@ export const Dashboard = () => {
                     {/* Content for your popup */}
                     <div className="text-white border-none p-6 rounded-lg shadow-lg bg-gray-800">
                       {!latestAnalysisResult && isPaid ? (
-                        <div className="border-none text-center">
-                          {" "}
-                          Purchase a Plan To see this Magical Report
+                        <div className="flex flex-col border-none text-center">
+                          <img src={lock} alt="lock" className="h-[4vh] m-4" />
+                          <h1 className="text-white text-[1.2rem]">Purchase a Plan To see this Magical Report</h1>
                         </div>
                       ) : (
                         <div className="border-none">
@@ -189,19 +190,25 @@ export const Dashboard = () => {
             </div>
           </div>
           <div className="flex-row h-[20vh] w-[10vw]   border-r-black border-r-4  text-white">
-            Buy/Sell
+                  <button>
+          <a href="https://wealthsimple.com" target="_blank" rel="noopener noreferrer">
+           Buy/Sell
+          </a>
+        </button>
+
           </div>
-          <div className="flex-row h-[20vh] w-[10vw]  border-r-black border-r-4 ">
+          <div className="flex-row h-[20vh] w-[10vw] justify-end mb-2 border-r-black border-r-4 ">
             {user ? (
               <div>
-                <button className="text-white" onClick={handleSignOut}>
-                  Sign Out
-                </button>
+               <button className="text-white border-none hover:underline pb-1 decoration-yellow-400" onClick={handleSignOut}>
+                Sign Out
+              </button>
+
               </div>
             ) : (
               <div>
                 <button
-                  className="text-white"
+                  className="text-white border-none hover:underline pb-1 decoration-yellow-400"
                   onClick={() => navigate("/login")}
                 >
                   Sign In
@@ -348,10 +355,10 @@ export const Dashboard = () => {
                                   </p>
                                 </div>
                               ) : (
-                                <h1>
-                                  {" "}
-                                  Purchase a Plan to see this magical results
-                                </h1>
+                                <div className="flex flex-col border-none text-center">
+                                <img src={lock} alt="lock" className="h-[4vh] m-4" />
+                                <h1 className="text-white text-[1.2rem]">Purchase a Plan To see this Magical Report</h1>
+                              </div>
                               )}
                             </div>
                           ) : (
@@ -377,9 +384,10 @@ export const Dashboard = () => {
                     ) : (
                       <div className="p-2">
                         {!isPaid ? (
-                          <h1 className="text-white">
-                            Purchase a Plan to see this magical results
-                          </h1>
+                         <div className="flex flex-col border-none text-center">
+                         <img src={lock} alt="lock" className="h-[4vh] m-4" />
+                         <h1 className="text-white text-[1.2rem]">Purchase a Plan To see this Magical Report</h1>
+                       </div>
                         ) : (
                           <div>
                             {!latestAnalysisResult ? (
@@ -388,7 +396,7 @@ export const Dashboard = () => {
                                   variant="circular"
                                   width={200}
                                   height={200}
-                                  className="bg-gray-300" // Use the appropriate shade level
+                                  className="bg-gray-300" 
                                 />
                               </div>
                             ) : (
@@ -416,38 +424,38 @@ export const Dashboard = () => {
                       <Skeleton
                         variant="rectangular"
                         width="90%"
-                        height="10%" // Adjust the height based on the layout
+                        height="10%" 
                         animation="wave"
-                        sx={{ bgcolor: "rgb(31, 41, 55)" }} // Background color style
+                        sx={{ bgcolor: "rgb(31, 41, 55)" }} 
                       />
 
                       <Skeleton
                         variant="rectangular"
                         width="90%"
-                        height="50%" // Adjust the height based on the layout
+                        height="50%" 
                         animation="wave"
-                        sx={{ bgcolor: "rgb(31, 41, 55)", marginTop: 4 }} // Background color style
+                        sx={{ bgcolor: "rgb(31, 41, 55)", marginTop: 4 }} 
                       />
                       <Skeleton
                         variant="rectangular"
                         width="90%"
-                        height="5%" // Adjust the height based on the layout
+                        height="5%" 
                         animation="wave"
-                        sx={{ bgcolor: "rgb(31, 41, 55)", marginTop: 4 }} // Background color style
+                        sx={{ bgcolor: "rgb(31, 41, 55)", marginTop: 4 }} 
                       />
                       <Skeleton
                         variant="rectangular"
                         width="90%"
-                        height="5%" // Adjust the height based on the layout
+                        height="5%" 
                         animation="wave"
-                        sx={{ bgcolor: "rgb(31, 41, 55)", marginTop: 1 }} // Background color style
+                        sx={{ bgcolor: "rgb(31, 41, 55)", marginTop: 1 }} 
                       />
                       <Skeleton
                         variant="rectangular"
                         width="90%"
-                        height="5%" // Adjust the height based on the layout
+                        height="5%" 
                         animation="wave"
-                        sx={{ bgcolor: "rgb(31, 41, 55)", marginTop: 1 }} // Background color style
+                        sx={{ bgcolor: "rgb(31, 41, 55)", marginTop: 1 }} 
                       />
                     </div>
                   )}
@@ -461,9 +469,10 @@ export const Dashboard = () => {
                     ) : (
                       <div className="p-2">
                         {!isPaid ? (
-                          <h1 className="text-white">
-                            Purchase a Plan to see this magical results
-                          </h1>
+                          <div className="flex flex-col border-none text-center">
+                          <img src={lock} alt="lock" className="h-[4vh] m-4" />
+                          <h1 className="text-white text-[1.2rem]">Purchase a Plan To see this Magical Report</h1>
+                        </div>
                         ) : (
                           <div>
                             {!latestAnalysisResult ? (
@@ -472,7 +481,7 @@ export const Dashboard = () => {
                                   variant="circular"
                                   width={200}
                                   height={200}
-                                  className="bg-gray-300" // Use the appropriate shade level
+                                  className="bg-gray-300" 
                                 />
                               </div>
                             ) : (

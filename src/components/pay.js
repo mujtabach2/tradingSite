@@ -1,13 +1,13 @@
-import React from "react";
+import React, {forwardRef} from "react";
 import whiteCircle from "../images/whiteCircle.png";
 import yellowCircle from "../images/yellowCircle.png";
 import basic from "../images/basicTier.png";
 import premium from "../images/premium.png";
 import enterprise from "../images/enterpriseTier.png";
 
-export const Pay = () => {
-  return (
-    <div>
+export const Pay = forwardRef((props, ref) => {
+  return (  
+    <div ref={ref}>
       <div className="bg-black z-2 pt-[10vh]">
         <div className="flex justify-start items-center mb-10 h-[30vh]">
           <h1 className="text-white font-bold font-sans ml-[10vw] text-[6rem] text-left z-2">
@@ -399,4 +399,4 @@ export const Pay = () => {
       </div>
     </div>
   );
-};
+});
