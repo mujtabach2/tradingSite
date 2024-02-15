@@ -7,16 +7,13 @@ import { StarryBackground } from "../components/starryBackground";
 import logo from "../images/logo.png";
 import Skeleton from "@mui/material/Skeleton";
 import { AuthContext } from "../authContext";
-import { signOut, getAuth } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import {
-  db,
   fetchLatestAnalysisResult,
   fetchNewsArticles,
   logout,
   getUserData,
 } from "../firebase";
-import { getDoc, doc } from "firebase/firestore";
 import { Popup } from "reactjs-popup";
 import lock from "../images/lock.png";
 export const Dashboard = () => {
@@ -153,24 +150,24 @@ export const Dashboard = () => {
                 modal
                 nested
                 closeOnDocumentClick={false}
-                overlayStyle={{ background: "rgba(0, 0, 0, 0.5)" }} 
+                overlayStyle={{ background: "rgba(0, 0, 0, 0.5)" }}
               >
                 {(close) => (
                   <div className="popup-content pr-0 flex justify-center items-center">
-            
                     <button
                       className="absolute top-4 right-[5vw] text-white  m-4 hover:scale-110 transition-transform "
                       onClick={close}
                     >
                       X
                     </button>
-
                     {/* Content for your popup */}
                     <div className="text-white border-none p-6 rounded-lg shadow-lg bg-gray-800">
                       {!latestAnalysisResult && isPaid ? (
                         <div className="flex flex-col border-none text-center">
                           <img src={lock} alt="lock" className="h-[4vh] m-4" />
-                          <h1 className="text-white text-[1.2rem]">Purchase a Plan To see this Magical Report</h1>
+                          <h1 className="text-white text-[1.2rem]">
+                            Purchase a Plan To see this Magical Report
+                          </h1>
                         </div>
                       ) : (
                         <div className="border-none">
@@ -190,20 +187,25 @@ export const Dashboard = () => {
             </div>
           </div>
           <div className="flex-row h-[20vh] w-[10vw]   border-r-black border-r-4  text-white">
-                  <button>
-          <a href="https://wealthsimple.com" target="_blank" rel="noopener noreferrer">
-           Buy/Sell
-          </a>
-        </button>
-
+            <button>
+              <a
+                href="https://wealthsimple.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Buy/Sell
+              </a>
+            </button>
           </div>
           <div className="flex-row h-[20vh] w-[10vw] justify-end mb-2 border-r-black border-r-4 ">
             {user ? (
               <div>
-               <button className="text-white border-none hover:underline pb-1 decoration-yellow-400" onClick={handleSignOut}>
-                Sign Out
-              </button>
-
+                <button
+                  className="text-white border-none hover:underline pb-1 decoration-yellow-400"
+                  onClick={handleSignOut}
+                >
+                  Sign Out
+                </button>
               </div>
             ) : (
               <div>
@@ -226,22 +228,27 @@ export const Dashboard = () => {
           {/* Content for the first cell in the first row */}
           {user ? (
             <div className="flex flex-row justify-center items-center h-[7vh]">
-            <div className="flex text-white">Welcome, {user.displayName}</div>
-            <div className="bg-gray-900 rounded-3xl shadow-inner border hover:bg-[#F3BA2F] hover:border-black ml-2">
-              <button className="py-1 px-6 text-center text-white text-lg font-medium font-['Inter'] leading-normal " onClick={handleSignOut}>
-                Log Out
-              </button>
+              <div className="flex text-white">Welcome, {user.displayName}</div>
+              <div className="bg-gray-900 rounded-3xl shadow-inner border hover:bg-[#F3BA2F] hover:border-black ml-2">
+                <button
+                  className="py-1 px-6 text-center text-white text-lg font-medium font-['Inter'] leading-normal "
+                  onClick={handleSignOut}
+                >
+                  Log Out
+                </button>
+              </div>
             </div>
-          </div>
-          
           ) : (
             <div>
               <div className="text-white">Welcome</div>
               <div className="bg-gray-900 rounded-3xl shadow-inner border hover:bg-[#F3BA2F] hover:border-black ml-2">
-              <button className="py-1 px-6 text-center text-white text-lg font-medium font-['Inter'] leading-normal " onClick={handleLogin}>
-                Log in
-              </button>
-            </div>
+                <button
+                  className="py-1 px-6 text-center text-white text-lg font-medium font-['Inter'] leading-normal "
+                  onClick={handleLogin}
+                >
+                  Log in
+                </button>
+              </div>
             </div>
           )}
         </div>
@@ -319,7 +326,8 @@ export const Dashboard = () => {
                   <div className="bg-gray-900 border-black  rounded-[13px] p-2 transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
                     <div>
                       {!user ? (
-                        <div className="bg-gray-900 border-black flex justify-center items-center rounded-[13px] h-[33vh] p-2 transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
+                        <div className="flex flex-col justify-center items-center">
+                          <img src={lock} alt="lock" className="h-[4vh] m-4" />
                           <h1 className="text-white">log in to see results </h1>
                         </div>
                       ) : (
@@ -356,9 +364,15 @@ export const Dashboard = () => {
                                 </div>
                               ) : (
                                 <div className="flex flex-col border-none text-center">
-                                <img src={lock} alt="lock" className="h-[4vh] m-4" />
-                                <h1 className="text-white text-[1.2rem]">Purchase a Plan To see this Magical Report</h1>
-                              </div>
+                                  <img
+                                    src={lock}
+                                    alt="lock"
+                                    className="h-[4vh] m-4"
+                                  />
+                                  <h1 className="text-white text-[1.2rem]">
+                                    Purchase a Plan To see this Magical Report
+                                  </h1>
+                                </div>
                               )}
                             </div>
                           ) : (
@@ -378,16 +392,23 @@ export const Dashboard = () => {
                 <div className="flex-row h-[35vh] w-[20vw]  p-1 ">
                   <div className="bg-gray-900 border-black rounded-[13px] h-[35vh] transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
                     {!user ? (
-                      <div>
+                      <div className="flex flex-col justify-center items-center">
+                        <img src={lock} alt="lock" className="h-[4vh] m-4" />
                         <h1 className="text-white">log in to see results </h1>
                       </div>
                     ) : (
                       <div className="p-2">
                         {!isPaid ? (
-                         <div className="flex flex-col border-none text-center">
-                         <img src={lock} alt="lock" className="h-[4vh] m-4" />
-                         <h1 className="text-white text-[1.2rem]">Purchase a Plan To see this Magical Report</h1>
-                       </div>
+                          <div className="flex flex-col border-none text-center">
+                            <img
+                              src={lock}
+                              alt="lock"
+                              className="h-[4vh] m-4"
+                            />
+                            <h1 className="text-white text-[1.2rem]">
+                              Purchase a Plan To see this Magical Report
+                            </h1>
+                          </div>
                         ) : (
                           <div>
                             {!latestAnalysisResult ? (
@@ -396,7 +417,7 @@ export const Dashboard = () => {
                                   variant="circular"
                                   width={200}
                                   height={200}
-                                  className="bg-gray-300" 
+                                  className="bg-gray-300"
                                 />
                               </div>
                             ) : (
@@ -414,49 +435,81 @@ export const Dashboard = () => {
               </div>
               <div className="flex-col h-[70vh] w-[20vw]  p-2">
                 <div className="flex-row h-[35vh] w-[18vw]  hover:border hover:border-2 hover:border-yellow-400">
-                  {user && isPaid && newsData ? (
-                    <NewsCarousel
-                      newsArticles={newsData}
-                      newsSentimentScores={newsSentimentScores}
-                    />
+                  {!user ? (
+                    <div className="flex flex-col justify-center items-center">
+                      <img src={lock} alt="lock" className="h-[4vh] m-4" />
+                      <h1 className="text-white">log in to see results </h1>
+                    </div>
                   ) : (
-                    <div className="flex flex-col justify-center items-center bg-gray-900 border-black h-[33vh] rounded-[13px] p-2 transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
-                      <Skeleton
-                        variant="rectangular"
-                        width="90%"
-                        height="10%" 
-                        animation="wave"
-                        sx={{ bgcolor: "rgb(31, 41, 55)" }} 
-                      />
+                    <div className="p-2">
+                      {!isPaid ? (
+                        <div className="flex flex-col border-none text-center">
+                          <img src={lock} alt="lock" className="h-[4vh] m-4" />
+                          <h1 className="text-white text-[1.2rem]">
+                            Purchase a Plan To see this Magical Report
+                          </h1>
+                        </div>
+                      ) : (
+                        <div>
+                          {newsData ? (
+                            <NewsCarousel
+                              newsArticles={newsData}
+                              newsSentimentScores={newsSentimentScores}
+                            />
+                          ) : (
+                            <div className="flex flex-col justify-center items-center bg-gray-900 border-black h-[33vh] rounded-[13px] p-2 transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
+                              <Skeleton
+                                variant="rectangular"
+                                width="90%"
+                                height="10%"
+                                animation="wave"
+                                sx={{ bgcolor: "rgb(31, 41, 55)" }}
+                              />
 
-                      <Skeleton
-                        variant="rectangular"
-                        width="90%"
-                        height="50%" 
-                        animation="wave"
-                        sx={{ bgcolor: "rgb(31, 41, 55)", marginTop: 4 }} 
-                      />
-                      <Skeleton
-                        variant="rectangular"
-                        width="90%"
-                        height="5%" 
-                        animation="wave"
-                        sx={{ bgcolor: "rgb(31, 41, 55)", marginTop: 4 }} 
-                      />
-                      <Skeleton
-                        variant="rectangular"
-                        width="90%"
-                        height="5%" 
-                        animation="wave"
-                        sx={{ bgcolor: "rgb(31, 41, 55)", marginTop: 1 }} 
-                      />
-                      <Skeleton
-                        variant="rectangular"
-                        width="90%"
-                        height="5%" 
-                        animation="wave"
-                        sx={{ bgcolor: "rgb(31, 41, 55)", marginTop: 1 }} 
-                      />
+                              <Skeleton
+                                variant="rectangular"
+                                width="90%"
+                                height="50%"
+                                animation="wave"
+                                sx={{
+                                  bgcolor: "rgb(31, 41, 55)",
+                                  marginTop: 4,
+                                }}
+                              />
+                              <Skeleton
+                                variant="rectangular"
+                                width="90%"
+                                height="5%"
+                                animation="wave"
+                                sx={{
+                                  bgcolor: "rgb(31, 41, 55)",
+                                  marginTop: 4,
+                                }}
+                              />
+                              <Skeleton
+                                variant="rectangular"
+                                width="90%"
+                                height="5%"
+                                animation="wave"
+                                sx={{
+                                  bgcolor: "rgb(31, 41, 55)",
+                                  marginTop: 1,
+                                }}
+                              />
+                              <Skeleton
+                                variant="rectangular"
+                                width="90%"
+                                height="5%"
+                                animation="wave"
+                                sx={{
+                                  bgcolor: "rgb(31, 41, 55)",
+                                  marginTop: 1,
+                                }}
+                              />
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
@@ -470,9 +523,15 @@ export const Dashboard = () => {
                       <div className="p-2">
                         {!isPaid ? (
                           <div className="flex flex-col border-none text-center">
-                          <img src={lock} alt="lock" className="h-[4vh] m-4" />
-                          <h1 className="text-white text-[1.2rem]">Purchase a Plan To see this Magical Report</h1>
-                        </div>
+                            <img
+                              src={lock}
+                              alt="lock"
+                              className="h-[4vh] m-4"
+                            />
+                            <h1 className="text-white text-[1.2rem]">
+                              Purchase a Plan To see this Magical Report
+                            </h1>
+                          </div>
                         ) : (
                           <div>
                             {!latestAnalysisResult ? (
@@ -481,7 +540,7 @@ export const Dashboard = () => {
                                   variant="circular"
                                   width={200}
                                   height={200}
-                                  className="bg-gray-300" 
+                                  className="bg-gray-300"
                                 />
                               </div>
                             ) : (

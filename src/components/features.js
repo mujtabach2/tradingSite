@@ -1,4 +1,4 @@
-import React, {forwardRef} from "react";
+import React, { forwardRef } from "react";
 import phone from "../images/phone.png";
 import { StarryBackground } from "./starryBackground";
 import vector6 from "../images/Vector6.png";
@@ -11,7 +11,7 @@ import reddit from "../images/reddit.png";
 import stockAn from "../images/stockAnal.png";
 import backStock from "../images/Group 1658.png";
 
-export const Features = forwardRef((props,ref) => {
+export const Features = forwardRef((props, ref) => {
   const isSmallScreen = window.innerWidth < 768;
   return (
     <div ref={ref}>

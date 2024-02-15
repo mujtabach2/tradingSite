@@ -22,7 +22,7 @@ export const Home = () => {
       console.error("Error scrolling to Pay:", error);
     }
   };
-  
+
   const scrollToFeatures = () => {
     try {
       if (featuresRef.current) {
@@ -42,8 +42,11 @@ export const Home = () => {
         </div>
         <div className="relative z-10">
           {/* Pass the scrollToPay and scrollToFeatures functions to HeaderComp */}
-          <HeaderComp scrollToPay={scrollToPay} scrollToFeatures={scrollToFeatures} />
-          <Landing scrollToPay={scrollToPay}/>
+          <HeaderComp
+            scrollToPay={scrollToPay}
+            scrollToFeatures={scrollToFeatures}
+          />
+          <Landing scrollToPay={scrollToPay} />
           {/* Attach ref to the Features component */}
           <Features ref={featuresRef} />
           {/* Attach ref to the Pay component */}

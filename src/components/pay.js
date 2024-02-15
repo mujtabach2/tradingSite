@@ -1,4 +1,4 @@
-import React, {forwardRef} from "react";
+import React, { forwardRef } from "react";
 import whiteCircle from "../images/whiteCircle.png";
 import yellowCircle from "../images/yellowCircle.png";
 import basic from "../images/basicTier.png";
@@ -6,7 +6,17 @@ import premium from "../images/premium.png";
 import enterprise from "../images/enterpriseTier.png";
 
 export const Pay = forwardRef((props, ref) => {
-  return (  
+
+  const navigate = useNavigate();
+
+  const subscribePremium = async () => { 
+    try {
+      window.location.href = 'https://buy.stripe.com/test_3cs02ce9N9ymaqs8ww';
+    } catch (error) {
+      console.error("Error subscribing to premium:", error);
+    }
+  }
+  return (
     <div ref={ref}>
       <div className="bg-black z-2 pt-[10vh]">
         <div className="flex justify-start items-center mb-10 h-[30vh]">
@@ -262,7 +272,7 @@ export const Pay = forwardRef((props, ref) => {
                   </div>
                 </div>
                 <div className="w-80 left-0 top-[489px] absolute justify-start items-start inline-flex">
-                  <button className="grow shrink basis-0 h-16 px-9 py-6 bg-white rounded-full justify-center items-center gap-1.5 flex transition-transform transform-gpu hover:shadow-lg hover:opacity-95">
+                  <button className="grow shrink basis-0 h-16 px-9 py-6 bg-white rounded-full justify-center items-center gap-1.5 flex transition-transform transform-gpu hover:shadow-lg hover:opacity-95" onClick={subscribePremium}>
                     <div className="text-center text-[#F3BA2F] text-lg font-bold font-['DM Sans'] leading-tight">
                       Get started
                     </div>
