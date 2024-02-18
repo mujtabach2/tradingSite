@@ -182,9 +182,9 @@ export const Dashboard = () => {
 
           <div class="bg-[#080E18] rounded-3xl shadow-md p-4 flex flex-col h-[60vh] w-[9.7vw] justify-center  mt-4">
             <div className="flex justify-center  items-center text-center ">
-            <p class="text-[1.5rem] font-bold text-gray-100 text-center">
-              Signals
-            </p>
+              <p class="text-[1.5rem] font-bold text-gray-100 text-center">
+                Signals
+              </p>
             </div>
             {latestAnalysisResult ? (
               <div class="flex flex-col items-start gap-4 justify-center">
@@ -224,7 +224,9 @@ export const Dashboard = () => {
                             <img
                               src={getLogoSrc(otherstock.stock)}
                               alt={`${otherstock} logo`}
-                              class={otherstock.stock === 'META' ? "h-4" : "h-7"}
+                              class={
+                                otherstock.stock === "META" ? "h-4" : "h-7"
+                              }
                             />
                           </div>
                         )}

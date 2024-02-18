@@ -71,13 +71,15 @@ export const Landing = ({ scrollToPay }) => {
       <div className="flex-col justify-start items-center gap-6 flex">
         <div className="flex-col justify-start items-start flex">
           <div
-            className={`text-center text-white font-bold font-['Inter'] leading-10 animate-slide-in ${isSmallScreen ? "text-2xl w-[90vw]" : " text-6xl"}` }
+            className={`text-center text-white font-bold font-['Inter'] leading-10 animate-slide-in ${isSmallScreen ? "text-2xl w-[90vw]" : " text-6xl"}`}
             style={{ lineHeight: "1" }}
           >
             Discover endless possibilities in the world of Trading.
           </div>
         </div>
-        <div className={`w-[54rem] text-center text-gray-400 font-medium font-['Inter'] leading-normal ${isSmallScreen ? "text-1l w-[90vw]" : " text-lg "}`}>
+        <div
+          className={`w-[54rem] text-center text-gray-400 font-medium font-['Inter'] leading-normal ${isSmallScreen ? "text-1l w-[90vw]" : " text-lg "}`}
+        >
           Step into the world of trading excellence and seize every opportunity
           with our advanced platform, expert guidance, and strategic insights
           for unrivaled financial success.
@@ -86,13 +88,17 @@ export const Landing = ({ scrollToPay }) => {
       <div className="justify-start items-start gap-6 inline-flex">
         <div className="Spacing justify-start items-center gap-2 flex">
           <div className="F1ba65dd9532c03e563LineSvg w-9 h-9  relative" />
-          <div className={`FastTrading text-white font-medium font-['Inter'] leading-normal ${isSmallScreen ? 'text-[0.9rem]' : 'text-lg'}`}>
+          <div
+            className={`FastTrading text-white font-medium font-['Inter'] leading-normal ${isSmallScreen ? "text-[0.9rem]" : "text-lg"}`}
+          >
             Daily Signals 📈
           </div>
         </div>
         <div className="Spacing justify-start items-center gap-2 flex">
           <div className="F1a01baa4acd99a562aCornerSvg w-9 h-9 relative" />
-          <div className={`FastTrading text-white font-medium font-['Inter'] leading-normal ${isSmallScreen ? 'text-[0.9rem]' : 'text-lg'}`}>
+          <div
+            className={`FastTrading text-white font-medium font-['Inter'] leading-normal ${isSmallScreen ? "text-[0.9rem]" : "text-lg"}`}
+          >
             Diverse Assets 🌎
           </div>
         </div>
@@ -102,8 +108,10 @@ export const Landing = ({ scrollToPay }) => {
               <div className="F1b7c69a23ad15cc47cUpdateSvg w-9 h-9 relative" />
             </div>
           </div>
-          <div className={`FastTrading text-white font-medium font-['Inter'] leading-normal ${isSmallScreen ? 'text-[0.9rem]' : 'text-lg'}`}>
-            Continuous Market Updates 🚀 
+          <div
+            className={`FastTrading text-white font-medium font-['Inter'] leading-normal ${isSmallScreen ? "text-[0.9rem]" : "text-lg"}`}
+          >
+            Continuous Market Updates 🚀
           </div>
         </div>
       </div>
@@ -125,16 +133,12 @@ export const Landing = ({ scrollToPay }) => {
         </div>
       </div>
       <div className="flex justify-center items-center mt-[-2vh]">
-      <div className="relative w-[80%]">
-        <img
-          src={dashboardImg}
-          alt="Dashboard"
-          className="w-full"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-150"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-transparent to-black opacity-[10%]"></div> 
+        <div className="relative w-[80%]">
+          <img src={dashboardImg} alt="Dashboard" className="w-full" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-150"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-transparent to-black opacity-[10%]"></div>
+        </div>
       </div>
-    </div>
     </div>
   );
 };
