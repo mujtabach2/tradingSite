@@ -1,10 +1,4 @@
-import React, { useState } from "react";
-import {
-  signInWithEmailAndPassword,
-  GoogleAuthProvider,
-  signInWithPopup,
-} from "firebase/auth";
-import { getAuth as auth } from "../firebase";
+import React, { useState, useEffect } from "react";
 import logo from "../images/logo.png";
 import TextField from "@mui/material/TextField";
 import Checkbox from "@mui/material/Checkbox";
@@ -12,7 +6,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import { StarryBackground } from "../components/starryBackground";
 import google from "../images/google.png";
 import { log, googleLog } from "../firebase";
-import { getDoc, setDoc, doc } from "firebase/firestore";
+
 import { useNavigate } from "react-router-dom";
 import stock from "../images/stock.png";
 
@@ -20,6 +14,7 @@ export const Login = () => {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
   const login = async () => {
@@ -27,7 +22,7 @@ export const Login = () => {
       // Use Firebase Authentication function to sign in with email and password
       await log(loginEmail, loginPassword);
 
-      navigate("/dashboard");
+      setIsLoggedIn(true);
     } catch (error) {
       // Handle specific authentication errors
       if (
@@ -47,6 +42,12 @@ export const Login = () => {
     await googleLog();
     navigate("/dashboard");
   };
+  useEffect(() => {
+    // Redirect to dashboard if isLoggedIn is true
+    if (isLoggedIn) {
+      navigate("/dashboard");
+    }
+  }, [isLoggedIn, navigate]);
 
   return (
     <div className="flex w-full h-full bg-white">

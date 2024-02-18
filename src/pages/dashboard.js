@@ -14,7 +14,15 @@ import {
   logout,
   getUserData,
 } from "../firebase";
+
+import teslaLogo from "../images/teslaLogo.png";
+import appleLogo from "../images/appleLogo.png";
+import metaLogo from "../images/metaLogo.png";
+import amazonLogo from "../images/amazonLogo.png";
+import googleLogo from "../images/googleLogo.png";
+
 import { Popup } from "reactjs-popup";
+import { AnalysisResult } from "../components/analysisResult";
 import lock from "../images/lock.png";
 export const Dashboard = () => {
   const [latestAnalysisResult, setLatestAnalysisResult] = useState(null);
@@ -35,6 +43,22 @@ export const Dashboard = () => {
   }, []);
   const [showPopup, setShowPopup] = useState(false);
 
+  const getLogoSrc = (stock) => {
+    switch (stock) {
+      case "AMZN":
+        return amazonLogo;
+      case "AAPL":
+        return appleLogo;
+      case "META":
+        return metaLogo;
+      case "GOOGL":
+        return googleLogo;
+      case "TSLA":
+        return teslaLogo;
+      default:
+        return "https://placehold.it/30/svg?text=?"; // Placeholder icon
+    }
+  };
   if (user) {
     (async () => {
       try {
@@ -46,6 +70,28 @@ export const Dashboard = () => {
       }
     })();
   }
+  const yourPortfolio = [
+    {
+      stock: "AMZN",
+      logo: amazonLogo, // Assuming you have imported amazonLogo
+    },
+    {
+      stock: "AAPL",
+      logo: appleLogo, // Assuming you have imported appleLogo
+    },
+    {
+      stock: "META",
+      logo: metaLogo, // Assuming you have imported metaLogo
+    },
+    {
+      stock: "GOOGL",
+      logo: googleLogo, // Assuming you have imported googleLogo
+    },
+    {
+      stock: "TSLA",
+      logo: teslaLogo, // Assuming you have imported teslaLogo
+    },
+  ];
 
   useEffect(() => {
     const fetchLatestData = async () => {
@@ -73,6 +119,7 @@ export const Dashboard = () => {
       }
     };
     fetchLatestData();
+    fetchNewsData();
   }, []);
 
   const handleSignOut = async () => {
@@ -94,7 +141,7 @@ export const Dashboard = () => {
     // Convert score from range 0 to 10 to range 0 to 100
     return convertedScore * 10;
   };
-  const newsSentimentScores = newsData.map((article) => article.sentimentScore);
+  const newsSentimentScores = [1, 2, 3, 4, 5];
 
   return (
     <div className="flex h-[100vh] w-[100vw]">
@@ -123,30 +170,83 @@ export const Dashboard = () => {
       </style>
       <StarryBackground />
       {/* First Column */}
-      <div className="flex-col w-[10vw] mr-[1vw] bg-gray-900 ">
+      <div className="flex-col w-[10vw] mr-[1vw] bg-gray-900 rounded-lg">
         {/* First Row */}
-        <div className="flex h-[7vh]  border-r-black border-r-4 ">
-          {/* Content for the first cell in the first row */}
-          <img src={logo} alt="logo" className="h-[4vh]" />
+        <div className="flex h-[7vh] items-center justify-center px-4 ">
+          <img src={logo} alt="logo" className="h-[3.3vh]" />
         </div>
 
         {/* Second Row */}
-        <div className="flex-col h-[93vh]  ">
+        <div className="flex-col h-[93vh]">
           {/* Content for the second cell in the second row */}
-          <div className="flex flex-col h-[20vh] w-[10vw] border-r-black border-r-4 text-white justify-center ">
-            <p>Todays Signal</p>
-            {latestAnalysisResult && latestAnalysisResult?.decision ? (
-              <p>
-                {latestAnalysisResult?.decision}: {latestAnalysisResult.stock}
-              </p>
+
+          <div class="bg-[#080E18] rounded-3xl shadow-md p-4 flex flex-col h-[60vh] w-[9.7vw] justify-center  mt-4">
+            <div className="flex justify-center  items-center text-center ">
+            <p class="text-[1.5rem] font-bold text-gray-100 text-center">
+              Signals
+            </p>
+            </div>
+            {latestAnalysisResult ? (
+              <div class="flex flex-col items-start gap-4 justify-center">
+                {/* Show decision for latestAnalysisResult.stock */}
+                <div
+                  class={`bg-transparent rounded-md shadow-md p-4 flex flex-row items-center gap-4 justify-start ${
+                    latestAnalysisResult.decision === "BUY"
+                      ? "border-[#008000]"
+                      : "border-[#FF0000]"
+                  }`}
+                >
+                  <span class="font-bold text-2xl">
+                    {latestAnalysisResult.decision === "BUY" ? (
+                      <span class="text-green-500">Buy</span>
+                    ) : (
+                      <span class="text-red-500">Sell</span>
+                    )}
+                  </span>
+                  <img
+                    src={getLogoSrc(latestAnalysisResult.stock)}
+                    alt={`${latestAnalysisResult.stock} logo`}
+                    class="h-8"
+                  />
+                </div>
+                <div className="flex flex-col items-start mt-[-3vh] w-[9vw]">
+                  {/* Show "Hold" for other stocks in your portfolio */}
+                  {yourPortfolio && // Assuming you have an array called `yourPortfolio`
+                    Array.isArray(yourPortfolio) &&
+                    yourPortfolio.length > 0 && // Check if it's an array and not empty
+                    yourPortfolio.map((otherstock) => (
+                      <div key={otherstock}>
+                        {otherstock.stock !== latestAnalysisResult.stock && (
+                          <div class="bg-transparent rounded-md shadow-md p-4 flex flex-row items-center gap-4 justify-start border-[#F7CA4A]">
+                            <span class="font-bold text-2xl text-yellow-500">
+                              Hold
+                            </span>
+                            <img
+                              src={getLogoSrc(otherstock.stock)}
+                              alt={`${otherstock} logo`}
+                              class={otherstock.stock === 'META' ? "h-4" : "h-7"}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                </div>
+              </div>
             ) : (
-              <p>No signal available</p>
+              <p class="text-left text-gray-500 font-medium">
+                No signal available
+              </p>
             )}
           </div>
-          <div className="flex-row h-[20vh] w-[10vw]  border-r-black border-r-4 border-r-4 text-white">
+
+          <div className="flex flex-col h-[10vh] w-[10vw] px-4  text-white  mt-[3vh]">
             <div>
               <Popup
-                trigger={<button className="text-white">Daily Report</button>}
+                trigger={
+                  <button className="text-white hover:text-yellow-400">
+                    Daily Report
+                  </button>
+                }
                 modal
                 nested
                 closeOnDocumentClick={false}
@@ -155,7 +255,7 @@ export const Dashboard = () => {
                 {(close) => (
                   <div className="popup-content pr-0 flex justify-center items-center">
                     <button
-                      className="absolute top-4 right-[5vw] text-white  m-4 hover:scale-110 transition-transform "
+                      className="absolute top-4 right-[5vw] text-white hover:text-yellow-400 m-4 hover:scale-110 transition-transform"
                       onClick={close}
                     >
                       X
@@ -165,8 +265,8 @@ export const Dashboard = () => {
                       {!latestAnalysisResult && isPaid ? (
                         <div className="flex flex-col border-none text-center">
                           <img src={lock} alt="lock" className="h-[4vh] m-4" />
-                          <h1 className="text-white text-[1.2rem]">
-                            Purchase a Plan To see this Magical Report
+                          <h1 className="text-white text-[1.2rem] font-bold">
+                            Upgrade to see the Magical Report
                           </h1>
                         </div>
                       ) : (
@@ -186,22 +286,21 @@ export const Dashboard = () => {
               </Popup>
             </div>
           </div>
-          <div className="flex-row h-[20vh] w-[10vw]   border-r-black border-r-4  text-white">
-            <button>
-              <a
-                href="https://wealthsimple.com"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Buy/Sell
-              </a>
+          <div className="flex flex-col h-[2vh] w-[10vw] px-4 py-2 text-white  mt-[8vh]">
+            <button
+              className="text-white hover:text-yellow-400 font-bold text-left"
+              href="https://wealthsimple.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Buy/Sell
             </button>
           </div>
-          <div className="flex-row h-[20vh] w-[10vw] justify-end mb-2 border-r-black border-r-4 ">
+          <div className="flex flex-col h-[2vh] w-[10vw] justify-end px-4 py-2 text-white mt-10 text-left">
             {user ? (
               <div>
                 <button
-                  className="text-white border-none hover:underline pb-1 decoration-yellow-400"
+                  className="text-white hover:text-yellow-400 font-bold hover:underline pb-1"
                   onClick={handleSignOut}
                 >
                   Sign Out
@@ -210,7 +309,7 @@ export const Dashboard = () => {
             ) : (
               <div>
                 <button
-                  className="text-white border-none hover:underline pb-1 decoration-yellow-400"
+                  className="text-white hover:text-yellow-400 font-bold hover:underline pb-1"
                   onClick={() => navigate("/login")}
                 >
                   Sign In
@@ -256,7 +355,7 @@ export const Dashboard = () => {
         {/* Second Row */}
         <div className="flex-col h-[90vh]">
           {/* Content for the second cell in the second row */}
-          <div className="flex h-[23vh] w-[90vw] ">
+          <div className="flex h-[23vh] w-[90vw] mb-[5vh]">
             <div className="flex-col h-[23vh] w-[18vw]">
               <div className="p-2">
                 <div className="bg-gray-900 border-black rounded-[13px] p-2 transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
@@ -323,7 +422,7 @@ export const Dashboard = () => {
             <div className="flex h-[70vh] w-[40vw]  ">
               <div className="flex-col h-[70vh] w-[20vw] p-2 ">
                 <div className="flex-row h-[35vh] w-[19vw]  ">
-                  <div className="bg-gray-900 border-black  rounded-[13px] p-2 transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
+                  <div className="bg-gray-900 border-black  rounded-[13px] p-2 transform transition-transform">
                     <div>
                       {!user ? (
                         <div className="flex flex-col justify-center items-center">
@@ -331,37 +430,13 @@ export const Dashboard = () => {
                           <h1 className="text-white">log in to see results </h1>
                         </div>
                       ) : (
-                        <div className="bg-gray-900 border-black h-[33vh] rounded-[13px] p-2 transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
+                        <div className="h-[33vh] w-[18vw] ">
                           {latestAnalysisResult ? (
                             <div>
                               {isPaid ? (
-                                <div>
-                                  <h1>Latest Analysis Result</h1>
-                                  <p>
-                                    Annualized Return:{" "}
-                                    {latestAnalysisResult?.annualizedReturn}
-                                  </p>
-                                  <p>
-                                    Calmar Ratio:{" "}
-                                    {latestAnalysisResult?.calmarRatio}
-                                  </p>
-                                  <p>
-                                    Max Drawdown:{" "}
-                                    {latestAnalysisResult?.maxDrawdown}
-                                  </p>
-                                  <p>
-                                    News Sentiment:{" "}
-                                    {latestAnalysisResult?.newsSentiment}
-                                  </p>
-                                  <p>
-                                    Reddit Sentiment:{" "}
-                                    {latestAnalysisResult?.redditSentiment}
-                                  </p>
-                                  <p>
-                                    Sharpe Ratio:{" "}
-                                    {latestAnalysisResult?.sharpeRatio}
-                                  </p>
-                                </div>
+                                <AnalysisResult
+                                  latestAnalysisResult={latestAnalysisResult}
+                                />
                               ) : (
                                 <div className="flex flex-col border-none text-center">
                                   <img
@@ -389,7 +464,7 @@ export const Dashboard = () => {
                     </div>
                   </div>
                 </div>
-                <div className="flex-row h-[35vh] w-[20vw]  p-1 ">
+                <div className="flex-row h-[35vh] w-[20vw]  pt-4 pr-2">
                   <div className="bg-gray-900 border-black rounded-[13px] h-[35vh] transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
                     {!user ? (
                       <div className="flex flex-col justify-center items-center">
@@ -434,7 +509,7 @@ export const Dashboard = () => {
                 </div>
               </div>
               <div className="flex-col h-[70vh] w-[20vw]  p-2">
-                <div className="flex-row h-[35vh] w-[18vw]  hover:border hover:border-2 hover:border-yellow-400">
+                <div className="flex flex-col justify-center mr-[1vw] items-center bg-gray-900 border-black h-[35vh] rounded-[13px] p-2 transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
                   {!user ? (
                     <div className="flex flex-col justify-center items-center">
                       <img src={lock} alt="lock" className="h-[4vh] m-4" />
@@ -452,10 +527,12 @@ export const Dashboard = () => {
                       ) : (
                         <div>
                           {newsData ? (
-                            <NewsCarousel
-                              newsArticles={newsData}
-                              newsSentimentScores={newsSentimentScores}
-                            />
+                            <div>
+                              <NewsCarousel
+                                newsArticles={newsData}
+                                newsSentimentScores={newsSentimentScores}
+                              />
+                            </div>
                           ) : (
                             <div className="flex flex-col justify-center items-center bg-gray-900 border-black h-[33vh] rounded-[13px] p-2 transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
                               <Skeleton
@@ -513,7 +590,7 @@ export const Dashboard = () => {
                     </div>
                   )}
                 </div>
-                <div className="flex-row h-[35vh] w-[20vw]  p-1 ">
+                <div className="flex-row h-[35vh] w-[20vw] mr-[4vw] pt-4">
                   <div className="bg-gray-900 border-black rounded-[13px] h-[35vh] transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
                     {!user ? (
                       <div>
@@ -545,8 +622,8 @@ export const Dashboard = () => {
                               </div>
                             ) : (
                               <SpeedometerCard
-                                sentiment={twitterSentimentPercentage}
-                                sentimentType={"Twitter"}
+                                sentiment={redditSentimentPercentage}
+                                sentimentType={"Reddit"}
                               />
                             )}
                           </div>

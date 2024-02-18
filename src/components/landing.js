@@ -97,6 +97,9 @@ export const Landing = ({ scrollToPay }) => {
           </div>
         </div>
       </div>
+      <div className="flex justify-center items-center mt-10">
+        <img alt="Dashboard" className="w-[80%]" />
+      </div>
     </div>
   );
 };

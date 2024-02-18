@@ -1,3 +1,2 @@
 - clean up ui for dashboard
 - put dashboard on main page
-- integrate stripe

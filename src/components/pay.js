@@ -1,4 +1,5 @@
 import React, { forwardRef } from "react";
+import { useNavigate } from "react-router-dom";
 import whiteCircle from "../images/whiteCircle.png";
 import yellowCircle from "../images/yellowCircle.png";
 import basic from "../images/basicTier.png";
@@ -6,16 +7,16 @@ import premium from "../images/premium.png";
 import enterprise from "../images/enterpriseTier.png";
 
 export const Pay = forwardRef((props, ref) => {
-
   const navigate = useNavigate();
 
-  const subscribePremium = async () => { 
+  const subscribePremium = async () => {
     try {
-      window.location.href = 'https://buy.stripe.com/test_3cs02ce9N9ymaqs8ww';
+      window.location.href = "https://buy.stripe.com/test_6oE16g8PtcKyfKMaEF";
     } catch (error) {
       console.error("Error subscribing to premium:", error);
     }
-  }
+  };
+
   return (
     <div ref={ref}>
       <div className="bg-black z-2 pt-[10vh]">
@@ -60,13 +61,11 @@ export const Pay = forwardRef((props, ref) => {
                 <div className="pb-6 left-0 top-[192px] absolute flex-col justify-start items-start gap-4 inline-flex">
                   <div className="self-stretch justify-start items-center gap-2.5 inline-flex">
                     <div className="text-yellow-950 text-5xl font-bold font-['DM Sans'] leading-10">
-                      $99
+                      Free
                     </div>
                     <div className="w-20 h-10 relative">
                       <div className="w-1.5 h-1.5 left-[7.57px] top-0 absolute opacity-0 bg-white" />
-                      <div className="left-0 top-[19.78px] absolute text-slate-500 text-xl font-medium font-['DM Sans'] leading-snug">
-                        /monthly
-                      </div>
+                      <div className="left-0 top-[19.78px] absolute text-slate-500 text-xl font-medium font-['DM Sans'] leading-snug"></div>
                     </div>
                   </div>
                   <div className="self-stretch h-48 relative">
@@ -86,7 +85,7 @@ export const Pay = forwardRef((props, ref) => {
                             </div>
                           </div>
                           <div className="text-yellow-950 text-lg font-normal font-['DM Sans'] leading-tight">
-                            All analytics features
+                            1 24 hour Trial
                           </div>
                         </div>
                       </div>
@@ -102,7 +101,7 @@ export const Pay = forwardRef((props, ref) => {
                             </div>
                           </div>
                           <div className="text-yellow-950 text-lg font-normal font-['DM Sans'] leading-tight">
-                            Up to 250,000 tracked visits
+                            All analytics features
                           </div>
                         </div>
                       </div>
@@ -134,7 +133,7 @@ export const Pay = forwardRef((props, ref) => {
                             </div>
                           </div>
                           <div className="text-yellow-950 text-lg font-normal font-['DM Sans'] leading-tight">
-                            Up to 3 team members
+                            1 team members access
                           </div>
                         </div>
                       </div>
@@ -142,7 +141,10 @@ export const Pay = forwardRef((props, ref) => {
                   </div>
                 </div>
                 <div className="w-80 left-0 top-[489px] absolute justify-start items-start inline-flex">
-                  <button className="grow shrink basis-0 h-16 px-9 py-6 bg-[#F3BA2F] rounded-full justify-center items-center gap-1.5 flex transition-transform transform-gpu hover:shadow-lg hover:opacity-95">
+                  <button
+                    className="grow shrink basis-0 h-16 px-9 py-6 bg-[#F3BA2F] rounded-full justify-center items-center gap-1.5 flex transition-transform transform-gpu hover:shadow-lg hover:opacity-95"
+                    onClick={navigate("/dashboard")}
+                  >
                     <div className="text-center text-white text-lg font-bold font-['DM Sans'] leading-tight">
                       Get started
                     </div>
@@ -190,7 +192,7 @@ export const Pay = forwardRef((props, ref) => {
                 <div className="pb-6 left-0 top-[192px] absolute flex-col justify-start items-start gap-4 inline-flex">
                   <div className="self-stretch justify-start items-center gap-2.5 inline-flex">
                     <div className="text-white text-5xl font-bold font-['DM Sans'] leading-10">
-                      $199
+                      $19
                     </div>
                     <div className="w-20 h-10 relative">
                       <div className="w-1.5 h-1.5 left-[7.57px] top-0 absolute opacity-0 bg-white" />
@@ -232,7 +234,7 @@ export const Pay = forwardRef((props, ref) => {
                             </div>
                           </div>
                           <div className="text-zinc-200 text-lg font-normal font-['DM Sans'] leading-tight">
-                            Up to 1,000,000 tracked visits
+                            Signals every weekday
                           </div>
                         </div>
                       </div>
@@ -264,7 +266,7 @@ export const Pay = forwardRef((props, ref) => {
                             </div>
                           </div>
                           <div className="text-zinc-200 text-lg font-normal font-['DM Sans'] leading-tight">
-                            Up to 10 team members
+                            Up to 2 team members
                           </div>
                         </div>
                       </div>
@@ -272,7 +274,10 @@ export const Pay = forwardRef((props, ref) => {
                   </div>
                 </div>
                 <div className="w-80 left-0 top-[489px] absolute justify-start items-start inline-flex">
-                  <button className="grow shrink basis-0 h-16 px-9 py-6 bg-white rounded-full justify-center items-center gap-1.5 flex transition-transform transform-gpu hover:shadow-lg hover:opacity-95" onClick={subscribePremium}>
+                  <button
+                    className="grow shrink basis-0 h-16 px-9 py-6 bg-white rounded-full justify-center items-center gap-1.5 flex transition-transform transform-gpu hover:shadow-lg hover:opacity-95"
+                    onClick={subscribePremium}
+                  >
                     <div className="text-center text-[#F3BA2F] text-lg font-bold font-['DM Sans'] leading-tight">
                       Get started
                     </div>
@@ -356,7 +361,7 @@ export const Pay = forwardRef((props, ref) => {
                             </div>
                           </div>
                           <div className="text-yellow-950 text-lg font-normal font-['DM Sans'] leading-tight">
-                            Up to 5,000,000 tracked visits
+                            Signals every day in multiple markets
                           </div>
                         </div>
                       </div>
@@ -398,7 +403,7 @@ export const Pay = forwardRef((props, ref) => {
                 <div className="w-80 left-0 top-[489px] absolute justify-start items-start inline-flex">
                   <button className="grow shrink basis-0 h-16 px-9 py-6 bg-[#F3BA2F] rounded-full justify-center items-center gap-1.5 flex transition-transform transform-gpu hover:shadow-lg hover:opacity-95">
                     <div className="text-center text-white text-lg font-bold font-['DM Sans'] leading-tight">
-                      Get started
+                      Contact Us
                     </div>
                   </button>
                 </div>

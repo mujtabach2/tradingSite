@@ -19,8 +19,8 @@ export const SpeedometerCard = ({ sentiment, sentimentType }) => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center text-[1.5rem] font-monaco text-[#d1d4db] bg-gray-900 pt-10">
-      <p>{sentimentType} Analysis Score</p>
+    <div className="flex h-[34vh] w-[17vw] flex-col items-center justify-center text-[1.5rem] font-monaco text-[#d1d4db] bg-gray-900 pt-[10vh] ">
+      <p>{sentimentType} Sentiment</p>
       <ReactSpeedometer
         value={sentiment}
         maxValue={100}

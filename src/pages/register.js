@@ -21,6 +21,7 @@ import { setDoc, doc } from "firebase/firestore";
 import { getAuth as getAdminAuth } from "firebase/auth"; // Import getAuth from admin SDK
 import { useNavigate } from "react-router-dom";
 import stock from "../images/stock.png";
+import Popup from "reactjs-popup";
 
 export const Register = () => {
   const [registerEmail, setRegisterEmail] = useState("");
