@@ -16,9 +16,6 @@ import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { StarryBackground } from "../components/starryBackground";
 import google from "../images/google.png";
-import { GoogleAuthProvider, signInWithPopup, getAuth } from "firebase/auth";
-import { setDoc, doc } from "firebase/firestore";
-import { getAuth as getAdminAuth } from "firebase/auth"; // Import getAuth from admin SDK
 import { useNavigate } from "react-router-dom";
 import stock from "../images/stock.png";
 import Popup from "reactjs-popup";

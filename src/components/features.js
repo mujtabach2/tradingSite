@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useEffect, useState  } from "react";
 import phone from "../images/phone.png";
 import { StarryBackground } from "./starryBackground";
 import vector6 from "../images/Vector6.png";
@@ -12,9 +12,23 @@ import stockAn from "../images/stockAnal.png";
 import backStock from "../images/Group 1658.png";
 
 export const Features = forwardRef((props, ref) => {
-  const isSmallScreen = window.innerWidth < 768;
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth < 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup function to remove the event listener when component unmounts
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []); // Empty dependency array ensures that this effect only runs once after initial render
+
   return (
-    <div ref={ref}>
+    <div ref={ref} className={isSmallScreen ? "mb-[60vh]" : ""}>
       <div className="relative flex justify-center items-center mb-10 bg-[#F3BA2F] h-20">
         <h1 className="text-black font-bold font-sans text-3xl underline decoration-white underline-offset-8 relative z-10">
           What Makes Us Different
@@ -26,19 +40,79 @@ export const Features = forwardRef((props, ref) => {
           {isSmallScreen ? (
             // Show the specified divs in a column on small screens
             <div className="flex flex-col items-center">
-              <div className="w-[220px] h-[300px] bg-[#ffffff1a] rounded-[30px] overflow-hidden shadow-[0px_10px_30px_#0000001a,0px_4px_10px_#00000005,0px_-18px_38px_#00000066] mb-4">
-                {/* Content for Twitter Sentiment */}
-              </div>
-              <div className="w-[220px] h-[300px] bg-[#ffffff1a] rounded-[30px] overflow-hidden shadow-[0px_10px_30px_#0000001a,0px_4px_10px_#00000005,0px_-18px_38px_#00000066]">
-                {/* Content for News Sentiment */}
-              </div>
-              <div className="w-[220px] h-[300px] bg-[#ffffff1a] rounded-[30px] overflow-hidden shadow-[0px_10px_30px_#0000001a,0px_4px_10px_#00000005,0px_-18px_38px_#00000066] mt-4">
-                {/* Content for Reddit Sentiment */}
-              </div>
-              <div className="w-[220px] h-[300px] bg-[#ffffff1a] rounded-[30px] overflow-hidden shadow-[0px_10px_30px_#0000001a,0px_4px_10px_#00000005,0px_-18px_38px_#00000066] mt-4">
-                {/* Content for Stock Analysis */}
+            <div className="w-[220px] h-[300px] bg-[#ffffff1a] rounded-[30px] overflow-hidden shadow-[0px_10px_30px_#0000001a,0px_4px_10px_#00000005,0px_-18px_38px_#00000066] mb-4">
+              {/* Content for Twitter Sentiment */}
+              <div className="flex flex-col justify-center items-center">
+                <div className="font-medium text-yellow-400 text-2xl tracking-wide leading-normal mt-4">
+                  Twitter Sentiment
+                </div>
+                <div className="flex justify-center mt-4">
+                  <img className="h-[100px]" alt="Phone" src={twitter} />
+                </div>
+                <div className="flex justify-center mt-4">
+                  <p className="w-[11.5rem] text-white text-sm">
+                    Real-time sentiment analysis of popular tweets and trending
+                    hashtags, providing actionable insights for informed trading
+                    decisions.
+                  </p>
+                </div>
               </div>
             </div>
+            <div className="w-[220px] h-[300px] bg-[#ffffff1a] rounded-[30px] overflow-hidden shadow-[0px_10px_30px_#0000001a,0px_4px_10px_#00000005,0px_-18px_38px_#00000066] mb-4">
+              {/* Content for News Sentiment */}
+              <div className="flex flex-col justify-center items-center">
+                <div className="font-medium text-yellow-400 text-2xl tracking-wide leading-normal mt-4">
+                  News Sentiment
+                </div>
+                <div className="flex justify-center mt-4">
+                  <img className="h-[100px]" alt="Phone" src={news} />
+                </div>
+                <div className="flex justify-center mt-4">
+                  <p className="w-[11.5rem] text-white text-sm">
+                    Real-time sentiment analysis of news articles, blogs, and
+                    trending posts, providing actionable insights for informed trading
+                    decisions.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="w-[220px] h-[300px] bg-[#ffffff1a] rounded-[30px] overflow-hidden shadow-[0px_10px_30px_#0000001a,0px_4px_10px_#00000005,0px_-18px_38px_#00000066] mb-4">
+              {/* Content for Reddit Sentiment */}
+              <div className="flex flex-col justify-center items-center">
+                <div className="font-medium text-yellow-400 text-2xl tracking-wide leading-normal mt-4">
+                  Reddit Sentiment
+                </div>
+                <div className="flex justify-center mt-4">
+                  <img className="h-[100px]" alt="Phone" src={reddit} />
+                </div>
+                <div className="flex justify-center mt-4">
+                  <p className="w-[11.5rem] text-white text-sm">
+                    Real-time sentiment analysis of popular posts on twitter and
+                    trends on r/wallstreetbets, providing actionable insights for
+                    informed trading decisions.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="w-[220px] h-[300px] bg-[#ffffff1a] rounded-[30px] overflow-hidden shadow-[0px_10px_30px_#0000001a,0px_4px_10px_#00000005,0px_-18px_38px_#00000066] mb-4">
+              {/* Content for Stock Analysis */}
+              <div className="flex flex-col justify-center items-center">
+                <div className="font-medium text-yellow-400 text-2xl tracking-wide leading-normal mt-4">
+                  Stock Analysis
+                </div>
+                <div className="flex justify-center mt-4">
+                  <img className="h-[100px]" alt="Phone" src={stockAn} />
+                </div>
+                <div className="flex justify-center mt-4">
+                  <p className="w-[11.5rem] text-white text-sm">
+                    Comprehensive stock analysis facilitated by cutting-edge machine
+                    learning algorithms, leveraging a diverse range of indicators and
+                    reinforcement learning techniques.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
           ) : (
             <div className="relative w-[80vw] h-[70vh] top-[10vh] left-[15vw]">
               <img

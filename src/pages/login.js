@@ -40,7 +40,7 @@ export const Login = () => {
 
   const googleLogin = async () => {
     await googleLog();
-    navigate("/dashboard");
+    setIsLoggedIn(true);
   };
   useEffect(() => {
     // Redirect to dashboard if isLoggedIn is true

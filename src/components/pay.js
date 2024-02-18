@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import whiteCircle from "../images/whiteCircle.png";
 import yellowCircle from "../images/yellowCircle.png";
@@ -16,20 +16,39 @@ export const Pay = forwardRef((props, ref) => {
       console.error("Error subscribing to premium:", error);
     }
   };
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth < 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup function to remove the event listener when component unmounts
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []); // Empty dependency array ensures that this effect only runs once after initial render
+
 
   return (
     <div ref={ref}>
       <div className="bg-black z-2 pt-[10vh]">
-        <div className="flex justify-start items-center mb-10 h-[30vh]">
-          <h1 className="text-white font-bold font-sans ml-[10vw] text-[6rem] text-left z-2">
-            CHOOSE A PLAN THAT WORKS FOR YOU
-          </h1>
+        <div className={`flex justify-start items-center mb-10 h-[30vh] ${isSmallScreen ? "mb-[2vh]" : ""}`}>
+        <h1 className={`text-white font-bold font-sans ml-[10vw]  text-left z-2 ${ isSmallScreen ? " text-[2rem]" : "text-[6rem]"}`}>
+             CHOOSE A PLAN THAT WORKS FOR YOU
+        </h1>
+
         </div>
-        <div className="PricingV1 w-full flex relative bg-black flex-wrap gap-5">
-          <div className=" w-full sm:w-1/2 lg:w-[8%]"></div>
+        <div className={`PricingV1 w-full flex relative bg-black ${isSmallScreen ? "flex-col" : "flex-wrap"} gap-5`}>
+        {!isSmallScreen ? (
+  <div className="w-full sm:w-1/2 lg:w-[8%]"></div>
+) : null}
+
           <div className="w-full sm:w-1/2 lg:w-[25%] relative mb-8 p-4 bg-white rounded-3xl shadow border border-gray-100 hover:border-[#F3BA2F] hover:border-4 flex-col justify-start items-center inline-flex">
             {/* ... Content for the first pricing box ... */}
-            <div className="w-96 h-96 relative">
+            <div className={`lg:w-96 h-[35rem] relative ${isSmallScreen ? 'pr-[80vw]' : ""}`}>
               <div className="w-10 h-80 left-0 top-[184px] absolute opacity-0 bg-white" />
               <div className="w-80 h-96 left-[40px] top-0 absolute">
                 <div className="h-36 left-0 top-[10px] absolute flex-col justify-center items-start gap-4 inline-flex">
@@ -287,7 +306,7 @@ export const Pay = forwardRef((props, ref) => {
             </div>
           </div>
           <div className="w-full sm:w-1/2 lg:w-[25%] relative mb-8 p-4 bg-white rounded-3xl shadow border border-gray-100 hover:border-[#F3BA2F] hover:border-4 flex-col justify-start items-center inline-flex">
-            <div className="w-96 h-96 relative">
+            <div className="w-96 h-[35rem] relative">
               <div className="w-10 h-80 left-[348px] top-[184px] absolute opacity-0 bg-white" />
               <div className="w-10 h-80 left-0 top-[184px] absolute opacity-0 bg-white" />
               <div className="w-80 h-96 left-[40px] top-0 absolute">
