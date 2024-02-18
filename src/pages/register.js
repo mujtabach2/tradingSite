@@ -200,6 +200,13 @@ export const Register = () => {
           </button>
 
           <div className="flex justify-center mt-10">
+            <a href="/login" className="text-white">
+              Already have an account? Log in
+            </a>
+          </div>
+          
+
+          <div className="flex justify-center mt-10">
             <img className="eye h-10 " src={logo} alt="Eye" />
           </div>
         </div>

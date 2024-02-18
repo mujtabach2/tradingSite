@@ -1,2 +1,1 @@
-- clean up ui for dashboard
-- put dashboard on main page
+- make popup to quit plan and move email to other side , make popup on enter of dashboard that this is made for computers
