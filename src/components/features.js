@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, useState } from "react";
+import React, { forwardRef, useEffect, useState, useRef } from "react";
 import phone from "../images/phone.png";
 import { StarryBackground } from "./starryBackground";
 import vector6 from "../images/Vector6.png";
@@ -10,6 +10,11 @@ import twitter from "../images/twitter.webp";
 import reddit from "../images/reddit.png";
 import stockAn from "../images/stockAnal.png";
 import backStock from "../images/Group 1658.png";
+import anime from "animejs/lib/anime.es.js";
+
+
+
+
 
 export const Features = forwardRef((props, ref) => {
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 768);
@@ -25,11 +30,24 @@ export const Features = forwardRef((props, ref) => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []); // Empty dependency array ensures that this effect only runs once after initial render
+  }, []); 
+  const [currentGroup, setCurrentGroup] = useState('stock');
+  const [animationIndex, setAnimationIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const nextIndex = (animationIndex + 1) % 4;
+      setCurrentGroup(['stock', 'twitter', 'reddit', 'news'][nextIndex]);
+      setAnimationIndex(nextIndex);
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
+
 
   return (
-    <div ref={ref} className={isSmallScreen ? "mb-[60vh]" : ""}>
-      <div className="relative flex justify-center items-center mb-10 bg-[#F3BA2F] h-20">
+    <div ref={ref} className={isSmallScreen ? " mb-[60vh]" : ""}>
+      <div id="features" className=".features relative flex justify-center items-center mb-10 bg-[#F3BA2F] h-20">
         <h1 className="text-black font-bold font-sans text-3xl underline decoration-white underline-offset-8 relative z-10">
           What Makes Us Different
         </h1>
@@ -40,7 +58,9 @@ export const Features = forwardRef((props, ref) => {
           {isSmallScreen ? (
             // Show the specified divs in a column on small screens
             <div className="flex flex-col items-center">
-              <div className="w-[220px] h-[300px] bg-[#ffffff1a] rounded-[30px] overflow-hidden shadow-[0px_10px_30px_#0000001a,0px_4px_10px_#00000005,0px_-18px_38px_#00000066] mb-4">
+              <div id='twitter-group' className={`w-[220px] h-[300px] bg-[#ffffff1a] rounded-[30px] overflow-hidden shadow-[0px_10px_30px_#0000001a,0px_4px_10px_#00000005,0px_-18px_38px_#00000066] mb-4 transition-all duration-500 ease-in-out ${
+            currentGroup === 'twitter' ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-[100%]'
+          }`}>
                 {/* Content for Twitter Sentiment */}
                 <div className="flex flex-col justify-center items-center">
                   <div className="font-medium text-yellow-400 text-2xl tracking-wide leading-normal mt-4">
@@ -58,7 +78,7 @@ export const Features = forwardRef((props, ref) => {
                   </div>
                 </div>
               </div>
-              <div className="w-[220px] h-[300px] bg-[#ffffff1a] rounded-[30px] overflow-hidden shadow-[0px_10px_30px_#0000001a,0px_4px_10px_#00000005,0px_-18px_38px_#00000066] mb-4">
+              <div id='news-group' className="w-[220px] h-[300px] bg-[#ffffff1a] rounded-[30px] overflow-hidden shadow-[0px_10px_30px_#0000001a,0px_4px_10px_#00000005,0px_-18px_38px_#00000066] mb-4">
                 {/* Content for News Sentiment */}
                 <div className="flex flex-col justify-center items-center">
                   <div className="font-medium text-yellow-400 text-2xl tracking-wide leading-normal mt-4">
@@ -76,7 +96,7 @@ export const Features = forwardRef((props, ref) => {
                   </div>
                 </div>
               </div>
-              <div className="w-[220px] h-[300px] bg-[#ffffff1a] rounded-[30px] overflow-hidden shadow-[0px_10px_30px_#0000001a,0px_4px_10px_#00000005,0px_-18px_38px_#00000066] mb-4">
+              <div id='reddit-group' className="w-[220px] h-[300px] bg-[#ffffff1a] rounded-[30px] overflow-hidden shadow-[0px_10px_30px_#0000001a,0px_4px_10px_#00000005,0px_-18px_38px_#00000066] mb-4">
                 {/* Content for Reddit Sentiment */}
                 <div className="flex flex-col justify-center items-center">
                   <div className="font-medium text-yellow-400 text-2xl tracking-wide leading-normal mt-4">
@@ -94,7 +114,7 @@ export const Features = forwardRef((props, ref) => {
                   </div>
                 </div>
               </div>
-              <div className="w-[220px] h-[300px] bg-[#ffffff1a] rounded-[30px] overflow-hidden shadow-[0px_10px_30px_#0000001a,0px_4px_10px_#00000005,0px_-18px_38px_#00000066] mb-4">
+              <div id='stock-group' className=".stock-group w-[220px] h-[300px] bg-[#ffffff1a] rounded-[30px] overflow-hidden shadow-[0px_10px_30px_#0000001a,0px_4px_10px_#00000005,0px_-18px_38px_#00000066] mb-4">
                 {/* Content for Stock Analysis */}
                 <div className="flex flex-col justify-center items-center">
                   <div className="font-medium text-yellow-400 text-2xl tracking-wide leading-normal mt-4">
@@ -130,7 +150,7 @@ export const Features = forwardRef((props, ref) => {
                 <div className="absolute w-[327px] h-[526px] top-[103px] left-[499px]">
                   <div className="absolute w-[327px] h-[396px] top-0 left-0">
                     <div className="relative h-[396px] left-[-2px]">
-                      <div className="w-[220px] h-[300px] left-[107px] bg-[#ffffff1a] rounded-[30px] overflow-hidden shadow-[0px_10px_30px_#0000001a,0px_4px_10px_#00000005,0px_-18px_38px_#00000066] absolute top-0">
+                      <div class=".twitter-group w-[220px] h-[300px] left-[107px] bg-[#ffffff1a] rounded-[30px] overflow-hidden shadow-[0px_10px_30px_#0000001a,0px_4px_10px_#00000005,0px_-18px_38px_#00000066] absolute top-0 div-on-hover hover:shadow-inner-radial">
                         <div className="flex mt-[2vh] justify-center [font-family:'Unbounded-Medium',Helvetica] font-medium text-yellow-400 text-[25px] tracking-[0] leading-[normal] whitespace-nowrap">
                           Twitter Sentiment
                         </div>
@@ -162,7 +182,7 @@ export const Features = forwardRef((props, ref) => {
                   </div>
                   <div className="absolute w-[222px] h-[160px] top-[366px] left-[105px]">
                     <div className="relative w-[220px] h-[160px] rounded-[30px]">
-                      <div className="w-[220px] h-[300px] top-0 left-2 bg-[#ffffff1a] rounded-[30px] shadow-[0px_10px_30px_#0000001a,0px_4px_10px_#00000005,0px_-18px_38px_#00000066] absolute overflow-hidden">
+                      <div className=".news-group w-[220px] h-[300px] top-0 left-2 bg-[#ffffff1a] rounded-[30px] shadow-[0px_10px_30px_#0000001a,0px_4px_10px_#00000005,0px_-18px_38px_#00000066] absolute overflow-hidden  div-on-hover">
                         <div className="flex mt-[2vh] justify-center [font-family:'Unbounded-Medium',Helvetica] font-medium text-yellow-400 text-[25px] tracking-[0] leading-[normal] whitespace-nowrap">
                           News Sentiment
                         </div>
@@ -185,7 +205,7 @@ export const Features = forwardRef((props, ref) => {
                 <div className="absolute w-[314px] h-[526px] top-0 left-0">
                   <div className="absolute w-[222px] h-[60px] top-[366px] left-0">
                     <div className="relative w-[220px] h-[60px] rounded-[30px]">
-                      <div className="w-[220px] h-[300px] top-0 left-[-20px] bg-[#ffffff1a] rounded-[30px] shadow-[0px_10px_30px_#0000001a,0px_4px_10px_#00000005,0px_-18px_38px_#00000066] absolute overflow-hidden">
+                      <div className=".reddit-group w-[220px] h-[300px] top-0 left-[-20px] bg-[#ffffff1a] rounded-[30px] shadow-[0px_10px_30px_#0000001a,0px_4px_10px_#00000005,0px_-18px_38px_#00000066] absolute overflow-hidden  div-on-hover ">
                         <div className="flex mt-[2vh] justify-center [font-family:'Unbounded-Medium',Helvetica] font-medium text-yellow-400 text-[25px] tracking-[0] leading-[normal] whitespace-nowrap">
                           Reddit Sentiment
                         </div>
@@ -217,7 +237,7 @@ export const Features = forwardRef((props, ref) => {
                           alt="Vector"
                           src={vector5}
                         />
-                        <div className="absolute w-[220px] h-[300px] top-[26px] left-[29px] bg-[#ffffff1a] rounded-[30px] shadow-[0px_10px_30px_#0000001a,0px_4px_10px_#00000005,0px_-18px_38px_#00000066] overflow-hidden">
+                        <div className=".stock-group absolute w-[220px] h-[300px] top-[26px] left-[29px] bg-[#ffffff1a] rounded-[30px] shadow-[0px_10px_30px_#0000001a,0px_4px_10px_#00000005,0px_-18px_38px_#00000066] overflow-hidden  div-on-hover">
                           <div className="flex mt-[1vh] justify-center  [font-family:'Unbounded-Medium',Helvetica] font-medium text-yellow-400 text-[25px] tracking-[0] leading-[normal] whitespace-nowrap">
                             Stock Analysis
                           </div>
@@ -248,6 +268,72 @@ export const Features = forwardRef((props, ref) => {
           )}
         </div>
       </div>
+      <style>
+        {`
+         .div-on-hover {
+          transform-style: preserve-3d; /* preserves 3D space for tilt */
+          perspective: 200px; /* adjust for desired tilt depth */
+        }
+        
+        .div-on-hover:hover {
+          cursor: pointer; /* indicate interactivity */
+        }
+        
+        .div-on-hover:hover {
+          transform: perspective(200px) rotateY(5deg); /* tilt on click/hold */
+          box-shadow: inset 0 0 20px #F3BA2F, 0 0 20px #F3BA2F;
+          animation: pulse 2s infinite; 
+        }
+        
+        .div-on-hover {
+          position: relative;
+          /* Add any background color you want for the div itself */
+        }
+        
+       
+        
+        .div-on-hover:hover:after {
+          opacity: 0.3;
+        }
+        
+        :root {
+          --hover-color: #F3BA2F; /* Change this to your desired gradient color */
+        }
+        
+        @keyframes pulse {
+          0% {
+              box-shadow: inset 0 0 20px #F3BA2F, 0 0 20px #F3BA2F;
+          }
+          50% {
+              box-shadow: inset 0 0 30px #F3BA2F, 0 0 30px #F3BA2F;
+          }
+          100% {
+              box-shadow: inset 0 0 20px #F3BA2F, 0 0 20px #F3BA2F;
+          }
+          }
+
+          .animated {
+            opacity: 1;
+            /* Add other transition styles as needed */
+          }
+          .twitter-group {
+            /* Initial opacity */
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+          }
+          
+          .twitter-group:hover {
+            /* Opacity on hover */
+            opacity: 1;
+          }
+          
+          /* Similarly, define transitions for other animation properties like translateX, translateY, etc. */
+          
+        
+
+          
+        `}
+      </style>
     </div>
   );
 });

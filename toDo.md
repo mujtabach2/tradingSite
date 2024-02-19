@@ -1,1 +1,3 @@
 - make popup to quit plan and move email to other side , make popup on enter of dashboard that this is made for computers
+- center the header ting
+- add animations to features

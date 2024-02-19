@@ -13,17 +13,17 @@ import {
   fetchNewsArticles,
   logout,
   getUserData,
+  cancelSubscription,
 } from "../firebase";
-
 import teslaLogo from "../images/teslaLogo.png";
 import appleLogo from "../images/appleLogo.png";
 import metaLogo from "../images/metaLogo.png";
 import amazonLogo from "../images/amazonLogo.png";
 import googleLogo from "../images/googleLogo.png";
-
 import { Popup } from "reactjs-popup";
 import { AnalysisResult } from "../components/analysisResult";
 import lock from "../images/lock.png";
+
 export const Dashboard = () => {
   const [latestAnalysisResult, setLatestAnalysisResult] = useState(null);
   const [twitterSentimentPercentage, setTwitterSentimentPercentage] =
@@ -36,12 +36,19 @@ export const Dashboard = () => {
   const navigate = useNavigate();
   const [currentDate, setCurrentDate] = useState("");
 
+  const subscribePremium = async () => {
+    try {
+      window.location.href = "https://buy.stripe.com/test_6oE16g8PtcKyfKMaEF";
+    } catch (error) {
+      console.error("Error subscribing to premium:", error);
+    }
+  };
+
   useEffect(() => {
     const today = new Date();
     const options = { month: "long", day: "numeric", year: "numeric" };
     setCurrentDate(today.toLocaleDateString(undefined, options));
   }, []);
-  const [showPopup, setShowPopup] = useState(false);
 
   const getLogoSrc = (stock) => {
     switch (stock) {
@@ -142,6 +149,19 @@ export const Dashboard = () => {
     return convertedScore * 10;
   };
   const newsSentimentScores = [1, 2, 3, 4, 5];
+  const handleCancelPlan = async () => {
+    try {
+      await cancelSubscription(user.uid);
+      setIsPaid(false);
+      navigate("/");
+    } catch (error) {
+      console.error("Error cancelling subscription:", error);
+    }
+  };
+
+  const gotoWealthSimple = () => {
+    window.open("https://www.wealthsimple.com/", "_blank");
+  };
 
   return (
     <div className="flex h-[100vh] w-[100vw]">
@@ -245,42 +265,49 @@ export const Dashboard = () => {
             <div>
               <Popup
                 trigger={
-                  <button className="text-white hover:text-yellow-400">
+                  <button className="bg-[#F3BA2F] text-white py-2 px-4 rounded-lg hover:bg-[#FCD28D]">
                     Daily Report
                   </button>
                 }
                 modal
                 nested
                 closeOnDocumentClick={false}
-                overlayStyle={{ background: "rgba(0, 0, 0, 0.5)" }}
+                overlayStyle={{ background: "rgba(0, 0, 0, 0.7)" }}
               >
                 {(close) => (
-                  <div className="popup-content pr-0 flex justify-center items-center">
+                  <div className="popup-content p-8 flex flex-col items-center bg-gray-800 rounded-lg shadow-md">
                     <button
-                      className="absolute top-4 right-[5vw] text-white hover:text-yellow-400 m-4 hover:scale-110 transition-transform"
+                      className="self-end text-gray-400 hover:text-gray-600 focus:outline-none"
                       onClick={close}
                     >
-                      X
+                      &times;
                     </button>
-                    {/* Content for your popup */}
-                    <div className="text-white border-none p-6 rounded-lg shadow-lg bg-gray-800">
+
+                    <div className="flex flex-col items-start space-y-4 mt-4 mb-8">
                       {!latestAnalysisResult && isPaid ? (
-                        <div className="flex flex-col border-none text-center">
-                          <img src={lock} alt="lock" className="h-[4vh] m-4" />
-                          <h1 className="text-white text-[1.2rem] font-bold">
+                        <div className="text-center">
+                          <img src={lock} alt="lock" className="h-16 mx-auto" />
+                          <h1 className="text-xl font-bold mt-4">
                             Upgrade to see the Magical Report
                           </h1>
                         </div>
                       ) : (
-                        <div className="border-none">
-                          <h1 className="text-center pb-3 text-3xl font-bold">
-                            Report for {latestAnalysisResult?.stock},{" "}
-                            {currentDate}
-                          </h1>
-                          <p className="text-left text-lg">
+                        <>
+                          <div className="flex items-center justify-between w-full">
+                            <h1 className="text-2xl font-bold text-white ml-2">
+                              Report for {latestAnalysisResult?.stock},{" "}
+                              {currentDate}
+                            </h1>
+                            <img
+                              src={getLogoSrc(latestAnalysisResult?.stock)}
+                              alt={`${latestAnalysisResult?.stock} logo`}
+                              className="h-8"
+                            />
+                          </div>
+                          <p className="text-gray-300 text-lg prose prose-sm ml-2">
                             {latestAnalysisResult?.result.text}
                           </p>
-                        </div>
+                        </>
                       )}
                     </div>
                   </div>
@@ -288,36 +315,125 @@ export const Dashboard = () => {
               </Popup>
             </div>
           </div>
-          <div className="flex flex-col h-[2vh] w-[10vw] px-4 py-2 text-white  mt-[8vh]">
+          <div className="flex flex-col h-[2vh] w-[10vw] px-4 py-2 text-white mt-10">
             <button
-              className="text-white hover:text-yellow-400 font-bold text-left"
-              href="https://wealthsimple.com"
+              className="bg-gray-700 text-white hover:bg-gray-800 hover:text-gray-300 px-4 py-2 rounded-lg"
+              onClick={gotoWealthSimple}
               target="_blank"
               rel="noopener noreferrer"
             >
               Buy/Sell
             </button>
           </div>
-          <div className="flex flex-col h-[2vh] w-[10vw] justify-end px-4 py-2 text-white mt-10 text-left">
-            {user ? (
-              <div>
-                <button
-                  className="text-white hover:text-yellow-400 font-bold hover:underline pb-1"
-                  onClick={handleSignOut}
-                >
-                  Sign Out
+          <div className="flex flex-col h-[2vh] w-[10vw] justify-end px-4 py-2 text-white mt-[9vh] text-left">
+            <Popup
+              trigger={
+                <button className="bg-gray-700 text-white hover:bg-gray-800 hover:text-gray-300 px-4 py-2 rounded-lg">
+                  Settings
                 </button>
-              </div>
-            ) : (
-              <div>
-                <button
-                  className="text-white hover:text-yellow-400 font-bold hover:underline pb-1"
-                  onClick={() => navigate("/login")}
-                >
-                  Sign In
-                </button>
-              </div>
-            )}
+              }
+              modal
+              nested
+              closeOnDocumentClick={false}
+              overlayStyle={{ background: "rgba(0, 0, 0, 0.7)" }}
+            >
+              {(close) => (
+                <div className="popup-content pr-0 flex justify-center items-center">
+                  {/* Move close button inside popup content and style appropriately */}
+                  <button
+                    className="absolute top-4 right-[13vw] text-white hover:text-gray-300 m-4"
+                    onClick={close}
+                  >
+                    &times;
+                  </button>
+
+                  <div className="text-white border-none p-6 rounded-lg shadow-md bg-gray-800">
+                    <h1 className="text-center pb-3 text-2xl font-bold">
+                      Settings
+                    </h1>
+
+                    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                      {/* Account Section */}
+                      <div className="flex flex-col items-center space-y-4">
+                        <h2 className="text-gray-300">Account</h2>
+                        {user ? (
+                          <>
+                            <h1 className="text-center pb-3 text-xl font-medium">
+                              {user?.displayName}
+                            </h1>
+                            <button
+                              className="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700"
+                              onClick={handleSignOut}
+                            >
+                              Sign Out
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <h1 className="text-center pb-3 text-xl font-medium ">
+                              Not Logged In
+                            </h1>
+                            <button
+                              className="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700"
+                              onClick={handleLogin}
+                            >
+                              Log in
+                            </button>
+                          </>
+                        )}
+                      </div>
+
+                      {/* Subscription Section */}
+                      <div className="flex flex-col items-center space-y-4">
+                        <h2 className="text-gray-300">Subscription</h2>
+                        <h1 className="text-center pb-3 text-xl font-medium">
+                          {isPaid ? (
+                            <span className="flex items-center space-x-2">
+                              <span className="w-4 h-4 rounded-full bg-green-500 animate-pulse mr-2"></span>
+                              Active
+                            </span>
+                          ) : (
+                            <span className="flex items-center space-x-2">
+                              <span className="w-4 h-4 rounded-full bg-red-500 animate-pulse mr-2"></span>
+                              Inactive
+                            </span>
+                          )}
+                        </h1>
+                        {isPaid ? (
+                          <>
+                            <button
+                              className="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700"
+                              onClick={() => {
+                                if (
+                                  window.confirm(
+                                    "Are you sure you want to cancel your plan? This action cannot be undone.",
+                                  )
+                                ) {
+                                  handleCancelPlan();
+                                }
+                              }}
+                            >
+                              Cancel Plan
+                            </button>
+                            <p className="text-gray-300 text-sm mt-2">
+                              Cancelling your plan will result in losing access
+                              to premium features.
+                            </p>
+                          </>
+                        ) : (
+                          <button
+                            className="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700"
+                            onClick={subscribePremium}
+                          >
+                            Purchase Plan
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </Popup>
           </div>
         </div>
       </div>
@@ -328,17 +444,17 @@ export const Dashboard = () => {
         <div className="flex flex-row h-[7vh] justify-end pr-10">
           {/* Content for the first cell in the first row */}
           {user ? (
-            <div className="flex flex-row justify-center items-center h-[7vh]">
-              <div className="flex text-white">Welcome, {user.displayName}</div>
-              <div className="bg-gray-900 rounded-3xl shadow-inner border hover:bg-[#F3BA2F] hover:border-black ml-2">
-                <button
-                  className="py-1 px-6 text-center text-white text-lg font-medium font-['Inter'] leading-normal "
-                  onClick={handleSignOut}
-                >
-                  Log Out
-                </button>
-              </div>
-            </div>
+           <div className="flex flex-row justify-center items-center h-[7vh]">
+           <div className="absolute left-[12vw] text-white">Welcome, {user.displayName}</div>
+           <div className="flex bg-gray-900 rounded-3xl shadow-inner border hover:bg-[#F3BA2F] hover:border-black ml-2">
+             <button
+               className="py-1 px-6 text-center text-white text-lg font-medium font-['Inter'] leading-normal "
+               onClick={handleSignOut}
+             >
+               Log Out
+             </button>
+           </div>
+         </div>
           ) : (
             <div>
               <div className="text-white">Welcome</div>
