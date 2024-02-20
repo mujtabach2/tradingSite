@@ -275,42 +275,52 @@ export const Dashboard = () => {
                 overlayStyle={{ background: "rgba(0, 0, 0, 0.7)" }}
               >
                 {(close) => (
-                  <div className="popup-content p-8 flex flex-col items-center bg-gray-800 rounded-lg shadow-md">
-                    <button
-                      className="self-end text-gray-400 hover:text-gray-600 focus:outline-none"
-                      onClick={close}
-                    >
-                      &times;
-                    </button>
-
-                    <div className="flex flex-col items-start space-y-4 mt-4 mb-8">
-                      {!latestAnalysisResult && isPaid ? (
-                        <div className="text-center">
-                          <img src={lock} alt="lock" className="h-16 mx-auto" />
-                          <h1 className="text-xl font-bold mt-4">
-                            Upgrade to see the Magical Report
-                          </h1>
-                        </div>
-                      ) : (
-                        <>
-                          <div className="flex items-center justify-between w-full">
-                            <h1 className="text-2xl font-bold text-white ml-2">
-                              Report for {latestAnalysisResult?.stock},{" "}
-                              {currentDate}
-                            </h1>
-                            <img
-                              src={getLogoSrc(latestAnalysisResult?.stock)}
-                              alt={`${latestAnalysisResult?.stock} logo`}
-                              className="h-8"
-                            />
-                          </div>
-                          <p className="text-gray-300 text-lg prose prose-sm ml-2">
-                            {latestAnalysisResult?.result.text}
-                          </p>
-                        </>
-                      )}
-                    </div>
-                  </div>
+                 <div className="popup-content p-8 flex flex-col items-center bg-gray-800 rounded-lg shadow-md">
+                 <button
+                   className="self-end text-gray-400 hover:text-gray-600 focus:outline-none"
+                   onClick={close}
+                 >
+                   &times;
+                 </button>
+               
+                 <div className="flex flex-col items-start space-y-4 mt-4 mb-8">
+                   {!isPaid ? (
+                     <div className="text-center">
+                       <img src={lock} alt="lock" className="h-16 mx-auto" />
+                       <h1 className="text-xl font-bold mt-4">
+                         Upgrade to see the Magical Report
+                       </h1>
+                     </div>
+                   ) : (
+                     !latestAnalysisResult ? (
+                       <div>
+                         <Skeleton
+                           variant="rectangular"
+                           width="100%"
+                           height={200}
+                         />
+                       </div>
+                     ) : (
+                       <>
+                         <div className="flex items-center justify-between w-full">
+                           <h1 className="text-2xl font-bold text-white ml-2">
+                             Report for {latestAnalysisResult?.stock},{" "}
+                             {currentDate}
+                           </h1>
+                           <img
+                             src={getLogoSrc(latestAnalysisResult?.stock)}
+                             alt={`${latestAnalysisResult?.stock} logo`}
+                             className="h-8"
+                           />
+                         </div>
+                         <p className="text-gray-300 text-lg prose prose-sm ml-2">
+                           {latestAnalysisResult?.result.text}
+                         </p>
+                       </>
+                     )
+                   )}
+                 </div>
+               </div>
                 )}
               </Popup>
             </div>
@@ -377,7 +387,7 @@ export const Dashboard = () => {
                               className="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700"
                               onClick={handleLogin}
                             >
-                              Log in
+                              Login
                             </button>
                           </>
                         )}
@@ -465,7 +475,7 @@ export const Dashboard = () => {
                   className="py-1 px-6 text-center text-white text-lg font-medium font-['Inter'] leading-normal "
                   onClick={handleLogin}
                 >
-                  Log in
+                  Login
                 </button>
               </div>
             </div>
@@ -545,9 +555,9 @@ export const Dashboard = () => {
                   <div className="bg-gray-900 border-black  rounded-[13px] p-2 transform transition-transform">
                     <div>
                       {!user ? (
-                        <div className="flex flex-col justify-center items-center">
+                        <div className="flex flex-col h-[33vh] w-[18vw] justify-center items-center">
                           <img src={lock} alt="lock" className="h-[4vh] m-4" />
-                          <h1 className="text-white">log in to see results </h1>
+                          <h1 className="text-white">Login to see results </h1>
                         </div>
                       ) : (
                         <div className="h-[33vh] w-[18vw] ">
@@ -589,7 +599,7 @@ export const Dashboard = () => {
                     {!user ? (
                       <div className="flex flex-col justify-center items-center">
                         <img src={lock} alt="lock" className="h-[4vh] m-4" />
-                        <h1 className="text-white">log in to see results </h1>
+                        <h1 className="text-white">Login to see results </h1>
                       </div>
                     ) : (
                       <div className="p-2">
@@ -633,7 +643,7 @@ export const Dashboard = () => {
                   {!user ? (
                     <div className="flex flex-col justify-center items-center">
                       <img src={lock} alt="lock" className="h-[4vh] m-4" />
-                      <h1 className="text-white">log in to see results </h1>
+                      <h1 className="text-white">Login to see results </h1>
                     </div>
                   ) : (
                     <div className="p-2">
@@ -714,7 +724,8 @@ export const Dashboard = () => {
                   <div className="bg-gray-900 border-black rounded-[13px] h-[35vh] transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
                     {!user ? (
                       <div>
-                        <h1 className="text-white">log in to see results </h1>
+                        <img src={lock} alt="lock" className="h-[4vh] m-4" />
+                        <h1 className="text-white">Login to see results </h1>
                       </div>
                     ) : (
                       <div className="p-2">
