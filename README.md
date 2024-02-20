@@ -7,10 +7,11 @@
 Website link: https://sharpetrade.netlify.app
 Backend repo: https://github.com/mujtabach2/tradingsiteBackend
 This is an ongoing project to develop a comprehensive stock analysis platform. The platform aims to provide users with detailed insights and analytics for making informed investment decisions in the stock market. The project utilizes various technologies, including FinRl for machine learning, Firebase for authentication and database management, Stripe for handling payments, and external APIs for fetching data to perform sentiment analysis.
+![alt text](src/images/homepafe.png)
 
 ## Features
 
-![src][./src/images/dashboardPic.png]
+![src][.src/images/dashboardPic.png]
 
 - **Daily Signals**: We utilize historical stock data, financial indicators, sentiment analysis from social media and news sources, and real-time stock data to generate daily signals. These insights are processed using AI algorithms to provide users with accurate and timely analytical reports, empowering them to make informed investment decisions.(one time token for unpaid users, daily for paid)
 - **Decision Making**: Utilize machine learning algorithms to assist in decision making based on the analysis results and market trends.
