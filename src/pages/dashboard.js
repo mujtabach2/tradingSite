@@ -444,17 +444,19 @@ export const Dashboard = () => {
         <div className="flex flex-row h-[7vh] justify-end pr-10">
           {/* Content for the first cell in the first row */}
           {user ? (
-           <div className="flex flex-row justify-center items-center h-[7vh]">
-           <div className="absolute left-[12vw] text-white">Welcome, {user.displayName}</div>
-           <div className="flex bg-gray-900 rounded-3xl shadow-inner border hover:bg-[#F3BA2F] hover:border-black ml-2">
-             <button
-               className="py-1 px-6 text-center text-white text-lg font-medium font-['Inter'] leading-normal "
-               onClick={handleSignOut}
-             >
-               Log Out
-             </button>
-           </div>
-         </div>
+            <div className="flex flex-row justify-center items-center h-[7vh]">
+              <div className="absolute left-[12vw] text-white">
+                Welcome, {user.displayName}
+              </div>
+              <div className="flex bg-gray-900 rounded-3xl shadow-inner border hover:bg-[#F3BA2F] hover:border-black ml-2">
+                <button
+                  className="py-1 px-6 text-center text-white text-lg font-medium font-['Inter'] leading-normal "
+                  onClick={handleSignOut}
+                >
+                  Log Out
+                </button>
+              </div>
+            </div>
           ) : (
             <div>
               <div className="text-white">Welcome</div>

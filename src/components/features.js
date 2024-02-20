@@ -12,10 +12,6 @@ import stockAn from "../images/stockAnal.png";
 import backStock from "../images/Group 1658.png";
 import anime from "animejs/lib/anime.es.js";
 
-
-
-
-
 export const Features = forwardRef((props, ref) => {
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 768);
 
@@ -30,24 +26,26 @@ export const Features = forwardRef((props, ref) => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []); 
-  const [currentGroup, setCurrentGroup] = useState('stock');
+  }, []);
+  const [currentGroup, setCurrentGroup] = useState("stock");
   const [animationIndex, setAnimationIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
       const nextIndex = (animationIndex + 1) % 4;
-      setCurrentGroup(['stock', 'twitter', 'reddit', 'news'][nextIndex]);
+      setCurrentGroup(["stock", "twitter", "reddit", "news"][nextIndex]);
       setAnimationIndex(nextIndex);
     }, 2000);
 
     return () => clearInterval(interval);
   }, []);
 
-
   return (
     <div ref={ref} className={isSmallScreen ? " mb-[60vh]" : ""}>
-      <div id="features" className=".features relative flex justify-center items-center mb-10 bg-[#F3BA2F] h-20">
+      <div
+        id="features"
+        className=".features relative flex justify-center items-center mb-10 bg-[#F3BA2F] h-20"
+      >
         <h1 className="text-black font-bold font-sans text-3xl underline decoration-white underline-offset-8 relative z-10">
           What Makes Us Different
         </h1>
@@ -58,9 +56,14 @@ export const Features = forwardRef((props, ref) => {
           {isSmallScreen ? (
             // Show the specified divs in a column on small screens
             <div className="flex flex-col items-center">
-              <div id='twitter-group' className={`w-[220px] h-[300px] bg-[#ffffff1a] rounded-[30px] overflow-hidden shadow-[0px_10px_30px_#0000001a,0px_4px_10px_#00000005,0px_-18px_38px_#00000066] mb-4 transition-all duration-500 ease-in-out ${
-            currentGroup === 'twitter' ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-[100%]'
-          }`}>
+              <div
+                id="twitter-group"
+                className={`w-[220px] h-[300px] bg-[#ffffff1a] rounded-[30px] overflow-hidden shadow-[0px_10px_30px_#0000001a,0px_4px_10px_#00000005,0px_-18px_38px_#00000066] mb-4 transition-all duration-500 ease-in-out ${
+                  currentGroup === "twitter"
+                    ? "opacity-100 translate-x-0"
+                    : "opacity-0 translate-x-[100%]"
+                }`}
+              >
                 {/* Content for Twitter Sentiment */}
                 <div className="flex flex-col justify-center items-center">
                   <div className="font-medium text-yellow-400 text-2xl tracking-wide leading-normal mt-4">
@@ -78,7 +81,10 @@ export const Features = forwardRef((props, ref) => {
                   </div>
                 </div>
               </div>
-              <div id='news-group' className="w-[220px] h-[300px] bg-[#ffffff1a] rounded-[30px] overflow-hidden shadow-[0px_10px_30px_#0000001a,0px_4px_10px_#00000005,0px_-18px_38px_#00000066] mb-4">
+              <div
+                id="news-group"
+                className="w-[220px] h-[300px] bg-[#ffffff1a] rounded-[30px] overflow-hidden shadow-[0px_10px_30px_#0000001a,0px_4px_10px_#00000005,0px_-18px_38px_#00000066] mb-4"
+              >
                 {/* Content for News Sentiment */}
                 <div className="flex flex-col justify-center items-center">
                   <div className="font-medium text-yellow-400 text-2xl tracking-wide leading-normal mt-4">
@@ -96,7 +102,10 @@ export const Features = forwardRef((props, ref) => {
                   </div>
                 </div>
               </div>
-              <div id='reddit-group' className="w-[220px] h-[300px] bg-[#ffffff1a] rounded-[30px] overflow-hidden shadow-[0px_10px_30px_#0000001a,0px_4px_10px_#00000005,0px_-18px_38px_#00000066] mb-4">
+              <div
+                id="reddit-group"
+                className="w-[220px] h-[300px] bg-[#ffffff1a] rounded-[30px] overflow-hidden shadow-[0px_10px_30px_#0000001a,0px_4px_10px_#00000005,0px_-18px_38px_#00000066] mb-4"
+              >
                 {/* Content for Reddit Sentiment */}
                 <div className="flex flex-col justify-center items-center">
                   <div className="font-medium text-yellow-400 text-2xl tracking-wide leading-normal mt-4">
@@ -114,7 +123,10 @@ export const Features = forwardRef((props, ref) => {
                   </div>
                 </div>
               </div>
-              <div id='stock-group' className=".stock-group w-[220px] h-[300px] bg-[#ffffff1a] rounded-[30px] overflow-hidden shadow-[0px_10px_30px_#0000001a,0px_4px_10px_#00000005,0px_-18px_38px_#00000066] mb-4">
+              <div
+                id="stock-group"
+                className=".stock-group w-[220px] h-[300px] bg-[#ffffff1a] rounded-[30px] overflow-hidden shadow-[0px_10px_30px_#0000001a,0px_4px_10px_#00000005,0px_-18px_38px_#00000066] mb-4"
+              >
                 {/* Content for Stock Analysis */}
                 <div className="flex flex-col justify-center items-center">
                   <div className="font-medium text-yellow-400 text-2xl tracking-wide leading-normal mt-4">

@@ -11,9 +11,6 @@ export const HeaderComp = ({ scrollToPay, scrollToFeatures }) => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
-
-
-
   useEffect(() => {
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth < 768);
@@ -126,12 +123,12 @@ export const HeaderComp = ({ scrollToPay, scrollToFeatures }) => {
                   )}
                   <div className="bg-black rounded-3xl shadow-inner border border-[#F3BA2F] hover:bg-[#F3BA2F]">
                     {!isPaid ? (
-                    <button
-                      className="py-3 px-6 text-center text-white text-lg font-medium font-['Inter'] leading-normal "
-                      onClick={scrollToPay}
-                    >
-                      Start Free Trial
-                    </button>
+                      <button
+                        className="py-3 px-6 text-center text-white text-lg font-medium font-['Inter'] leading-normal "
+                        onClick={scrollToPay}
+                      >
+                        Start Free Trial
+                      </button>
                     ) : (
                       <button
                         className="py-3 px-6 text-center text-white text-lg font-medium font-['Inter'] leading-normal "
