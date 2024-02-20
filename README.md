@@ -4,8 +4,8 @@
 ![logo](./src/images/logo.png)
 
 
-## Website:** [https://sharpetrade.netlify.app](https://sharpetrade.netlify.app)
-## Backend Repository:** [https://github.com/mujtabach2/tradingsiteBackend](https://github.com/mujtabach2/tradingsiteBackend)
+## Website: [https://sharpetrade.netlify.app](https://sharpetrade.netlify.app)
+## Backend Repository: [https://github.com/mujtabach2/tradingsiteBackend](https://github.com/mujtabach2/tradingsiteBackend)
 
 SharpeTrade empowers **investors of all experience levels** to make informed investment decisions, **at their own risk**. It leverages cutting-edge technologies like **FinRL reinforcement learning**, **Firebase** for infrastructure, **AI** for Sentiment and data analysis, Stripe for payments, and real-time data **APIs** to deliver a unique blend of features and insights.
 ## Overview
