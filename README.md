@@ -11,8 +11,7 @@ This is an ongoing project to develop a comprehensive stock analysis platform. T
 
 ## Features
 
-![src][.src/images/dashboardPic.png]
-
+![src](.src/images/dashboardPic.png)
 - **Daily Signals**: We utilize historical stock data, financial indicators, sentiment analysis from social media and news sources, and real-time stock data to generate daily signals. These insights are processed using AI algorithms to provide users with accurate and timely analytical reports, empowering them to make informed investment decisions.(one time token for unpaid users, daily for paid)
 - **Decision Making**: Utilize machine learning algorithms to assist in decision making based on the analysis results and market trends.
 - **News and Sentiment Analysis**: Fetch latest news articles and analyze sentiment from sources like Twitter and Reddit to gauge market sentiment.
