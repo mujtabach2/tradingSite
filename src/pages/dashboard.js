@@ -275,52 +275,50 @@ export const Dashboard = () => {
                 overlayStyle={{ background: "rgba(0, 0, 0, 0.7)" }}
               >
                 {(close) => (
-                 <div className="popup-content p-8 flex flex-col items-center bg-gray-800 rounded-lg shadow-md">
-                 <button
-                   className="self-end text-gray-400 hover:text-gray-600 focus:outline-none"
-                   onClick={close}
-                 >
-                   &times;
-                 </button>
-               
-                 <div className="flex flex-col items-start space-y-4 mt-4 mb-8">
-                   {!isPaid ? (
-                     <div className="text-center">
-                       <img src={lock} alt="lock" className="h-16 mx-auto" />
-                       <h1 className="text-xl font-bold mt-4">
-                         Upgrade to see the Magical Report
-                       </h1>
-                     </div>
-                   ) : (
-                     !latestAnalysisResult ? (
-                       <div>
-                         <Skeleton
-                           variant="rectangular"
-                           width="100%"
-                           height={200}
-                         />
-                       </div>
-                     ) : (
-                       <>
-                         <div className="flex items-center justify-between w-full">
-                           <h1 className="text-2xl font-bold text-white ml-2">
-                             Report for {latestAnalysisResult?.stock},{" "}
-                             {currentDate}
-                           </h1>
-                           <img
-                             src={getLogoSrc(latestAnalysisResult?.stock)}
-                             alt={`${latestAnalysisResult?.stock} logo`}
-                             className="h-8"
-                           />
-                         </div>
-                         <p className="text-gray-300 text-lg prose prose-sm ml-2">
-                           {latestAnalysisResult?.result.text}
-                         </p>
-                       </>
-                     )
-                   )}
-                 </div>
-               </div>
+                  <div className="popup-content p-8 flex flex-col items-center bg-gray-800 rounded-lg shadow-md">
+                    <button
+                      className="self-end text-gray-400 hover:text-gray-600 focus:outline-none"
+                      onClick={close}
+                    >
+                      &times;
+                    </button>
+
+                    <div className="flex flex-col items-start space-y-4 mt-4 mb-8">
+                      {!isPaid ? (
+                        <div className="text-center">
+                          <img src={lock} alt="lock" className="h-16 mx-auto" />
+                          <h1 className="text-xl font-bold mt-4">
+                            Upgrade to see the Magical Report
+                          </h1>
+                        </div>
+                      ) : !latestAnalysisResult ? (
+                        <div>
+                          <Skeleton
+                            variant="rectangular"
+                            width="100%"
+                            height={200}
+                          />
+                        </div>
+                      ) : (
+                        <>
+                          <div className="flex items-center justify-between w-full">
+                            <h1 className="text-2xl font-bold text-white ml-2">
+                              Report for {latestAnalysisResult?.stock},{" "}
+                              {currentDate}
+                            </h1>
+                            <img
+                              src={getLogoSrc(latestAnalysisResult?.stock)}
+                              alt={`${latestAnalysisResult?.stock} logo`}
+                              className="h-8"
+                            />
+                          </div>
+                          <p className="text-gray-300 text-lg prose prose-sm ml-2">
+                            {latestAnalysisResult?.result.text}
+                          </p>
+                        </>
+                      )}
+                    </div>
+                  </div>
                 )}
               </Popup>
             </div>

@@ -49,6 +49,17 @@ export const Landing = ({ scrollToPay }) => {
             .animate-slide-in {
               animation: slideInFromLeft 1s ease-in-out;
             }
+            .lato{
+              font-family: "Lato", sans-serif;
+            font-weight: 700;
+            font-style:  normal;
+            }
+
+            .lato-thin{
+              font-family: "Lato", sans-serif;
+            font-weight: 400;
+            font-style:  normal;
+            }
         `}
       </style>
       <div className="w-96 h-16 bg-black rounded-3xl border-1 px-5 relative">
@@ -62,7 +73,7 @@ export const Landing = ({ scrollToPay }) => {
             <img src={stars} alt="Group3" className="w-7 h-8 relative" />
           </div>
           <div className="items-center flex">
-            <div className="NewOurAiIntegrationJustLanded text-white text-lg font-medium font-['Inter'] leading-normal p2-2">
+            <div className="NewOurAiIntegrationJustLanded  text-white text-lg font-medium font-['Inter'] leading-normal p2-2 pr-2">
               New: Our AI integration just landed
             </div>
           </div>
@@ -78,7 +89,7 @@ export const Landing = ({ scrollToPay }) => {
           </div>
         </div>
         <div
-          className={`w-[54rem] text-center text-gray-400 font-medium font-['Inter'] leading-normal ${isSmallScreen ? "text-1l w-[90vw]" : " text-lg "}`}
+          className={`w-[54rem] text-center text-gray-400 font-medium font-['Inter'] lato-thin leading-normal ${isSmallScreen ? "text-1l w-[90vw]" : " text-lg "}`}
         >
           Step into the world of trading excellence and seize every opportunity
           with our advanced platform, expert guidance, and strategic insights

@@ -6,6 +6,8 @@ import { Landing } from "../components/landing";
 import { Pay } from "../components/pay";
 import { Features } from "../components/features";
 import { Footer } from "../components/footer";
+import { Video } from "../components/video";
+import { Qoute } from "../components/qoute";
 
 export const Home = () => {
   // Create refs for the components you want to scroll to
@@ -49,6 +51,8 @@ export const Home = () => {
           <Landing scrollToPay={scrollToPay} />
           {/* Attach ref to the Features component */}
           <Features ref={featuresRef} />
+          <Qoute />
+          <Video />
           {/* Attach ref to the Pay component */}
           <Pay ref={payRef} /> {/* Add an id to the Pay component */}
           <Footer />
