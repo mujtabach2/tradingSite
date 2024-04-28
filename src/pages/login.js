@@ -9,46 +9,54 @@ import { log, googleLog } from "../firebase";
 
 import { useNavigate } from "react-router-dom";
 import stock from "../images/stock.png";
+import { set } from "animejs";
 
 export const Login = () => {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const login = async () => {
-    try {
-      // Use Firebase Authentication function to sign in with email and password
-      await log(loginEmail, loginPassword);
+    // Use Firebase Authentication function to sign in with email and password
+    setLoading(true); // Start loading
+    const loged = await log(loginEmail, loginPassword);
 
+    //if successful, set isLoggedIn to true
+    if (loged === "true") {
+      console.log("User logged in successfully.");
       setIsLoggedIn(true);
-    } catch (error) {
-      // Handle specific authentication errors
-      if (
-        error.code === "auth/user-not-found" ||
-        error.code === "auth/wrong-password"
-      ) {
-        alert("Invalid email or password. Please try again.");
-      } else {
-        // Handle other authentication errors or show a generic error message
-        alert("An error occurred during login. Please try again later.");
-        console.error("Login Error:", error);
-      }
+    } else {
+      setLoading(false); // Stop loading
+    }
+
+    // Handle specific authentication errors
+    if (loged === "auth/invalid-credential") {
+      setError("Invalid email or password. Please try again.");
+    } else {
+      // Handle other authentication errors or show a generic error message
+      setError("An error occurred during login. Please try again later.");
+      console.error("Login Error:", loged);
     }
   };
 
   const googleLogin = async () => {
+    setLoading(true);
     await googleLog();
     //if successful, set isLoggedIn to true
     if (googleLog) {
+      console.log("User logged in successfully.");
       setIsLoggedIn(true);
     }
   };
   useEffect(() => {
     // Redirect to dashboard if isLoggedIn is true
     if (isLoggedIn) {
-      navigate("/dashboard");
+      setLoading(false);
+      navigate("/");
     }
   }, [isLoggedIn, navigate]);
 
@@ -61,10 +69,28 @@ export const Login = () => {
             background: #080E18;  
             z-index: -1;
           }
+          .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999; /* Ensure it's above other content */
+          }
         `}
       </style>
       <StarryBackground />
       <div className="flex flex-col w-[50%] h-[100vh] bg-[#202227] items-center justify-center bg-opacity-1">
+        {loading && (
+          <div className="overlay">
+            <span className="loading loading-bars loading-lg"></span>
+          </div>
+        )}
+
         <div className="flex flex-col w-[20vw] h-[100vh] mt-[20vh] text-white">
           <div className="flex flex-col text-left">
             <div className="text-lg font-normal font-['Poppins'] ">
@@ -74,6 +100,25 @@ export const Login = () => {
               Log in 👋
             </div>
           </div>
+
+          {error && (
+            <div role="alert" className="alert alert-error my-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="stroke-current shrink-0 h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <span class="text-white">{error}</span>
+            </div>
+          )}
 
           <div className="flex flex-col mt-5 gap-2">
             <TextField
@@ -146,7 +191,9 @@ export const Login = () => {
           </div>
 
           <div className="flex justify-center mt-10">
-            <img className="eye h-10 " src={logo} alt="Eye" />
+            <a href="/">
+              <img className="eye h-10 " src={logo} alt="Eye" />
+            </a>
           </div>
         </div>
       </div>

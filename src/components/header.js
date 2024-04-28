@@ -35,6 +35,10 @@ export const HeaderComp = ({ scrollToPay, scrollToFeatures }) => {
     })();
   }
 
+  const handleDashboard = () => {
+    navigate("/dashboard");
+  };
+
   return (
     <header>
       {/* Your existing header content goes here */}
@@ -53,7 +57,7 @@ export const HeaderComp = ({ scrollToPay, scrollToFeatures }) => {
             >
               <button
                 className="text-white text-opacity-90 text-base font-medium font-['Inter'] leading-normal hover:bg-opacity-20 hover:underline decoration-[#F3BA2F] underline-offset-8"
-                onClick={() => navigate("/dashboard")}
+                onClick={handleDashboard}
               >
                 Dashboard
               </button>
@@ -70,7 +74,12 @@ export const HeaderComp = ({ scrollToPay, scrollToFeatures }) => {
                 Features
               </button>
               <button className="text-white text-opacity-90 text-base font-medium font-['Inter'] leading-normal hover:bg-opacity-20 hover:underline decoration-[#F3BA2F] underline-offset-8">
-                Community
+                <a
+                  href="https://www.linkedin.com/in/mujtaba-chaudhry"
+                  target="_blank"
+                >
+                  Contact Us{" "}
+                </a>
               </button>
             </div>
             <div className="flex items-center space-x-6">

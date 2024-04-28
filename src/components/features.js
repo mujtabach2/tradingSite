@@ -115,8 +115,9 @@ export const Features = forwardRef((props, ref) => {
               className={`collapse-content ${activeId === "twitter" ? "" : "hidden"}`}
             >
               <p className="text-white text-sm">
-                Real-time social media sentiment analysis of popular tweets and trending Reddit osts , providing actionable insights for informed trading
-                decisions.
+                Real-time social media sentiment analysis of popular tweets and
+                trending Reddit osts , providing actionable insights for
+                informed trading decisions.
               </p>
             </div>
           </div>
@@ -160,14 +161,15 @@ export const Features = forwardRef((props, ref) => {
               }`}
               onClick={() => handleClick("reddit")}
             >
-              
-              🤖  <span>Ai Written Reports</span>
+              🤖 <span>Ai Written Reports</span>
             </div>
             <div
               className={`collapse-content ${activeId === "reddit" ? "" : "hidden"}`}
             >
               <p className="text-white text-sm">
-              AI models analyze both the sentiment data and the reinforcement learning results to generate insights that consider both the quantitative and qualitative aspects of the market.
+                AI models analyze both the sentiment data and the reinforcement
+                learning results to generate insights that consider both the
+                quantitative and qualitative aspects of the market.
               </p>
             </div>
           </div>

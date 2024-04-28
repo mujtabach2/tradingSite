@@ -24,18 +24,22 @@ export const Register = () => {
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
   const [agreeToTerms, setAgreeToTerms] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const register = async () => {
     try {
+      setLoading(true); // Start loading
       if (!agreeToTerms) {
         alert("You must agree to the terms and conditions before registering.");
+        setLoading(false); // Stop loading
         return;
       }
       await RegisterAccount(registerEmail, registerPassword);
       // Registration successful, navigate to next page or show success message
       navigate("/login");
     } catch (error) {
+      setLoading(false); // Stop loading
       // Handle specific authentication errors
       if (error.code === "auth/weak-password") {
         alert("The password is too weak.");
@@ -53,7 +57,9 @@ export const Register = () => {
   };
 
   const registerWithGoogle = async () => {
+    setLoading(true);
     await googleRegister();
+    setLoading(false);
     navigate("/login");
   };
 
@@ -66,10 +72,27 @@ export const Register = () => {
             background: #080E18;  
             z-index: -1;
           }
+          .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999; /* Ensure it's above other content */
+          }
         `}
       </style>
       <StarryBackground />
       <div className="flex flex-col w-[50%] h-[100vh] bg-[#202227] items-center justify-center bg-opacity-1">
+        {loading && ( // Render overlay if loading is true
+          <div className="overlay">
+            <span className="loading loading-bars loading-lg"></span>
+          </div>
+        )}
         <div className="flex flex-col w-[20vw] h-[100vh] mt-[20vh] text-white">
           <div className="flex flex-col text-left">
             <div className="text-lg font-normal font-['Poppins'] ">
@@ -173,13 +196,18 @@ export const Register = () => {
           </button>
 
           <div className="flex justify-center mt-10">
-            <a onClick={handleLogin} className="text-white">
+            <a
+              onClick={handleLogin}
+              className="text-white hover:cursor-pointer "
+            >
               Already have an account? Log in
             </a>
           </div>
 
           <div className="flex justify-center mt-10">
-            <img className="eye h-10 " src={logo} alt="Eye" />
+            <a href="/">
+              <img className="eye h-10 " src={logo} alt="Eye" />
+            </a>
           </div>
         </div>
       </div>
