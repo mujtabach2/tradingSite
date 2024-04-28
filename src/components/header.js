@@ -91,7 +91,7 @@ export const HeaderComp = ({ scrollToPay, scrollToFeatures }) => {
                     ) : (
                       <button
                         className="text-white  font-medium font-['Inter'] leading-normal "
-                        onClick={() => navigate("/register")}
+                        onClick={() => navigate("/login")}
                       >
                         Login
                       </button>

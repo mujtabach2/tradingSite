@@ -1,5 +1,5 @@
 import React, { forwardRef, useEffect, useState, useRef } from "react";
-import redditVids from "../images/redditVid.mp4";
+import aiVids from "../images/aiVid.mp4";
 import twitterVids from "../images/twitterVid.mp4";
 import newsVids from "../images/newsVid.mp4";
 import stockVids from "../images/stockVid.mp4";
@@ -45,7 +45,7 @@ export const Features = forwardRef((props, ref) => {
       {
         twitter: twitterVids,
         news: newsVids,
-        reddit: redditVids,
+        reddit: aiVids,
         analysis: stockVids,
       }[activeId] || "";
 
@@ -109,14 +109,13 @@ export const Features = forwardRef((props, ref) => {
               }`}
               onClick={() => handleClick("twitter")}
             >
-              <p class="twit">𝕏 </p> <span>Twitter Sentiment</span>
+              <p class="twit">𝕏 </p> <span>Social Media Sentiment</span>
             </div>
             <div
               className={`collapse-content ${activeId === "twitter" ? "" : "hidden"}`}
             >
               <p className="text-white text-sm">
-                Real-time sentiment analysis of popular tweets and trending
-                hashtags, providing actionable insights for informed trading
+                Real-time social media sentiment analysis of popular tweets and trending Reddit osts , providing actionable insights for informed trading
                 decisions.
               </p>
             </div>
@@ -161,16 +160,14 @@ export const Features = forwardRef((props, ref) => {
               }`}
               onClick={() => handleClick("reddit")}
             >
-              <img src={reddit} class="h-6 mr-2" />{" "}
-              <span>Reddit Sentiment</span>
+              
+              🤖  <span>Ai Written Reports</span>
             </div>
             <div
               className={`collapse-content ${activeId === "reddit" ? "" : "hidden"}`}
             >
               <p className="text-white text-sm">
-                Real-time sentiment analysis of popular Reddit threads and
-                trending posts, providing actionable insights for informed
-                trading decisions.
+              AI models analyze both the sentiment data and the reinforcement learning results to generate insights that consider both the quantitative and qualitative aspects of the market.
               </p>
             </div>
           </div>
@@ -202,7 +199,7 @@ export const Features = forwardRef((props, ref) => {
             </div>
           </div>
         </div>
-        <div className="w-[30rem]  border-2 border-yellow-500 rounded-lg flex items-center justify-center">
+        <div className="max-w-[35rem]  border-2 border-yellow-500 rounded-lg flex items-center justify-center">
           <video
             key={videoSource}
             width="99%"

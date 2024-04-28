@@ -8,6 +8,9 @@ import logo from "../images/logo.png";
 import Skeleton from "@mui/material/Skeleton";
 import { AuthContext } from "../authContext";
 import { useNavigate } from "react-router-dom";
+
+import { marked } from "marked";
+
 import {
   fetchLatestAnalysisResult,
   fetchNewsArticles,
@@ -263,64 +266,95 @@ export const Dashboard = () => {
 
           <div className="flex flex-col h-[10vh] w-[10vw] px-4  text-white  mt-[3vh]">
             <div>
-              <Popup
-                trigger={
-                  <button className="bg-[#F3BA2F] text-white py-2 px-4 rounded-lg hover:bg-[#FCD28D]">
-                    Daily Report
-                  </button>
+              <button
+                className="btn bg-[#F3BA2F] text-white py-2 px-4 rounded-lg hover:bg-[#FCD28D]"
+                onClick={() =>
+                  document.getElementById("daily-report-modal").showModal()
                 }
-                modal
-                nested
-                closeOnDocumentClick={false}
-                overlayStyle={{ background: "rgba(0, 0, 0, 0.7)" }}
               >
-                {(close) => (
-                  <div className="popup-content p-8 flex flex-col items-center bg-gray-800 rounded-lg shadow-md">
-                    <button
-                      className="self-end text-gray-400 hover:text-gray-600 focus:outline-none"
-                      onClick={close}
-                    >
-                      &times;
-                    </button>
+                Daily Report
+              </button>
 
-                    <div className="flex flex-col items-start space-y-4 mt-4 mb-8">
-                      {!isPaid ? (
-                        <div className="text-center">
-                          <img src={lock} alt="lock" className="h-16 mx-auto" />
-                          <h1 className="text-xl font-bold mt-4">
-                            Upgrade to see the Magical Report
-                          </h1>
-                        </div>
-                      ) : !latestAnalysisResult ? (
-                        <div>
-                          <Skeleton
-                            variant="rectangular"
-                            width="100%"
-                            height={200}
-                          />
-                        </div>
-                      ) : (
-                        <>
-                          <div className="flex items-center justify-between w-full">
-                            <h1 className="text-2xl font-bold text-white ml-2">
-                              Report for {latestAnalysisResult?.stock},{" "}
-                              {currentDate}
-                            </h1>
-                            <img
-                              src={getLogoSrc(latestAnalysisResult?.stock)}
-                              alt={`${latestAnalysisResult?.stock} logo`}
-                              className="h-8"
-                            />
-                          </div>
-                          <p className="text-gray-300 text-lg prose prose-sm ml-2">
-                            {latestAnalysisResult?.result.text}
-                          </p>
-                        </>
-                      )}
-                    </div>
+              <dialog id="daily-report-modal" class="modal">
+                <div class="modal-box relative rounded-lg shadow-md bg-gray-900 w-[40%] max-w-5xl mx-auto ">
+                  <form method="dialog">
+                    {/* if there is a button in form, it will close the modal */}
+                    <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                      ✕
+                    </button>
+                  </form>
+                  <div class="modal-content flex flex-col px-10 items-center space-y-4 mt-4 mb-8">
+                    {!isPaid && (
+                      <div class="locked-content text-center border border-gray-700 rounded-lg p-4">
+                        <img src={lock} alt="lock" class="h-16 mx-auto" />
+                        <h1 class="text-xl font-bold mt-4">
+                          Upgrade to see the Magical Report
+                        </h1>
+                      </div>
+                    )}
+
+                    {!latestAnalysisResult && (
+                      <div class="flex justify-center">
+                        <div class="w-16 h-16 rounded-full bg-gray-700 animate-pulse"></div>
+                      </div>
+                    )}
+
+                    {latestAnalysisResult && (
+                      <div class="report-header flex items-center justify-center gap-10 w-full  ">
+                        <h1 class="text-2xl font-bold text-white ml-2">
+                          Report for {latestAnalysisResult?.stock},{" "}
+                          {currentDate}
+                        </h1>
+                        <img
+                          src={getLogoSrc(latestAnalysisResult?.stock)}
+                          alt={`${latestAnalysisResult?.stock} logo`}
+                          class="h-8"
+                        />
+                      </div>
+                    )}
+                    <div className="divider divider-warning"></div>
+
+                    {latestAnalysisResult && (
+                      <div class="report-body flex text-justify w-[100%]">
+                        <div
+                          class="markdown-content border-2 border-gray-800 bg-gray-800 font-mono rounded-lg p-4 overflow-y-auto"
+                          dangerouslySetInnerHTML={{
+                            __html: marked(latestAnalysisResult?.result.text),
+                          }}
+                        ></div>
+                      </div>
+                    )}
                   </div>
-                )}
-              </Popup>
+                </div>
+              </dialog>
+              <style>
+                {`
+.modal-box::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+}
+
+/* Handle */
+.modal-box::-webkit-scrollbar-thumb {
+  background: #4b5563; /* Color of the scrollbar handle */
+  border-radius: 5px; /* Rounded corners */
+}
+
+/* Handle on hover */
+.modal-box::-webkit-scrollbar-thumb:hover {
+  background: #6b7280; /* Darker color when hovered */
+}
+
+/* Track */
+.modal-box::-webkit-scrollbar-track {
+  background: #1f2937; /* Color of the scrollbar track */
+}
+
+/* Track on hover */
+.modal-box::-webkit-scrollbar-track:hover {
+  background: #2d3748; /* Darker color when hovered */
+}
+`}
+              </style>
             </div>
           </div>
           <div className="flex flex-col h-[2vh] w-[10vw] px-4 py-2 text-white mt-10">
@@ -486,7 +520,7 @@ export const Dashboard = () => {
           <div className="flex h-[23vh] w-[90vw] mb-[5vh]">
             <div className="flex-col h-[23vh] w-[18vw]">
               <div className="p-2">
-                <div className="bg-gray-900 border-black rounded-[13px] p-2 transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
+                <div className="bg-gray  border-black rounded-[13px] p-2 transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
                   <div>
                     <TradingViewWidget symbol={"AAPL"} />
                   </div>
@@ -595,7 +629,7 @@ export const Dashboard = () => {
                 <div className="flex-row h-[35vh] w-[20vw]  pt-4 pr-2">
                   <div className="bg-gray-900 border-black rounded-[13px] h-[35vh] transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
                     {!user ? (
-                      <div className="flex flex-col justify-center items-center">
+                      <div className="flex flex-col h-[33vh] w-[18vw] justify-center items-center">
                         <img src={lock} alt="lock" className="h-[4vh] m-4" />
                         <h1 className="text-white">Login to see results </h1>
                       </div>
@@ -721,7 +755,7 @@ export const Dashboard = () => {
                 <div className="flex-row h-[35vh] w-[20vw] mr-[4vw] pt-4">
                   <div className="bg-gray-900 border-black rounded-[13px] h-[35vh] transform transition-transform hover:scale-105 hover:border hover:border-2 hover:border-yellow-400">
                     {!user ? (
-                      <div>
+                      <div className="flex flex-col h-[33vh] w-[18vw] justify-center items-center">
                         <img src={lock} alt="lock" className="h-[4vh] m-4" />
                         <h1 className="text-white">Login to see results </h1>
                       </div>

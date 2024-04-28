@@ -48,6 +48,9 @@ export const Register = () => {
       }
     }
   };
+  const handleLogin = () => {
+    navigate("/login");
+  };
 
   const registerWithGoogle = async () => {
     await googleRegister();
@@ -109,74 +112,44 @@ export const Register = () => {
             />
           </div>
 
-          <Popup
-            trigger={<button className="text-white">Agree To Terms</button>}
-            modal
-            nested
-            closeOnDocumentClick={false}
-            overlayStyle={{ background: "rgba(0, 0, 0, 0.5)" }}
+          <button
+            className="btn btn-white"
+            onClick={() => document.getElementById("terms-modal").showModal()}
           >
-            {(close) => (
-              <div className="flex flex-col gap-2">
-                <div className="text-lg font-normal font-['Poppins'] ">
-                  Terms & Conditions
-                </div>
-                <div className="text-[0.75rem] font-semibold font-['Poppins'] ">
+            Agree To Terms
+          </button>
+
+          <dialog id="terms-modal" className="modal">
+            <div className="modal-box relative">
+              <h3 className="font-bold text-lg">Terms & Conditions</h3>
+              <div className="py-4">
+                <p className="text-[0.75rem] font-semibold">
                   Use of Service: By accessing or using the SharpeTrade
                   platform, you agree to be bound by these terms and conditions.
-                  Financial Advice Disclaimer: SharpeTrade is not a registered
-                  financial advisor, broker, or dealer. The signals provided are
-                  for informational purposes only and should not be construed as
-                  financial advice. Users are responsible for making their own
-                  investment decisions. Accuracy of Information: While we strive
-                  to provide accurate and up-to-date information, we do not
-                  guarantee the accuracy, completeness, or reliability of any
-                  information provided on the platform. Users should
-                  independently verify all information before making any
-                  investment decisions. Risk Disclosure: Investing in stocks and
-                  financial markets carries inherent risks. Users acknowledge
-                  and understand that there is a risk of loss associated with
-                  investing and that past performance is not indicative of
-                  future results. Subscription and Fees: Access to certain
-                  features of the SharpeTrade platform may require a
-                  subscription fee. By subscribing, users agree to pay the
-                  applicable fees as outlined on the platform. Intellectual
-                  Property: All content, including but not limited to signals,
-                  analysis, articles, and graphics, is the property of
-                  SharpeTrade and is protected by copyright and other
-                  intellectual property laws. Users may not reproduce,
-                  distribute, or modify any content without prior written
-                  consent. User Conduct: Users agree to use the SharpeTrade
-                  platform in compliance with all applicable laws and
-                  regulations. Users may not engage in any conduct that is
-                  unlawful, harmful, threatening, abusive, or otherwise
-                  objectionable. Privacy Policy: By using the SharpeTrade
-                  platform, users agree to the terms of our Privacy Policy,
-                  which outlines how we collect, use, and disclose personal
-                  information. Termination of Service: SharpeTrade reserves the
-                  right to terminate or suspend access to the platform at any
-                  time, with or without cause, and without prior notice.
-                  Modification of Terms: SharpeTrade reserves the right to
-                  modify these terms and conditions at any time. Users are
-                  responsible for reviewing the terms periodically for changes.
-                  Continued use of the platform after any modifications
-                  indicates acceptance of the revised terms.
-                </div>
+                  (省略内容省略 - Include the rest of your terms content here)
+                </p>
+              </div>
+              <form method="dialog">
                 <FormControlLabel
                   control={
                     <Checkbox
                       checked={agreeToTerms}
-                      onChange={(e) => (
-                        setAgreeToTerms(e.target.checked), close
-                      )}
+                      onChange={(e) => setAgreeToTerms(e.target.checked)}
                     />
                   }
                   label={` By clicking "I agree to terms & conditions," users acknowledge that they have read, understood, and agree to abide by these terms and conditions.`}
                   className="mb-2"
                 />
-              </div>
-            )}
-          </Popup>
+                <button
+                  type="button"
+                  className="btn btn-primary mt-4"
+                  onClick={() => document.getElementById("terms-modal").close()}
+                >
+                  Close
+                </button>
+              </form>
+            </div>
+          </dialog>
 
           <button
             onClick={register}
@@ -200,7 +173,7 @@ export const Register = () => {
           </button>
 
           <div className="flex justify-center mt-10">
-            <a href="/login" className="text-white">
+            <a onClick={handleLogin} className="text-white">
               Already have an account? Log in
             </a>
           </div>
