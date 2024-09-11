@@ -8,7 +8,7 @@ exports.analyzeStock = functions.https.onRequest(async (req, res) => {
 
     // Make a GET request to the Python backend service
     const response = await axios.get(
-      "https://tradingsitebackend.onrender.com/get_results",
+        "https://tradingsitebackend.onrender.com/get_results",
     );
 
     // Trigger another function with the analysis results

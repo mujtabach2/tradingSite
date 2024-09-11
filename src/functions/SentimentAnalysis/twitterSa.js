@@ -40,9 +40,9 @@ const getTweets = async (bestStock) => {
   try {
     const response = await axios.request(options);
     console.log(" twitter response", response);
-    const tweets = Array.isArray(response.data.results)
-      ? response.data.results
-      : [];
+    const tweets = Array.isArray(response.data.results) ?
+      response.data.results :
+      [];
     const returned = analyzeSentiment(tweets);
     console.log("returned twitter", returned);
     return returned;
@@ -68,4 +68,4 @@ const analyzeSentiment = (tweets) => {
   return averageScore;
 };
 
-module.exports = { getTweets, analyzeSentiment };
+module.exports = {getTweets, analyzeSentiment};

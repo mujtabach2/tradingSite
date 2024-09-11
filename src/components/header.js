@@ -40,14 +40,13 @@ export const HeaderComp = ({ scrollToPay, scrollToFeatures }) => {
   };
 
   return (
-    <header>
-      {/* Your existing header content goes here */}
-      <div className="flex justify-center">
-        <div className={`container mx-auto py-4`}>
+    <header className="w-full">
+      <div className="flex justify-center w-full">
+        <div className={`container mx-auto py-2 px-4`}>
           <div className="flex justify-between items-center">
             <div className="flex items-center">
               <img
-                className={`w-auto ${isSmallScreen ? "h-[4vh]" : "h-[10vh]"}`}
+                className={`w-auto ${isSmallScreen ? "h-8" : "h-12"}`}
                 src={logo}
                 alt="Logo"
               />
@@ -84,29 +83,28 @@ export const HeaderComp = ({ scrollToPay, scrollToFeatures }) => {
             </div>
             <div className="flex items-center space-x-6">
               {isSmallScreen ? (
-                <div className="dropdown">
-                  {/* Content inside dropdown */}
-                  <button className="dropbtn text-white w-40 pl-[40vw] ">
+                <div className="dropdown relative">
+                  <button className="dropbtn text-white p-2">
                     <img className="w-6 h-6" src={menu} alt="Menu" />
                   </button>
-                  <div className="dropdown-content w-96 ">
+                  <div className="dropdown-content absolute right-0 mt-2 w-48 bg-black bg-opacity-80 rounded-md shadow-lg">
                     {user ? (
                       <button
-                        className="text-white font-medium font-['Inter'] leading-normal"
+                        className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-700"
                         onClick={() => navigate("/dashboard")}
                       >
                         Dashboard
                       </button>
                     ) : (
                       <button
-                        className="text-white  font-medium font-['Inter'] leading-normal "
+                        className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-700"
                         onClick={() => navigate("/login")}
                       >
                         Login
                       </button>
                     )}
                     <button
-                      className="text-white font-medium font-['Inter'] leading-normal "
+                      className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-700"
                       onClick={scrollToPay}
                     >
                       Free Trial
@@ -177,11 +175,7 @@ export const HeaderComp = ({ scrollToPay, scrollToFeatures }) => {
     
     /* Show the dropdown menu on hover */
     .dropdown:hover .dropdown-content {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      justify-content: center;
-      align-items: center;
+      display: block;
     }
     
     /* Style for dropdown content items */

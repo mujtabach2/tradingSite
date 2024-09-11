@@ -36,13 +36,13 @@ export const Home = () => {
   };
 
   return (
-    <div className="bg-black">
-      <div className="relative min-h-screen">
+    <div className="bg-black min-h-screen">
+      <div className="relative">
         {/* Gradient at the top-middle */}
-        <div className="absolute left-1/2 transform -translate-x-1/2 top-0 z-0">
-          <img src={ellipse} alt="Gradient" />
+        <div className="absolute left-1/2 transform -translate-x-1/2 top-0 z-0 w-full max-w-full overflow-hidden">
+          <img src={ellipse} alt="Gradient" className="w-full object-cover" />
         </div>
-        <div className="relative z-10">
+        <div className="relative z-10 px-4 sm:px-6 lg:px-8">
           {/* Pass the scrollToPay and scrollToFeatures functions to HeaderComp */}
           <HeaderComp
             scrollToPay={scrollToPay}
@@ -55,7 +55,7 @@ export const Home = () => {
           <Video />
           {/* Attach ref to the Pay component */}
           <Pay ref={payRef} /> {/* Add an id to the Pay component */}
-          <Footer />
+          <Footer  />
         </div>
       </div>
     </div>

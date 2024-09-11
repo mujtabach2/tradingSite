@@ -2,7 +2,7 @@ import react from "react";
 import vids from "../images/vids.mp4";
 
 export const Video = () => {
-  const YOUTUBE_VIDEO_ID = "tvmUrOSahsc";
+  const YOUTUBE_VIDEO_ID = "8XMSMaHK4zQ";
 
   return (
     <div className="mt-20 bg-gray-900 w-[100%] flex flex-row py-10  justify-center">

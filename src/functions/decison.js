@@ -10,13 +10,13 @@
  * @return {string} - The decision to buy, hold, or sell the stock
  */
 function makeDecision(
-  annualizedReturn,
-  sharpeRatio,
-  maxDrawdown,
-  calmarRatio,
-  twitterSentiment,
-  redditSentiment,
-  newsSentiment,
+    annualizedReturn,
+    sharpeRatio,
+    maxDrawdown,
+    calmarRatio,
+    twitterSentiment,
+    redditSentiment,
+    newsSentiment,
 ) {
   const returnThreshold = 0.05; // Annualized return threshold
   const sharpeThreshold = 0.5; // Sharpe ratio threshold

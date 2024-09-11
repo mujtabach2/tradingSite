@@ -196,7 +196,7 @@ export const Dashboard = () => {
       <div className="flex-col w-[10vw] mr-[1vw] bg-gray-900 rounded-lg">
         {/* First Row */}
         <div className="flex h-[7vh] items-center justify-center px-4 ">
-          <img src={logo} alt="logo" className="h-[3.3vh]" />
+          <img src={logo} alt="logo" className="w-[100%]" />
         </div>
 
         {/* Second Row */}
@@ -276,90 +276,105 @@ export const Dashboard = () => {
               </button>
 
               <dialog id="daily-report-modal" class="modal">
-                <div class="modal-box relative rounded-lg shadow-md bg-gray-900 w-[40%] max-w-5xl mx-auto ">
+                <div class="modal-box relative rounded-lg shadow-md bg-gray-900 w-11/12 max-w-4xl mx-auto">
                   <form method="dialog">
-                    {/* if there is a button in form, it will close the modal */}
-                    <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                    <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 text-gray-400 hover:text-white">
                       ✕
                     </button>
                   </form>
-                  <div class="modal-content flex flex-col px-10 items-center space-y-4 mt-4 mb-8">
+                  <div class="modal-content flex flex-col px-8 items-center space-y-6 mt-6 mb-8">
                     {!isPaid && (
-                      <div class="locked-content text-center border border-gray-700 rounded-lg p-4">
-                        <img src={lock} alt="lock" class="h-16 mx-auto" />
-                        <h1 class="text-xl font-bold mt-4">
-                          Upgrade to see the Magical Report
-                        </h1>
+                      <div class="locked-content text-center border-2 border-yellow-600 rounded-lg p-6 bg-gray-800 w-full">
+                        <img src={lock} alt="lock" class="h-20 mx-auto mb-4" />
+                        <h1 class="text-2xl font-bold text-yellow-500">Upgrade to see the Magical Report</h1>
+                        <p class="text-gray-400 mt-2">Unlock premium insights and analysis</p>
+                        <button onClick={subscribePremium} class="mt-4 bg-yellow-600 text-white py-2 px-4 rounded-lg hover:bg-yellow-700 transition duration-300">
+                          Upgrade Now
+                        </button>
                       </div>
                     )}
 
-                    {!latestAnalysisResult && (
-                      <div class="flex justify-center">
-                        <div class="w-16 h-16 rounded-full bg-gray-700 animate-pulse"></div>
+                    {!latestAnalysisResult && isPaid && (
+                      <div class="flex justify-center items-center h-64 w-full">
+                        <div class="w-16 h-16 border-t-4 border-yellow-500 border-solid rounded-full animate-spin"></div>
                       </div>
                     )}
 
-                    {latestAnalysisResult && (
-                      <div class="report-header flex items-center justify-center gap-10 w-full  ">
-                        <h1 class="text-2xl font-bold text-white ml-2">
-                          Report for {latestAnalysisResult?.stock},{" "}
-                          {currentDate}
-                        </h1>
-                        <img
-                          src={getLogoSrc(latestAnalysisResult?.stock)}
-                          alt={`${latestAnalysisResult?.stock} logo`}
-                          class="h-8"
-                        />
-                      </div>
-                    )}
-                    <div className="divider divider-warning"></div>
+                    {latestAnalysisResult && isPaid && (
+                      <>
+                        <div class="report-header flex items-center justify-between w-full border-b border-gray-700 pb-4">
+                          <h1 class="text-3xl font-bold text-white">
+                            Report for {latestAnalysisResult?.stock}
+                          </h1>
+                          <div class="flex items-center space-x-4">
+                            <img
+                              src={getLogoSrc(latestAnalysisResult?.stock)}
+                              alt={`${latestAnalysisResult?.stock} logo`}
+                              class="h-10"
+                            />
+                            <span class="text-xl text-gray-400">{currentDate}</span>
+                          </div>
+                        </div>
 
-                    {latestAnalysisResult && (
-                      <div class="report-body flex text-justify w-[100%]">
-                        <div
-                          class="markdown-content border-2 border-gray-800 bg-gray-800 font-mono rounded-lg p-4 overflow-y-auto"
-                          dangerouslySetInnerHTML={{
-                            __html: marked(latestAnalysisResult?.result.text),
-                          }}
-                        ></div>
-                      </div>
+                        <div class="report-body w-full">
+                          <div
+                            class="markdown-content bg-gray-800 font-mono text-left rounded-lg p-6 overflow-y-auto max-h-96 text-gray-300"
+                            dangerouslySetInnerHTML={{
+                              __html: marked(latestAnalysisResult?.result.text),
+                            }}
+                          ></div>
+                        </div>
+                      </>
                     )}
                   </div>
                 </div>
               </dialog>
+
               <style>
                 {`
-.modal-box::-webkit-scrollbar {
-  width: 8px; /* Width of the scrollbar */
-}
-
-/* Handle */
-.modal-box::-webkit-scrollbar-thumb {
-  background: #4b5563; /* Color of the scrollbar handle */
-  border-radius: 5px; /* Rounded corners */
-}
-
-/* Handle on hover */
-.modal-box::-webkit-scrollbar-thumb:hover {
-  background: #6b7280; /* Darker color when hovered */
-}
-
-/* Track */
-.modal-box::-webkit-scrollbar-track {
-  background: #1f2937; /* Color of the scrollbar track */
-}
-
-/* Track on hover */
-.modal-box::-webkit-scrollbar-track:hover {
-  background: #2d3748; /* Darker color when hovered */
-}
-`}
+                  .modal-box {
+                    background: linear-gradient(to bottom right, #1a202c, #2d3748);
+                  }
+                  .markdown-content {
+                    line-height: 1.6;
+                  }
+                  .markdown-content h1, .markdown-content h2, .markdown-content h3 {
+                    color: #f7fafc;
+                    margin-top: 1em;
+                    margin-bottom: 0.5em;
+                  }
+                  .markdown-content p {
+                    margin-bottom: 1em;
+                  }
+                  .markdown-content ul, .markdown-content ol {
+                    margin-left: 1.5em;
+                    margin-bottom: 1em;
+                  }
+                  .markdown-content code {
+                    background-color: #4a5568;
+                    padding: 0.2em 0.4em;
+                    border-radius: 0.3em;
+                  }
+                  .modal-box::-webkit-scrollbar {
+                    width: 8px;
+                  }
+                  .modal-box::-webkit-scrollbar-thumb {
+                    background: #4a5568;
+                    border-radius: 4px;
+                  }
+                  .modal-box::-webkit-scrollbar-thumb:hover {
+                    background: #718096;
+                  }
+                  .modal-box::-webkit-scrollbar-track {
+                    background: #2d3748;
+                  }
+                `}
               </style>
             </div>
           </div>
           <div className="flex flex-col h-[2vh] w-[10vw] px-4 py-2 text-white mt-10">
             <button
-              className="bg-gray-700 text-white hover:bg-gray-800 hover:text-gray-300 px-4 py-2 rounded-lg"
+              className="bg-gray-700 text-white hover:bg-gray-800 hover:text-gray-300 px-4 py-2  w-[8vw] rounded-lg"
               onClick={gotoWealthSimple}
               target="_blank"
               rel="noopener noreferrer"
@@ -367,116 +382,84 @@ export const Dashboard = () => {
               Buy/Sell
             </button>
           </div>
-          <div className="flex flex-col h-[2vh] w-[10vw] justify-end px-4 py-2 text-white mt-[9vh] text-left">
-            <Popup
-              trigger={
-                <button className="bg-gray-700 text-white hover:bg-gray-800 hover:text-gray-300 px-4 py-2 rounded-lg">
-                  Settings
-                </button>
-              }
-              modal
-              nested
-              closeOnDocumentClick={false}
-              overlayStyle={{ background: "rgba(0, 0, 0, 0.7)" }}
-            >
-              {(close) => (
-                <div className="popup-content pr-0 flex justify-center items-center">
-                  {/* Move close button inside popup content and style appropriately */}
-                  <button
-                    className="absolute top-4 right-[13vw] text-white hover:text-gray-300 m-4"
-                    onClick={close}
-                  >
-                    &times;
-                  </button>
+          <button n className="bg-gray-700 text-white hover:bg-gray-800 hover:text-gray-300 px-4 py-2 rounded-lg  w-[8vw] mt-[5vh]" onClick={() => document.getElementById('settings_modal').showModal()}>Settings</button>
 
-                  <div className="text-white border-none p-6 rounded-lg shadow-md bg-gray-800">
-                    <h1 className="text-center pb-3 text-2xl font-bold">
-                      Settings
+          <dialog id="settings_modal" class="modal">
+            <div class="modal-box">
+              <h3 class="font-bold text-lg">Settings</h3>
+              <form method="dialog">
+     
+                  <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                </form>
+
+              <div class="text-white border-none p-6 rounded-lg shadow-md ">
+                <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+
+                  <div class="flex flex-col items-center space-y-4">
+                    <h2 class="text-gray-300">Account</h2>
+                    {user ? (
+                      <>
+                        <h1 class="text-center pb-3 text-xl font-medium">{user?.displayName}</h1>
+                        <button class="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700" onClick={handleSignOut}>
+                          Sign Out
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <h1 class="text-center pb-3 text-xl font-medium">Not Logged In</h1>
+                        <button class="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700" onClick={handleLogin}>
+                          Login
+                        </button>
+                      </>
+                    )}
+                  </div>
+
+                  <div class="flex flex-col items-center space-y-4">
+                    <h2 class="text-gray-300">Subscription</h2>
+                    <h1 class="text-center pb-3 text-xl font-medium">
+                      {isPaid ? (
+                        <span class="flex items-center space-x-2">
+                          <span class="w-4 h-4 rounded-full bg-green-500 animate-pulse mr-2"></span>
+                          Active
+                        </span>
+                      ) : (
+                        <span class="flex items-center space-x-2">
+                          <span class="w-4 h-4 rounded-full bg-red-500 animate-pulse mr-2"></span>
+                          Inactive
+                        </span>
+                      )}
                     </h1>
-
-                    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                      {/* Account Section */}
-                      <div className="flex flex-col items-center space-y-4">
-                        <h2 className="text-gray-300">Account</h2>
-                        {user ? (
-                          <>
-                            <h1 className="text-center pb-3 text-xl font-medium">
-                              {user?.displayName}
-                            </h1>
-                            <button
-                              className="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700"
-                              onClick={handleSignOut}
-                            >
-                              Sign Out
-                            </button>
-                          </>
-                        ) : (
-                          <>
-                            <h1 className="text-center pb-3 text-xl font-medium ">
-                              Not Logged In
-                            </h1>
-                            <button
-                              className="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700"
-                              onClick={handleLogin}
-                            >
-                              Login
-                            </button>
-                          </>
-                        )}
-                      </div>
-
-                      {/* Subscription Section */}
-                      <div className="flex flex-col items-center space-y-4">
-                        <h2 className="text-gray-300">Subscription</h2>
-                        <h1 className="text-center pb-3 text-xl font-medium">
-                          {isPaid ? (
-                            <span className="flex items-center space-x-2">
-                              <span className="w-4 h-4 rounded-full bg-green-500 animate-pulse mr-2"></span>
-                              Active
-                            </span>
-                          ) : (
-                            <span className="flex items-center space-x-2">
-                              <span className="w-4 h-4 rounded-full bg-red-500 animate-pulse mr-2"></span>
-                              Inactive
-                            </span>
-                          )}
-                        </h1>
-                        {isPaid ? (
-                          <>
-                            <button
-                              className="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700"
-                              onClick={() => {
-                                if (
-                                  window.confirm(
-                                    "Are you sure you want to cancel your plan? This action cannot be undone.",
-                                  )
-                                ) {
-                                  handleCancelPlan();
-                                }
-                              }}
-                            >
-                              Cancel Plan
-                            </button>
-                            <p className="text-gray-300 text-sm mt-2">
-                              Cancelling your plan will result in losing access
-                              to premium features.
-                            </p>
-                          </>
-                        ) : (
-                          <button
-                            className="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700"
-                            onClick={subscribePremium}
-                          >
-                            Purchase Plan
-                          </button>
-                        )}
-                      </div>
-                    </div>
+                    {isPaid ? (
+                      <>
+                        <button
+                          class="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700"
+                          onClick={() => {
+                            if (
+                              window.confirm(
+                                "Are you sure you want to cancel your plan? This action cannot be undone."
+                              )
+                            ) {
+                              handleCancelPlan();
+                            }
+                          }}
+                        >
+                          Cancel Plan
+                        </button>
+                        <p class="text-gray-300 text-sm mt-2">
+                          Cancelling your plan will result in losing access to premium features.
+                        </p>
+                      </>
+                    ) : (
+                      <button class="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700" onClick={subscribePremium}>
+                        Purchase Plan
+                      </button>
+                    )}
                   </div>
                 </div>
-              )}
-            </Popup>
-          </div>
+              </div>
+            </div>
+          </dialog>
+
         </div>
       </div>
 
@@ -501,8 +484,7 @@ export const Dashboard = () => {
             </div>
           ) : (
             <div>
-              <div className="text-white">Welcome</div>
-              <div className="bg-gray-900 rounded-3xl shadow-inner border hover:bg-[#F3BA2F] hover:border-black ml-2">
+              <div className="bg-gray-900 rounded-3xl shadow-inner border hover:bg-[#F3BA2F] hover:border-black ml-2 mt-4">
                 <button
                   className="py-1 px-6 text-center text-white text-lg font-medium font-['Inter'] leading-normal "
                   onClick={handleLogin}

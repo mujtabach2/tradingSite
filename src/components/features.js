@@ -53,10 +53,9 @@ export const Features = forwardRef((props, ref) => {
   }, [activeId]);
 
   return (
-    <div ref={ref} className={isSmallScreen ? " mb-[60vh] " : ""}>
+    <div ref={ref} className="px-4 md:px-8 lg:px-20 py-10 flex flex-col items-center">
       <style>
         {`
-
         .cabin {
           font-family: "Cabin Sketch", sans-serif;
           font-weight: 700;
@@ -76,149 +75,73 @@ export const Features = forwardRef((props, ref) => {
           font-style: normal;
         }
 
+        @media (max-width: 768px) {
+          .lato {
+            font-size: 1.5rem;
+          }
+        }
         `}
       </style>
 
-      <div class=" flex justify-center items-center">
-        <div className="divider divider-warning mb-20 w-[60rem]"></div>
+      <div className="flex justify-center items-center w-full max-w-4xl">
+        <div className="divider divider-warning mb-10 w-full"></div>
       </div>
 
-      <div class="flex flex-col items-start ml-20 justify-center text-left">
-        <p class="text-[1rem] lato text-yellow-500">Decode Market Sentiment</p>
-        <p class="text-l md:text-2xl lg:text-6xl lato font-bold">
-          Empower Your Trades with{" "}
-          <span class="bg-yellow-500 text-white px-3  rounded-2xl">
+      <div className="flex flex-col items-center justify-center text-center mb-10 max-w-4xl">
+        <p className="text-sm md:text-base lato text-yellow-500">Decode Market Sentiment</p>
+        <p className="text-2xl md:text-4xl lg:text-5xl lato font-bold">
+          Empower Your Trades with
+          <br className="hidden md:block" />
+          <span className="bg-yellow-500 text-white px-2 md:px-3 rounded-xl md:rounded-2xl inline-block mt-2 md:mt-3">
             Real-time Insights!
           </span>
         </p>
       </div>
 
-      <div class=" text-left ml-20 mt-20 flex flex-row gap-10">
-        <div className="w-[40rem] text-left ml-20 mt-20">
-          <div className="collapse colHover collapse-plus">
-            <input
-              type="radio"
-              name="my-accordion-1"
-              id="twitter"
-              checked={activeId === "twitter"}
-              onChange={() => handleClick("twitter")}
-            />
-            <div
-              className={`collapse-title text-2xl font-medium flex flex-row ${
-                activeId === "twitter" ? "text-yellow-500" : ""
-              }`}
-              onClick={() => handleClick("twitter")}
-            >
-              <p class="twit">𝕏 </p> <span>Social Media Sentiment</span>
+      <div className="flex flex-col md:flex-row gap-10 w-full max-w-6xl mt-10">
+        <div className="w-full md:w-1/2">
+          {/* Collapse sections */}
+          {["twitter", "news", "reddit", "analysis"].map((id) => (
+            <div key={id} className="collapse colHover collapse-plus mb-4">
+              <input
+                type="radio"
+                name="my-accordion-1"
+                id={id}
+                checked={activeId === id}
+                onChange={() => handleClick(id)}
+              />
+              <div
+                className={`collapse-title text-xl md:text-2xl font-medium flex flex-row items-center ${
+                  activeId === id ? "text-yellow-500" : ""
+                }`}
+                onClick={() => handleClick(id)}
+              >
+                {id === "twitter" && <p className="twit mr-2">𝕏</p>}
+                {id === "news" && <span className="mr-2">📰</span>}
+                {id === "reddit" && <span className="mr-2">🤖</span>}
+                {id === "analysis" && <span className="mr-2">💹</span>}
+                <span>{getTitle(id)}</span>
+              </div>
+              <div className={`collapse-content ${activeId === id ? "" : "hidden"}`}>
+                <p className="text-white text-sm">{getContent(id)}</p>
+              </div>
             </div>
-            <div
-              className={`collapse-content ${activeId === "twitter" ? "" : "hidden"}`}
-            >
-              <p className="text-white text-sm">
-                Real-time social media sentiment analysis of popular tweets and
-                trending Reddit osts , providing actionable insights for
-                informed trading decisions.
-              </p>
-            </div>
-          </div>
-          <div className="collapse colHover collapse-plus">
-            <input
-              type="radio"
-              name="my-accordion-1"
-              id="news"
-              checked={activeId === "news"}
-              onChange={() => handleClick("news")}
-            />
-            <div
-              className={`collapse-title text-2xl font-medium ${
-                activeId === "news" ? "text-yellow-500" : ""
-              }`}
-              onClick={() => handleClick("news")}
-            >
-              📰 <span> News Sentiment</span>
-            </div>
-            <div
-              className={`collapse-content ${activeId === "news" ? "" : "hidden"}`}
-            >
-              <p className="text-white text-sm">
-                Real-time sentiment analysis of news articles, blogs, and
-                trending posts, providing actionable insights for informed
-                trading decisions.
-              </p>
-            </div>
-          </div>
-          <div className="collapse colHover collapse-plus">
-            <input
-              type="radio"
-              name="my-accordion-1"
-              id="reddit"
-              checked={activeId === "reddit"}
-              onChange={() => handleClick("reddit")}
-            />
-            <div
-              className={`collapse-title text-2xl font-medium flex flex-row ${
-                activeId === "reddit" ? "text-yellow-500" : ""
-              }`}
-              onClick={() => handleClick("reddit")}
-            >
-              🤖 <span>Ai Written Reports</span>
-            </div>
-            <div
-              className={`collapse-content ${activeId === "reddit" ? "" : "hidden"}`}
-            >
-              <p className="text-white text-sm">
-                AI models analyze both the sentiment data and the reinforcement
-                learning results to generate insights that consider both the
-                quantitative and qualitative aspects of the market.
-              </p>
-            </div>
-          </div>
-
-          <div className="collapse colHover collapse-plus z-2">
-            <input
-              type="radio"
-              name="my-accordion-1"
-              id="analysis"
-              checked={activeId === "analysis"}
-              onChange={() => handleClick("analysis")}
-            />
-            <div
-              className={`collapse-title text-2xl font-medium ${
-                activeId === "analysis" ? "text-yellow-500" : ""
-              }`}
-              onClick={() => handleClick("analysis")}
-            >
-              💹 <span>Stock Analysis</span>
-            </div>
-            <div
-              className={`collapse-content ${activeId === "analysis" ? "" : "hidden"}`}
-            >
-              <p className="text-white text-sm">
-                Comprehensive stock analysis facilitated by cutting-edge machine
-                learning algorithms, leveraging a diverse range of indicators
-                and reinforcement learning techniques.
-              </p>
-            </div>
-          </div>
+          ))}
         </div>
-        <div className="max-w-[35rem]  border-2 border-yellow-500 rounded-lg flex items-center justify-center">
-          <video
-            key={videoSource}
-            width="99%"
-            height="99%"
-            rounded-lg
-            controls
-            autoPlay
-            muted
-            loop
-          >
-            {activeId === null ? (
-              <source src={newsVids} type="video/mp4" />
-            ) : (
-              videoSource && <source src={videoSource} type="video/mp4" />
-            )}
-            Your browser does not support the video tag.
-          </video>
+        <div className="w-full md:w-1/2 flex items-center justify-center">
+          <div className="video-container">
+            <video
+              key={videoSource}
+              className="video-content"
+              controls
+              autoPlay
+              muted
+              loop
+            >
+              <source src={activeId === null ? newsVids : videoSource} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
         </div>
       </div>
 
@@ -302,8 +225,37 @@ export const Features = forwardRef((props, ref) => {
         
 
           
+        @media (max-width: 768px) {
+          .collapse-title {
+            font-size: 1.25rem;
+          }
+          .collapse-content p {
+            font-size: 0.875rem;
+          }
+        }
         `}
       </style>
     </div>
   );
 });
+
+// Helper functions to get titles and content
+function getTitle(id) {
+  const titles = {
+    twitter: "Social Media Sentiment",
+    news: "News Sentiment",
+    reddit: "AI Written Reports",
+    analysis: "Stock Analysis"
+  };
+  return titles[id];
+}
+
+function getContent(id) {
+  const content = {
+    twitter: "Real-time social media sentiment analysis of popular tweets and trending Reddit posts, providing actionable insights for informed trading decisions.",
+    news: "Real-time sentiment analysis of news articles, blogs, and trending posts, providing actionable insights for informed trading decisions.",
+    reddit: "AI models analyze both the sentiment data and the reinforcement learning results to generate insights that consider both the quantitative and qualitative aspects of the market.",
+    analysis: "Comprehensive stock analysis facilitated by cutting-edge machine learning algorithms, leveraging a diverse range of indicators and reinforcement learning techniques."
+  };
+  return content[id];
+}

@@ -3,11 +3,11 @@ import pfp from "../images/marko-headshot.jpeg";
 
 export const Qoute = () => {
   return (
-    <div class="mt-40">
-      <div class=" flex justify-center items-center">
-        <div className="divider divider-warning mb-20 w-[70rem]"></div>
+    <div className="container mx-auto mt-40 px-4">
+      <div className="flex justify-center items-center">
+        <div className="divider divider-warning mb-20 w-full max-w-[70rem]"></div>
       </div>
-      <div className="w-[40rem] ml-[30rem]  mb-40 flex flex-col  justify-center items-center">
+      <div className="max-w-[40rem] mx-auto mb-40 flex flex-col justify-center items-center">
         <div class="mb-10">
           <div className="text-[1rem] lato text-yellow-500">Testimonials</div>
           <div className="text-l md:text-2xl lg:text-6xl lato font-bold text-white">
