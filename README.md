@@ -4,7 +4,7 @@
 
 ![logo](./src/images/logo.png)
 
-## Website: [https://sharpetrade.netlify.app](https://sharpetrade.netlify.app)
+## Website: [https://sharpetrade.netlify.app](https://sharpe-trade.com)
 
 ## Backend Repository: [https://github.com/mujtabach2/tradingsiteBackend](https://github.com/mujtabach2/tradingsiteBackend)
 
@@ -13,6 +13,7 @@ SharpeTrade empowers **investors of all experience levels** to make informed inv
 ## Overview
 
 ![alt text](src/images/homepafe.png)
+
 
 **Key Features:**
 
@@ -50,3 +51,5 @@ SharpeTrade empowers **investors of all experience levels** to make informed inv
 4. **Upgrade for More:** Unlock advanced features, data sets, and personalized strategies with a paid plan.
 
 **Remember:** Trading involves inherent risks. Use SharpeTrade for insights and informed decisions, but **investment decisions are your responsibility.**
+
+Check out my [site](https://mujtabachaudhry.ca)
