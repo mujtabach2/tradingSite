@@ -52,4 +52,4 @@ SharpeTrade empowers **investors of all experience levels** to make informed inv
 
 **Remember:** Trading involves inherent risks. Use SharpeTrade for insights and informed decisions, but **investment decisions are your responsibility.**
 
-Check out my [site](https://mujtabachaudhry.ca)
+Check out [Mujtaba Chaudhry's Portfolio](https://mujtabachaudhry.ca)
